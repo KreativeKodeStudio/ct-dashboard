@@ -248,8 +248,8 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
   <!-- OVERVIEW PAGE -->
   <div class="page active" id="page-overview">
     <div class="page-header">
-      <h2>Your Learning Roadmap <span class="glow-dot" style="margin-left:6px;"></span></h2>
-      <p>Self-taught creative technologist path — stay consistent, trust the process.</p>
+      <h2>My Learning Roadmap <span class="glow-dot" style="margin-left:6px;"></span></h2>
+      <p>Where code meets canvas and imagination becomes reality. Every skill I learn is a brushstroke on the world I was born to create.</p>
     </div>
     <div class="quote-banner">
       <p id="quote-text"></p>
@@ -330,38 +330,130 @@ const PC = [
   {c:'#e06f7c',bg:'rgba(224,111,124,0.15)'}
 ];
 const QUOTES = [
-  {t:"Every expert was once a beginner. Your aesthetic vision is already there — you're just learning the tools to express it.",a:"— daily reminder"},
-  {t:"A portfolio built with intention and a clear voice will always outperform a generic degree.",a:"— creative tech wisdom"},
-  {t:"You already know what you want to make. That clarity is rarer than any skill you will learn.",a:"— for the self-taught"},
-  {t:"Consistency over intensity. One hour a day, every day, beats a weekend marathon.",a:"— learning science"},
-  {t:"The tools are just vocabulary. You already have something to say.",a:"— on creative tech"},
-  {t:"Document everything. Your process is part of your portfolio.",a:"— portfolio advice"},
-  {t:"The best time to start was yesterday. The second best time is right now.",a:"— always true"}
+  {t:"You are not learning someone else's craft. You are learning the language your vision has always spoken.",a:"for the builder"},
+  {t:"Every line of code you write is a seed. Every design you finish is a bloom. You are growing something wild and singular.",a:"Kreative Kode Studio"},
+  {t:"The world you see in your head already exists. You are simply learning to build the door.",a:"on creative vision"},
+  {t:"You are doing this while growing a life inside you. That is not a disadvantage. That is power.",a:"for the mom and the maker"},
+  {t:"The tools are just brushes. The darkness in your aesthetic is the canvas. You already know what to paint.",a:"on your voice"},
+  {t:"Rest is not stopping. Rest is how the roots grow deeper before the next bloom.",a:"on the hard days"},
+  {t:"One year from now you will have built worlds. Start with one line. One shape. One sketch.",a:"Kreative Kode Studio"}
 ];
 
 // ============================================================
 // DEFAULT DATA
 // ============================================================
 const DEF = {phases:[
-  {id:0,title:"Phase 1 — HTML & CSS",dur:"4–6 weeks",status:"active",tasks:[
-    {id:'t0_0',text:"Complete freeCodeCamp Responsive Web Design course",due:"2025-05-14",type:"task",done:false},
-    {id:'t0_1',text:"Build a simple webpage about your aesthetic vision",due:"2025-05-21",type:"assignment",done:false},
-    {id:'t0_2',text:"Learn CSS flexbox and grid layouts",due:"2025-05-28",type:"task",done:false},
-    {id:'t0_3',text:"Recreate a layout you admire using HTML & CSS",due:"2025-06-04",type:"assignment",done:false},
-    {id:'t0_4',text:"Push your first project to GitHub",due:"2025-06-11",type:"task",done:false}
+  {id:0,title:"Phase 1 — HTML & CSS",dur:"3 months (Apr 7 – Jul 7)",status:"active",affirmation:"Every website you've ever been moved by started with the same tags you're learning right now. The foundation you build here holds everything else up.",tasks:[
+
+    {id:'t0_m1a',text:"MODULE 1 — HTML Foundations: Complete all lessons",due:"2026-04-09",type:"task",done:false},
+    {id:'t0_m1b',text:"MODULE 1 — Workshop: Build a Cat Photo App",due:"2026-04-11",type:"assignment",done:false},
+    {id:'t0_m1c',text:"MODULE 1 — Complete the HTML Lab",due:"2026-04-13",type:"assignment",done:false},
+    {id:'t0_m1d',text:"MODULE 1 — Pass the quiz (18/20)",due:"2026-04-14",type:"assignment",done:false},
+
+    {id:'t0_m2a',text:"MODULE 2 — CSS Foundations: Complete all lessons",due:"2026-04-17",type:"task",done:false},
+    {id:'t0_m2b',text:"MODULE 2 — Workshop: Build a Cafe Menu",due:"2026-04-20",type:"assignment",done:false},
+    {id:'t0_m2c',text:"MODULE 2 — Complete the CSS Lab",due:"2026-04-22",type:"assignment",done:false},
+    {id:'t0_m2d',text:"MODULE 2 — Pass the quiz (18/20)",due:"2026-04-23",type:"assignment",done:false},
+
+    {id:'t0_m3a',text:"MODULE 3 — HTML Forms: Complete all lessons",due:"2026-04-26",type:"task",done:false},
+    {id:'t0_m3b',text:"MODULE 3 — Workshop: Build a Registration Form",due:"2026-04-28",type:"assignment",done:false},
+    {id:'t0_m3c',text:"MODULE 3 — Complete the Forms Lab",due:"2026-04-30",type:"assignment",done:false},
+    {id:'t0_m3d',text:"MODULE 3 — Pass the quiz (18/20)",due:"2026-05-01",type:"assignment",done:false},
+
+    {id:'t0_p1',text:"CERTIFICATION PROJECT 1 — Build a Survey Form",due:"2026-05-05",type:"assignment",done:false},
+
+    {id:'t0_m4a',text:"MODULE 4 — Box Model & Typography: Complete all lessons",due:"2026-05-08",type:"task",done:false},
+    {id:'t0_m4b',text:"MODULE 4 — Workshop: Build a Rothko Painting",due:"2026-05-11",type:"assignment",done:false},
+    {id:'t0_m4c',text:"MODULE 4 — Complete the Box Model Lab",due:"2026-05-13",type:"assignment",done:false},
+    {id:'t0_m4d',text:"MODULE 4 — Pass the quiz (18/20)",due:"2026-05-14",type:"assignment",done:false},
+
+    {id:'t0_m5a',text:"MODULE 5 — CSS Flexbox: Complete all lessons",due:"2026-05-18",type:"task",done:false},
+    {id:'t0_m5b',text:"MODULE 5 — Workshop: Build a Photo Gallery",due:"2026-05-20",type:"assignment",done:false},
+    {id:'t0_m5c',text:"MODULE 5 — Complete the Flexbox Lab",due:"2026-05-22",type:"assignment",done:false},
+    {id:'t0_m5d',text:"MODULE 5 — Pass the quiz (18/20)",due:"2026-05-23",type:"assignment",done:false},
+
+    {id:'t0_p2',text:"CERTIFICATION PROJECT 2 — Build a Tribute Page",due:"2026-05-27",type:"assignment",done:false},
+
+    {id:'t0_m6a',text:"MODULE 6 — Typography & Accessibility: Complete all lessons",due:"2026-05-29",type:"task",done:false},
+    {id:'t0_m6b',text:"MODULE 6 — Workshop: Build a Nutrition Label",due:"2026-06-01",type:"assignment",done:false},
+    {id:'t0_m6c',text:"MODULE 6 — Complete the Accessibility Lab",due:"2026-06-03",type:"assignment",done:false},
+    {id:'t0_m6d',text:"MODULE 6 — Pass the quiz (18/20)",due:"2026-06-04",type:"assignment",done:false},
+
+    {id:'t0_m7a',text:"MODULE 7 — Pseudo Selectors: Complete all lessons",due:"2026-06-08",type:"task",done:false},
+    {id:'t0_m7b',text:"MODULE 7 — Workshop: Build a Quiz Page",due:"2026-06-10",type:"assignment",done:false},
+    {id:'t0_m7c',text:"MODULE 7 — Complete the Pseudo Selectors Lab",due:"2026-06-12",type:"assignment",done:false},
+    {id:'t0_m7d',text:"MODULE 7 — Pass the quiz (18/20)",due:"2026-06-13",type:"assignment",done:false},
+
+    {id:'t0_p3',text:"CERTIFICATION PROJECT 3 — Build a Technical Documentation Page",due:"2026-06-17",type:"assignment",done:false},
+
+    {id:'t0_m8a',text:"MODULE 8 — Responsive Design & Media Queries: Complete all lessons",due:"2026-06-19",type:"task",done:false},
+    {id:'t0_m8b',text:"MODULE 8 — Workshop: Build a Balance Sheet",due:"2026-06-22",type:"assignment",done:false},
+    {id:'t0_m8c',text:"MODULE 8 — Complete the Responsive Design Lab",due:"2026-06-24",type:"assignment",done:false},
+    {id:'t0_m8d',text:"MODULE 8 — Pass the quiz (18/20)",due:"2026-06-25",type:"assignment",done:false},
+
+    {id:'t0_m9a',text:"MODULE 9 — CSS Grid: Complete all lessons",due:"2026-06-29",type:"task",done:false},
+    {id:'t0_m9b',text:"MODULE 9 — Workshop: Build a Magazine Layout",due:"2026-07-01",type:"assignment",done:false},
+    {id:'t0_m9c',text:"MODULE 9 — Complete the CSS Grid Lab",due:"2026-07-03",type:"assignment",done:false},
+    {id:'t0_m9d',text:"MODULE 9 — Pass the quiz (18/20)",due:"2026-07-06",type:"assignment",done:false},
+
+    {id:'t0_p4',text:"CERTIFICATION PROJECT 4 — Build a Product Landing Page",due:"2026-07-08",type:"assignment",done:false},
+
+    {id:'t0_m10a',text:"MODULE 10 — CSS Animations & Variables: Complete all lessons",due:"2026-07-10",type:"task",done:false},
+    {id:'t0_m10b',text:"MODULE 10 — Workshop: Build a Ferris Wheel",due:"2026-07-13",type:"assignment",done:false},
+    {id:'t0_m10c',text:"MODULE 10 — Complete the Animations Lab",due:"2026-07-15",type:"assignment",done:false},
+    {id:'t0_m10d',text:"MODULE 10 — Pass the quiz (18/20)",due:"2026-07-16",type:"assignment",done:false},
+
+    {id:'t0_p5',text:"CERTIFICATION PROJECT 5 — Build your Personal Portfolio Page",due:"2026-07-20",type:"assignment",done:false},
+    {id:'t0_exam',text:"FINAL EXAM — 50 questions, need 90% to pass",due:"2026-07-22",type:"assignment",done:false},
+    {id:'t0_cert',text:"Claim your freeCodeCamp Responsive Web Design Certificate!",due:"2026-07-22",type:"assignment",done:false},
+    {id:'t0_git',text:"Push all completed projects to GitHub under KreativeKodeStudio",due:"2026-07-24",type:"task",done:false},
+    {id:'t0_beh',text:"Post your portfolio page and 2 best projects to Behance",due:"2026-07-27",type:"assignment",done:false}
+
   ],resources:[
-    {id:'r0_0',name:"freeCodeCamp — Responsive Web Design",url:"https://www.freecodecamp.org/learn/2022/responsive-web-design/",tag:"free",note:"Start here"},
+    {id:'r0_0',name:"freeCodeCamp — Responsive Web Design V9",url:"https://www.freecodecamp.org/learn/responsive-web-design-v9/",tag:"free",note:"Start here — current version"},
     {id:'r0_1',name:"CSS Tricks — Complete Guide to Flexbox",url:"https://css-tricks.com/snippets/css/a-guide-to-flexbox/",tag:"free",note:"Reference"},
     {id:'r0_2',name:"Kevin Powell — CSS YouTube Channel",url:"https://www.youtube.com/@KevinPowell",tag:"video",note:"Best CSS teacher on YouTube"},
     {id:'r0_3',name:"MDN Web Docs",url:"https://developer.mozilla.org/en-US/docs/Web/HTML",tag:"free",note:"Always keep open"}
   ]},
-  {id:1,title:"Phase 2 — Figma + UX Thinking",dur:"6–8 weeks",status:"upcoming",tasks:[
-    {id:'t1_0',text:"Complete learn.figma.com beginner course",due:"",type:"task",done:false},
-    {id:'t1_1',text:"Design a mood board for your aesthetic vision",due:"",type:"assignment",done:false},
-    {id:'t1_2',text:"Start Google UX Design Certificate on Coursera (audit free)",due:"",type:"task",done:false},
-    {id:'t1_3',text:"Design 3 UI screens for an imaginary dark-theme app",due:"",type:"assignment",done:false},
-    {id:'t1_4',text:"Read The Design of Everyday Things",due:"",type:"task",done:false},
-    {id:'t1_5',text:"Post first Figma work to Behance",due:"",type:"assignment",done:false}
+  {id:1,title:"Phase 2 — Figma + UX Thinking",dur:"2 months (Jul 28 – Sep 30)",status:"upcoming",affirmation:"Your eye for beauty is not something you learned. It is something you were born with. This phase is just giving it a language.",tasks:[
+
+    {id:'t1_w1a',text:"WEEK 1 — Complete Figma beginner course on learn.figma.com",due:"2026-07-30",type:"task",done:false},
+    {id:'t1_w1b',text:"WEEK 1 — Learn frames, layers, and basic shapes in Figma",due:"2026-07-31",type:"task",done:false},
+    {id:'t1_w1c',text:"WEEK 1 — Recreate a simple layout you admire in Figma",due:"2026-08-01",type:"assignment",done:false},
+
+    {id:'t1_w2a',text:"WEEK 2 — Learn Figma components and auto layout",due:"2026-08-04",type:"task",done:false},
+    {id:'t1_w2b',text:"WEEK 2 — Study color theory: palette building and contrast",due:"2026-08-06",type:"task",done:false},
+    {id:'t1_w2c',text:"WEEK 2 — Build a dark theme color palette inspired by your aesthetic",due:"2026-08-08",type:"assignment",done:false},
+
+    {id:'t1_w3a',text:"WEEK 3 — Start Google UX Design Certificate on Coursera (audit free)",due:"2026-08-11",type:"task",done:false},
+    {id:'t1_w3b',text:"WEEK 3 — Learn typography in Figma — font pairing and hierarchy",due:"2026-08-13",type:"task",done:false},
+    {id:'t1_w3c',text:"WEEK 3 — Design a mood board for your psychedelic botanical aesthetic",due:"2026-08-15",type:"assignment",done:false},
+
+    {id:'t1_w4a',text:"WEEK 4 — Complete Google UX Certificate: Foundations of UX module",due:"2026-08-18",type:"task",done:false},
+    {id:'t1_w4b',text:"WEEK 4 — Learn about user flows and wireframing basics",due:"2026-08-20",type:"task",done:false},
+    {id:'t1_w4c',text:"WEEK 4 — Design a low-fidelity wireframe for a 3-screen app concept",due:"2026-08-22",type:"assignment",done:false},
+
+    {id:'t1_w5a',text:"WEEK 5 — Complete Google UX Certificate: Empathize, Define, Ideate module",due:"2026-08-25",type:"task",done:false},
+    {id:'t1_w5b',text:"WEEK 5 — Learn Figma prototyping — link screens and add interactions",due:"2026-08-27",type:"task",done:false},
+    {id:'t1_w5c',text:"WEEK 5 — Design 3 high-fidelity UI screens for an imaginary dark-theme app",due:"2026-08-29",type:"assignment",done:false},
+
+    {id:'t1_w6a',text:"WEEK 6 — Complete Google UX Certificate: Prototyping and Testing module",due:"2026-09-01",type:"task",done:false},
+    {id:'t1_w6b',text:"WEEK 6 — Read The Design of Everyday Things chapters 1–3",due:"2026-09-03",type:"task",done:false},
+    {id:'t1_w6c',text:"WEEK 6 — Add prototype interactions to your 3-screen app design",due:"2026-09-05",type:"assignment",done:false},
+
+    {id:'t1_w7a',text:"WEEK 7 — Read The Design of Everyday Things chapters 4–6",due:"2026-09-08",type:"task",done:false},
+    {id:'t1_w7b',text:"WEEK 7 — Watch Flux Academy: UX design fundamentals playlist",due:"2026-09-10",type:"task",done:false},
+    {id:'t1_w7c',text:"WEEK 7 — Design a landing page concept in your aesthetic in Figma",due:"2026-09-12",type:"assignment",done:false},
+
+    {id:'t1_w8a',text:"WEEK 8 — Polish your 3-screen app — refine colors, type, and spacing",due:"2026-09-15",type:"assignment",done:false},
+    {id:'t1_w8b',text:"WEEK 8 — Write a short case study for your app design (what problem it solves)",due:"2026-09-17",type:"assignment",done:false},
+    {id:'t1_w8c',text:"WEEK 8 — Create a Behance account and study 3 design portfolios you admire",due:"2026-09-19",type:"task",done:false},
+
+    {id:'t1_w9a',text:"WEEK 9 — Export and post your mood board and app screens to Behance",due:"2026-09-22",type:"assignment",done:false},
+    {id:'t1_w9b',text:"WEEK 9 — Post your landing page concept to Behance with process notes",due:"2026-09-24",type:"assignment",done:false},
+    {id:'t1_w9c',text:"WEEK 9 — Phase 2 wrap-up: review everything learned, note gaps to revisit",due:"2026-09-26",type:"task",done:false},
+    {id:'t1_w9d',text:"WEEK 9 — Share your Behance profile link somewhere — you earned it",due:"2026-09-30",type:"assignment",done:false}
+
   ],resources:[
     {id:'r1_0',name:"learn.figma.com — Official Figma courses",url:"https://www.figma.com/resources/learn-design/",tag:"free",note:"Start here"},
     {id:'r1_1',name:"Google UX Design Certificate — Coursera",url:"https://www.coursera.org/professional-certificates/google-ux-design",tag:"free",note:"Audit for free"},
@@ -369,38 +461,141 @@ const DEF = {phases:[
     {id:'r1_3',name:"DesignCourse — YouTube",url:"https://www.youtube.com/@DesignCourse",tag:"video",note:"UI/UX fundamentals"},
     {id:'r1_4',name:"The Design of Everyday Things — Don Norman",url:"https://www.amazon.com/Design-Everyday-Things-Revised-Expanded/dp/0465050654",tag:"book",note:"Check local library first"}
   ]},
-  {id:2,title:"Phase 3 — JavaScript Refresh",dur:"4–6 weeks",status:"upcoming",tasks:[
-    {id:'t2_0',text:"Complete freeCodeCamp JS Algorithms & Data Structures",due:"",type:"task",done:false},
-    {id:'t2_1',text:"Practice variables, functions, loops, conditionals daily",due:"",type:"task",done:false},
-    {id:'t2_2',text:"Build a small interactive browser project",due:"",type:"assignment",done:false},
-    {id:'t2_3',text:"Get comfortable reading and debugging in browser console",due:"",type:"task",done:false},
-    {id:'t2_4',text:"Complete 10 JS exercises on javascript.info",due:"",type:"task",done:false}
+  {id:2,title:"Phase 3 — JavaScript Refresh",dur:"2.5 months (Nov 15 – Jan 29)",status:"upcoming",affirmation:"Every developer you admire hit this exact wall and kept going. So will you.",tasks:[
+
+    {id:'t2_w1a',text:"WEEK 1 — Start freeCodeCamp JS Algorithms & Data Structures",due:"2026-11-17",type:"task",done:false},
+    {id:'t2_w1b',text:"WEEK 1 — Complete: Variables, Data Types, and Basic Operators",due:"2026-11-19",type:"task",done:false},
+
+    {id:'t2_w2a',text:"WEEK 2 — Complete: Functions — declaration, parameters, return values",due:"2026-11-24",type:"task",done:false},
+    {id:'t2_w2b',text:"WEEK 2 — Build a simple tip calculator in the browser console",due:"2026-11-26",type:"assignment",done:false},
+
+    {id:'t2_w3a',text:"WEEK 3 — Complete: Conditionals — if, else, switch statements",due:"2026-12-01",type:"task",done:false},
+    {id:'t2_w3b',text:"WEEK 3 — Complete: Loops — for, while, forEach",due:"2026-12-03",type:"task",done:false},
+
+    {id:'t2_w4a',text:"WEEK 4 — Complete: Arrays — creating, accessing, and manipulating",due:"2026-12-08",type:"task",done:false},
+    {id:'t2_w4b',text:"WEEK 4 — Build a small quiz app using arrays and conditionals",due:"2026-12-10",type:"assignment",done:false},
+
+    {id:'t2_w5a',text:"WEEK 5 — Complete: Objects — properties, methods, and dot notation",due:"2026-12-15",type:"task",done:false},
+    {id:'t2_w5b',text:"WEEK 5 — Complete: ES6 — let, const, arrow functions, template literals",due:"2026-12-17",type:"task",done:false},
+
+    {id:'t2_w6a',text:"WEEK 6 — Complete: DOM Manipulation — selecting and changing elements",due:"2026-12-22",type:"task",done:false},
+    {id:'t2_w6b',text:"WEEK 6 — Complete: Events — addEventListener, click, input, submit",due:"2026-12-24",type:"task",done:false},
+
+    {id:'t2_w7a',text:"WEEK 7 — Build an interactive color palette generator (DOM + events)",due:"2027-01-06",type:"assignment",done:false},
+    {id:'t2_w7b',text:"WEEK 7 — Practice debugging — spend a session intentionally breaking and fixing code",due:"2027-01-08",type:"task",done:false},
+
+    {id:'t2_w8a',text:"WEEK 8 — Complete 10 JS exercises on javascript.info",due:"2027-01-13",type:"task",done:false},
+    {id:'t2_w8b',text:"WEEK 8 — Complete freeCodeCamp JS Basic Algorithm Scripting section",due:"2027-01-15",type:"assignment",done:false},
+
+    {id:'t2_w9a',text:"WEEK 9 — Build a dark-themed interactive quote generator — your aesthetic",due:"2027-01-20",type:"assignment",done:false},
+    {id:'t2_w9b',text:"WEEK 9 — Push all JS projects to GitHub under KreativeKodeStudio",due:"2027-01-22",type:"task",done:false},
+
+    {id:'t2_w10a',text:"WEEK 10 — Review everything: write a cheat sheet of JS concepts in your own words",due:"2027-01-27",type:"task",done:false},
+    {id:'t2_w10b',text:"WEEK 10 — Confirm you can build something small from scratch with no help",due:"2027-01-29",type:"assignment",done:false}
+
   ],resources:[
     {id:'r2_0',name:"freeCodeCamp — JS Algorithms & Data Structures",url:"https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/",tag:"free",note:"Main course"},
-    {id:'r2_1',name:"javascript.info — The Modern JS Tutorial",url:"https://javascript.info/",tag:"free",note:"Best written JS reference"},
-    {id:'r2_2',name:"The Odin Project — JavaScript path",url:"https://www.theodinproject.com/paths/full-stack-javascript",tag:"free",note:"Project-based alternative"},
-    {id:'r2_3',name:"Codecademy — Learn JavaScript",url:"https://www.codecademy.com/learn/introduction-to-javascript",tag:"free",note:"Guided & interactive"}
+    {id:'r2_1',name:"javascript.info — The Modern JS Tutorial",url:"https://javascript.info/",tag:"free",note:"Best written JS reference — keep this open"},
+    {id:'r2_2',name:"The Odin Project — JavaScript path",url:"https://www.theodinproject.com/paths/full-stack-javascript",tag:"free",note:"Project-based alternative if you want extra practice"},
+    {id:'r2_3',name:"Eloquent JavaScript — free online book",url:"https://eloquentjavascript.net/",tag:"free",note:"Great for going deeper on concepts when you're ready"}
   ]},
-  {id:3,title:"Phase 4 — p5.js Creative Coding",dur:"6–8 weeks",status:"upcoming",tasks:[
-    {id:'t3_0',text:"Watch first 10 videos of The Coding Train p5.js series",due:"",type:"task",done:false},
-    {id:'t3_1',text:"Create a generative art piece — dark bg, glowing organic shapes",due:"",type:"assignment",done:false},
-    {id:'t3_2',text:"Build an interactive particle/flower system",due:"",type:"assignment",done:false},
-    {id:'t3_3',text:"Create an animated piece inspired by your lock screen image",due:"",type:"assignment",done:false},
-    {id:'t3_4',text:"Post 2 creative coding sketches to Behance",due:"",type:"assignment",done:false}
+  {id:3,title:"Phase 4 — p5.js Creative Coding",dur:"2 months (Feb 1 – Mar 27)",status:"upcoming",affirmation:"This is where your code stops being functional and starts being alive. Every sketch you make is proof that technology can feel like art.",tasks:[
+
+    {id:'t3_w1a',text:"WEEK 1 — Watch The Coding Train: p5.js intro series (first 5 videos)",due:"2027-02-02",type:"task",done:false},
+    {id:'t3_w1b',text:"WEEK 1 — Set up p5.js editor and complete your first sketch — shapes on dark background",due:"2027-02-04",type:"assignment",done:false},
+    {id:'t3_w1c',text:"WEEK 1 — Learn p5.js draw loop, setup, fill, stroke, and basic shapes",due:"2027-02-06",type:"task",done:false},
+
+    {id:'t3_w2a',text:"WEEK 2 — Learn variables and animation — make shapes move across the canvas",due:"2027-02-09",type:"task",done:false},
+    {id:'t3_w2b',text:"WEEK 2 — Watch The Coding Train: random() and noise() videos",due:"2027-02-11",type:"task",done:false},
+    {id:'t3_w2c',text:"WEEK 2 — Build a sketch: glowing orbs floating on a dark background using noise()",due:"2027-02-13",type:"assignment",done:false},
+
+    {id:'t3_w3a',text:"WEEK 3 — Learn p5.js classes and objects — building a reusable Particle class",due:"2027-02-16",type:"task",done:false},
+    {id:'t3_w3b',text:"WEEK 3 — Watch The Coding Train: particle systems series",due:"2027-02-18",type:"task",done:false},
+    {id:'t3_w3c',text:"WEEK 3 — Build a particle system: organic flowing particles in your color palette",due:"2027-02-20",type:"assignment",done:false},
+
+    {id:'t3_w4a',text:"WEEK 4 — Learn mouse and touch interaction — mouseX, mouseY, mousePressed",due:"2027-02-23",type:"task",done:false},
+    {id:'t3_w4b',text:"WEEK 4 — Add interactivity to your particle system — particles follow or flee the mouse",due:"2027-02-25",type:"assignment",done:false},
+    {id:'t3_w4c',text:"WEEK 4 — Study 3 sketches on OpenProcessing that match your aesthetic — remix one",due:"2027-02-27",type:"assignment",done:false},
+
+    {id:'t3_w5a',text:"WEEK 5 — Learn trigonometry in p5.js — sin(), cos() for circular and wave motion",due:"2027-03-02",type:"task",done:false},
+    {id:'t3_w5b',text:"WEEK 5 — Build an animated botanical sketch — vines or flowers growing using sin/cos",due:"2027-03-04",type:"assignment",done:false},
+    {id:'t3_w5c',text:"WEEK 5 — Learn p5.js color modes — HSB for rich glowing saturated colors",due:"2027-03-06",type:"task",done:false},
+
+    {id:'t3_w6a',text:"WEEK 6 — Build a fully interactive piece: dark canvas, particles, color, mouse interaction",due:"2027-03-09",type:"assignment",done:false},
+    {id:'t3_w6b',text:"WEEK 6 — Learn how to add sound reactivity using p5.sound library",due:"2027-03-11",type:"task",done:false},
+    {id:'t3_w6c',text:"WEEK 6 — Add a sound or click interaction to your interactive piece",due:"2027-03-13",type:"assignment",done:false},
+
+    {id:'t3_w7a',text:"WEEK 7 — PORTFOLIO PIECE: Build an animated illustration in your psychedelic botanical style",due:"2027-03-16",type:"assignment",done:false},
+    {id:'t3_w7b',text:"WEEK 7 — Record a screen capture of your animated piece for Behance",due:"2027-03-18",type:"task",done:false},
+    {id:'t3_w7c',text:"WEEK 7 — Write a short process note: what tools you used and what it represents",due:"2027-03-20",type:"assignment",done:false},
+
+    {id:'t3_w8a',text:"WEEK 8 — Push all p5.js sketches to GitHub under KreativeKodeStudio",due:"2027-03-23",type:"task",done:false},
+    {id:'t3_w8b',text:"WEEK 8 — Post your 2 best sketches to Behance with process notes",due:"2027-03-25",type:"assignment",done:false},
+    {id:'t3_w8c',text:"WEEK 8 — Post your animated illustration to Behance — this is portfolio piece #3",due:"2027-03-27",type:"assignment",done:false}
+
   ],resources:[
     {id:'r3_0',name:"The Coding Train — p5.js full playlist",url:"https://www.youtube.com/playlist?list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA",tag:"video",note:"The best resource for this"},
     {id:'r3_1',name:"p5.js official editor & reference",url:"https://editor.p5js.org/",tag:"free",note:"Code in browser, no setup"},
     {id:'r3_2',name:"p5.js examples gallery",url:"https://p5js.org/examples/",tag:"free",note:"Study and remix these"},
     {id:'r3_3',name:"OpenProcessing — community sketches",url:"https://openprocessing.org/",tag:"free",note:"Community inspiration"}
   ]},
-  {id:4,title:"Phase 5 — Blender 3D",dur:"3+ months",status:"upcoming",tasks:[
-    {id:'t4_0',text:"Complete Blender Guru donut tutorial series",due:"",type:"task",done:false},
-    {id:'t4_1',text:"Learn sculpt mode basics — practice organic forms",due:"",type:"task",done:false},
-    {id:'t4_2',text:"Sculpt a vessel/pot shape inspired by your lock screen image",due:"",type:"assignment",done:false},
-    {id:'t4_3',text:"Learn shader editor — glowing saturated-on-black look",due:"",type:"task",done:false},
-    {id:'t4_4',text:"Add volumetric lighting and flame effect to a scene",due:"",type:"assignment",done:false},
-    {id:'t4_5',text:"Create vines and flowers using geometry nodes",due:"",type:"assignment",done:false},
-    {id:'t4_6',text:"Render a full scene in your aesthetic — post to Behance",due:"",type:"assignment",done:false}
+  {id:4,title:"Phase 5 — Blender 3D",dur:"3 months (Apr 5 – Jul 2)",status:"upcoming",affirmation:"You have been carrying this world in your head since before you knew what to call it. Now you have the tools to sculpt it into existence.",tasks:[
+
+    {id:'t4_w1a',text:"WEEK 1 — Download Blender and complete interface orientation",due:"2027-04-07",type:"task",done:false},
+    {id:'t4_w1b',text:"WEEK 1 — Complete Blender Guru donut tutorial parts 1–3",due:"2027-04-09",type:"task",done:false},
+    {id:'t4_w1c',text:"WEEK 1 — Complete Blender Guru donut tutorial parts 4–6",due:"2027-04-11",type:"task",done:false},
+    {id:'t4_w1d',text:"WEEK 1 — Complete Blender Guru donut tutorial parts 7–9 and render final donut",due:"2027-04-12",type:"assignment",done:false},
+
+    {id:'t4_w2a',text:"WEEK 2 — Learn Blender sculpt mode: basic brushes, clay, smooth, grab",due:"2027-04-15",type:"task",done:false},
+    {id:'t4_w2b',text:"WEEK 2 — Sculpt a simple organic blob form — get comfortable with the tools",due:"2027-04-17",type:"assignment",done:false},
+    {id:'t4_w2c',text:"WEEK 2 — Watch FlippedNormals: introduction to sculpting workflow",due:"2027-04-19",type:"task",done:false},
+    {id:'t4_w2d',text:"WEEK 2 — Sculpt a simple vessel or pot shape inspired by your aesthetic reference",due:"2027-04-20",type:"assignment",done:false},
+
+    {id:'t4_w3a',text:"WEEK 3 — Learn Blender shader editor: principled BSDF, emission, and mix shaders",due:"2027-04-23",type:"task",done:false},
+    {id:'t4_w3b',text:"WEEK 3 — Create a glowing material — saturated color against dark background",due:"2027-04-25",type:"assignment",done:false},
+    {id:'t4_w3c',text:"WEEK 3 — Learn subsurface scattering — makes organic forms look alive",due:"2027-04-27",type:"task",done:false},
+    {id:'t4_w3d',text:"WEEK 3 — Apply shaders to your sculpted vessel — recreate the terracotta and eye look",due:"2027-04-28",type:"assignment",done:false},
+
+    {id:'t4_w4a',text:"WEEK 4 — Learn Blender lighting: point, spot, area lights and HDRI environments",due:"2027-05-01",type:"task",done:false},
+    {id:'t4_w4b',text:"WEEK 4 — Set up a dramatic dark scene — single hero object, moody lighting",due:"2027-05-03",type:"assignment",done:false},
+    {id:'t4_w4c',text:"WEEK 4 — Learn volumetric lighting — god rays and atmospheric glow effects",due:"2027-05-05",type:"task",done:false},
+    {id:'t4_w4d',text:"WEEK 4 — Add volumetric atmosphere to your dark scene",due:"2027-05-06",type:"assignment",done:false},
+
+    {id:'t4_w5a',text:"WEEK 5 — Learn geometry nodes fundamentals: instances, distribute on surface",due:"2027-05-09",type:"task",done:false},
+    {id:'t4_w5b',text:"WEEK 5 — Watch Grant Abbitt: geometry nodes for beginners series",due:"2027-05-11",type:"task",done:false},
+    {id:'t4_w5c',text:"WEEK 5 — Build a procedural vine system using geometry nodes",due:"2027-05-13",type:"assignment",done:false},
+    {id:'t4_w5d',text:"WEEK 5 — Add procedural flowers distributed along your vine system",due:"2027-05-14",type:"assignment",done:false},
+
+    {id:'t4_w6a',text:"WEEK 6 — Learn particle systems in Blender — emitters and hair particles",due:"2027-05-17",type:"task",done:false},
+    {id:'t4_w6b',text:"WEEK 6 — Create a flame or smoke effect using volumetric particles",due:"2027-05-19",type:"assignment",done:false},
+    {id:'t4_w6c',text:"WEEK 6 — Add glowing particle emitters to a scene — firefly or spore aesthetic",due:"2027-05-21",type:"assignment",done:false},
+    {id:'t4_w6d',text:"WEEK 6 — Sculpt a simple figure or mushroom form to add to your scene",due:"2027-05-22",type:"assignment",done:false},
+
+    {id:'t4_w7a',text:"WEEK 7 — Learn Blender rendering: Cycles vs Eevee, render settings, denoising",due:"2027-05-25",type:"task",done:false},
+    {id:'t4_w7b',text:"WEEK 7 — Set up a full scene: vessel, vines, flowers, particles, dramatic lighting",due:"2027-05-27",type:"assignment",done:false},
+    {id:'t4_w7c',text:"WEEK 7 — Render your scene and post a WIP to Blender Artists for feedback",due:"2027-05-29",type:"assignment",done:false},
+    {id:'t4_w7d',text:"WEEK 7 — Incorporate feedback and refine your scene",due:"2027-05-30",type:"task",done:false},
+
+    {id:'t4_w8a',text:"WEEK 8 — Learn camera composition in Blender — rule of thirds, depth of field",due:"2027-06-02",type:"task",done:false},
+    {id:'t4_w8b',text:"WEEK 8 — Add depth of field and camera animation to your scene",due:"2027-06-04",type:"assignment",done:false},
+    {id:'t4_w8c',text:"WEEK 8 — Learn color grading in Blender compositor — enhance mood and saturation",due:"2027-06-06",type:"task",done:false},
+    {id:'t4_w8d',text:"WEEK 8 — Color grade your render to match your psychedelic botanical aesthetic",due:"2027-06-07",type:"assignment",done:false},
+
+    {id:'t4_w9a',text:"WEEK 9 — PORTFOLIO PIECE: Full scene render inspired by your aesthetic reference image",due:"2027-06-10",type:"assignment",done:false},
+    {id:'t4_w9b',text:"WEEK 9 — Render a turntable animation — camera orbiting your hero object",due:"2027-06-12",type:"assignment",done:false},
+    {id:'t4_w9c',text:"WEEK 9 — Export renders at high resolution for portfolio use",due:"2027-06-14",type:"task",done:false},
+    {id:'t4_w9d',text:"WEEK 9 — Write a process breakdown: tools used, decisions made, what you learned",due:"2027-06-15",type:"assignment",done:false},
+
+    {id:'t4_w10a',text:"WEEK 10 — Second portfolio piece: sculpt a mushroom cluster scene with glowing spores",due:"2027-06-18",type:"assignment",done:false},
+    {id:'t4_w10b',text:"WEEK 10 — Light and render your mushroom scene",due:"2027-06-20",type:"assignment",done:false},
+    {id:'t4_w10c',text:"WEEK 10 — Push all Blender project files to GitHub",due:"2027-06-22",type:"task",done:false},
+    {id:'t4_w10d',text:"WEEK 10 — Post both Blender pieces to Behance with full process documentation",due:"2027-06-23",type:"assignment",done:false},
+
+    {id:'t4_w11a',text:"WEEK 11 — Learn Blender animation: keyframes, graph editor, basic rigging",due:"2027-06-26",type:"task",done:false},
+    {id:'t4_w11b',text:"WEEK 11 — Animate your vine system growing — use it as a looping portfolio piece",due:"2027-06-28",type:"assignment",done:false},
+    {id:'t4_w11c',text:"WEEK 11 — Export animation as MP4 and add to Behance",due:"2027-06-30",type:"assignment",done:false},
+    {id:'t4_w11d',text:"WEEK 11 — Phase 5 wrap-up: document skills learned and areas to keep developing",due:"2027-07-02",type:"task",done:false}
+
   ],resources:[
     {id:'r4_0',name:"Blender Guru — Donut Tutorial",url:"https://www.youtube.com/playlist?list=PLjEaoINr3zgFX8ZsChcVx8fDSMRmXiGIU",tag:"video",note:"The universal starting point"},
     {id:'r4_1',name:"FlippedNormals — Sculpting & stylized art",url:"https://www.youtube.com/@FlippedNormals",tag:"video",note:"Sculpting fundamentals"},
@@ -408,13 +603,63 @@ const DEF = {phases:[
     {id:'r4_3',name:"Blender official download (always free)",url:"https://www.blender.org/download/",tag:"free",note:"Download and install"},
     {id:'r4_4',name:"Blender Artists Community forum",url:"https://blenderartists.org/",tag:"free",note:"Get feedback on your work"}
   ]},
-  {id:5,title:"Phase 6 — Three.js & Unity",dur:"2–3 months",status:"upcoming",tasks:[
-    {id:'t5_0',text:"Complete Three.js Journey intro modules",due:"",type:"task",done:false},
-    {id:'t5_1',text:"Import a Blender asset into a Three.js web scene",due:"",type:"assignment",done:false},
-    {id:'t5_2',text:"Build an interactive web experience in your aesthetic",due:"",type:"assignment",done:false},
-    {id:'t5_3',text:"Complete Unity beginner tutorial",due:"",type:"task",done:false},
-    {id:'t5_4',text:"Build a small explorable world scene in Unity",due:"",type:"assignment",done:false},
-    {id:'t5_5',text:"Publish a web experience and add to portfolio",due:"",type:"assignment",done:false}
+  {id:5,title:"Phase 6 — Three.js & Unity",dur:"3 months (Jul 5 – Oct 1)",status:"upcoming",affirmation:"You made it here. Now you build the door and invite people inside the world that has always lived in your mind. This is what you came to do.",tasks:[
+
+    {id:'t5_w1a',text:"WEEK 1 — Set up a Three.js project locally in VS Code",due:"2027-07-07",type:"task",done:false},
+    {id:'t5_w1b',text:"WEEK 1 — Learn Three.js scene, camera, renderer, and basic geometry",due:"2027-07-09",type:"task",done:false},
+    {id:'t5_w1c',text:"WEEK 1 — Build your first Three.js scene: dark background, glowing sphere",due:"2027-07-11",type:"assignment",done:false},
+    {id:'t5_w1d',text:"WEEK 1 — Learn OrbitControls — let the user rotate the scene with mouse",due:"2027-07-12",type:"task",done:false},
+
+    {id:'t5_w2a',text:"WEEK 2 — Learn Three.js materials: MeshStandardMaterial, MeshPhysicalMaterial, emissive",due:"2027-07-15",type:"task",done:false},
+    {id:'t5_w2b',text:"WEEK 2 — Learn Three.js lighting: ambient, directional, point, and spotlights",due:"2027-07-17",type:"task",done:false},
+    {id:'t5_w2c',text:"WEEK 2 — Recreate your glowing saturated-on-black Blender aesthetic in Three.js",due:"2027-07-19",type:"assignment",done:false},
+    {id:'t5_w2d',text:"WEEK 2 — Learn animation loop — rotate and float objects over time",due:"2027-07-20",type:"task",done:false},
+
+    {id:'t5_w3a',text:"WEEK 3 — Learn how to import Blender models into Three.js using GLTFLoader",due:"2027-07-23",type:"task",done:false},
+    {id:'t5_w3b',text:"WEEK 3 — Export your Phase 5 vessel sculpture from Blender and import into Three.js",due:"2027-07-25",type:"assignment",done:false},
+    {id:'t5_w3c',text:"WEEK 3 — Add mouse interaction — object reacts when you hover or click",due:"2027-07-27",type:"assignment",done:false},
+    {id:'t5_w3d',text:"WEEK 3 — Learn post-processing effects: bloom, vignette, chromatic aberration",due:"2027-07-28",type:"task",done:false},
+
+    {id:'t5_w4a',text:"WEEK 4 — Add bloom post-processing to your scene — makes glowing materials pop",due:"2027-07-31",type:"assignment",done:false},
+    {id:'t5_w4b',text:"WEEK 4 — Learn particle systems in Three.js using Points and BufferGeometry",due:"2027-08-02",type:"task",done:false},
+    {id:'t5_w4c',text:"WEEK 4 — Build a Three.js particle system: floating spores or fireflies in your aesthetic",due:"2027-08-04",type:"assignment",done:false},
+    {id:'t5_w4d',text:"WEEK 4 — Learn scroll-based animation using a scroll event listener",due:"2027-08-05",type:"task",done:false},
+
+    {id:'t5_w5a',text:"WEEK 5 — PORTFOLIO PIECE: Build a full interactive 3D web experience in your aesthetic",due:"2027-08-08",type:"assignment",done:false},
+    {id:'t5_w5b',text:"WEEK 5 — Deploy your Three.js experience to GitHub Pages",due:"2027-08-10",type:"task",done:false},
+    {id:'t5_w5c',text:"WEEK 5 — Record a screen capture walkthrough of the experience",due:"2027-08-12",type:"task",done:false},
+    {id:'t5_w5d',text:"WEEK 5 — Post your Three.js experience to Behance — this is portfolio piece #6",due:"2027-08-13",type:"assignment",done:false},
+
+    {id:'t5_w6a',text:"WEEK 6 — Download Unity and complete interface orientation",due:"2027-08-16",type:"task",done:false},
+    {id:'t5_w6b',text:"WEEK 6 — Complete Unity Learn: Unity Essentials pathway",due:"2027-08-18",type:"task",done:false},
+    {id:'t5_w6c',text:"WEEK 6 — Complete Unity beginner tutorial: Roll-a-Ball",due:"2027-08-20",type:"assignment",done:false},
+    {id:'t5_w6d',text:"WEEK 6 — Learn Unity materials and lighting — set up a dark moody scene",due:"2027-08-21",type:"task",done:false},
+
+    {id:'t5_w7a',text:"WEEK 7 — Import your Blender assets into Unity",due:"2027-08-24",type:"task",done:false},
+    {id:'t5_w7b',text:"WEEK 7 — Learn Unity terrain and environment building tools",due:"2027-08-26",type:"task",done:false},
+    {id:'t5_w7c',text:"WEEK 7 — Build a small explorable environment using your Blender assets",due:"2027-08-28",type:"assignment",done:false},
+    {id:'t5_w7d',text:"WEEK 7 — Add a first-person or third-person controller to walk through your world",due:"2027-08-29",type:"assignment",done:false},
+
+    {id:'t5_w8a',text:"WEEK 8 — Learn Unity particle systems — add atmospheric spores and fireflies",due:"2027-09-01",type:"task",done:false},
+    {id:'t5_w8b',text:"WEEK 8 — Add ambient sound to your Unity world",due:"2027-09-03",type:"task",done:false},
+    {id:'t5_w8c',text:"WEEK 8 — Polish your world: lighting, fog, post-processing, color grading",due:"2027-09-05",type:"assignment",done:false},
+    {id:'t5_w8d',text:"WEEK 8 — Record a walkthrough video of your Unity world",due:"2027-09-06",type:"assignment",done:false},
+
+    {id:'t5_w9a',text:"WEEK 9 — Learn Unity C# basics: variables, functions, and simple interactions",due:"2027-09-09",type:"task",done:false},
+    {id:'t5_w9b',text:"WEEK 9 — Add a simple interaction to your world — pick up an object or trigger an effect",due:"2027-09-11",type:"assignment",done:false},
+    {id:'t5_w9c',text:"WEEK 9 — Build a WebGL export of your Unity world and deploy to itch.io",due:"2027-09-13",type:"assignment",done:false},
+    {id:'t5_w9d',text:"WEEK 9 — Post your Unity world to Behance — portfolio piece #7",due:"2027-09-14",type:"assignment",done:false},
+
+    {id:'t5_w10a',text:"WEEK 10 — CAPSTONE: Plan a final project that combines Three.js and Unity skills",due:"2027-09-17",type:"task",done:false},
+    {id:'t5_w10b',text:"WEEK 10 — Build your capstone: an interactive web portal that leads into a 3D world",due:"2027-09-19",type:"assignment",done:false},
+    {id:'t5_w10c',text:"WEEK 10 — Deploy capstone to GitHub Pages and itch.io",due:"2027-09-21",type:"task",done:false},
+    {id:'t5_w10d',text:"WEEK 10 — Write a full case study for your capstone project",due:"2027-09-22",type:"assignment",done:false},
+
+    {id:'t5_w11a',text:"WEEK 11 — Post capstone to Behance as your hero portfolio piece",due:"2027-09-25",type:"assignment",done:false},
+    {id:'t5_w11b',text:"WEEK 11 — Update your GitHub profile README to showcase your work",due:"2027-09-27",type:"task",done:false},
+    {id:'t5_w11c',text:"WEEK 11 — Review your full roadmap — celebrate how far you've come",due:"2027-09-29",type:"task",done:false},
+    {id:'t5_w11d',text:"WEEK 11 — Start applying to creative technologist roles or freelance opportunities",due:"2027-10-01",type:"assignment",done:false}
+
   ],resources:[
     {id:'r5_0',name:"Three.js Journey — Bruno Simon",url:"https://threejs-journey.com/",tag:"paid",note:"Best Three.js course, worth it when ready"},
     {id:'r5_1',name:"Three.js official docs & examples",url:"https://threejs.org/examples/",tag:"free",note:"Free reference"},
@@ -787,6 +1032,7 @@ function renderOverview(){
       </div>
       <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:${pct}%;background:${col.c};"></div></div>
       <div class="phase-body" id="pb-${i}">
+        ${ph.affirmation ? `<div style="margin:12px 0 16px;padding:10px 14px;border-left:3px solid ${col.c};background:${col.bg};border-radius:0 var(--radius) var(--radius) 0;font-size:12px;color:var(--text2);line-height:1.7;font-style:italic;">${ph.affirmation}</div>` : ''}
         <div class="tabs">
           <button class="tab-btn active" id="tb-tasks-${i}" onclick="switchTab(${i},'tasks',this)">Tasks (${ph.tasks.filter(t=>t.type!=='assignment').length})</button>
           <button class="tab-btn" id="tb-assign-${i}" onclick="switchTab(${i},'assignments',this)">Assignments (${ph.tasks.filter(t=>t.type==='assignment').length})</button>
@@ -823,7 +1069,7 @@ function buildTaskRows(phaseId,type){
         <div class="task-text ${task.done?'done':''}">${task.text}</div>
         <div class="task-badges">${dueBadge}${syncBadge}</div>
       </div>
-      <div class="task-actions">${calBtn}<button class="task-action-btn del" onclick="delTask('${task.id}',${phaseId})" title="Delete">&#215;</button></div>
+      <div class="task-actions">${calBtn}<button class="task-action-btn" onclick="openEditTask('${task.id}',${phaseId})" title="Edit" style="font-size:11px;">&#9998;</button><button class="task-action-btn del" onclick="delTask('${task.id}',${phaseId})" title="Delete">&#215;</button></div>
     </div>`;
   }).join('');
 }
@@ -838,7 +1084,10 @@ function buildResRows(phaseId){
     return `<div class="resource-item">
       <span class="res-tag-pill tag-${r.tag}">${r.tag}</span>
       <div class="resource-info">${link}<div class="resource-note">${r.note||''}</div></div>
-      <button class="resource-del" onclick="delRes('${r.id}',${phaseId})">&#215;</button>
+      <div style="display:flex;gap:4px;flex-shrink:0;">
+        <button class="resource-del" onclick="openEditRes('${r.id}',${phaseId})" title="Edit" style="font-size:13px;opacity:1;color:var(--text3);">&#9998;</button>
+        <button class="resource-del" onclick="delRes('${r.id}',${phaseId})" title="Delete">&#215;</button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -901,6 +1150,68 @@ function delRes(rid,pid){
   if(!confirm('Delete this resource?')) return;
   data.phases[pid].resources=data.phases[pid].resources.filter(r=>r.id!==rid);
   saveData();refreshResPanels(pid);
+}
+
+function openEditTask(tid,pid){
+  const task=data.phases[pid].tasks.find(t=>t.id===tid);
+  if(!task) return;
+  document.getElementById('modal-title').textContent='Edit '+task.type+' — Phase '+(pid+1);
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Description</label>
+      <input class="form-input" id="m-tt" value="${task.text.replace(/"/g,'&quot;')}"></div>
+    <div class="form-group"><label class="form-label">Type</label>
+      <select class="form-select" id="m-ty">
+        <option value="task" ${task.type!=='assignment'?'selected':''}>Task</option>
+        <option value="assignment" ${task.type==='assignment'?'selected':''}>Assignment</option>
+      </select></div>
+    <div class="form-group"><label class="form-label">Due date</label>
+      <input class="form-input" id="m-td" type="date" value="${task.due||''}"></div>
+    <div class="form-group"><label class="form-label">Notes</label>
+      <input class="form-input" id="m-tn" value="${(task.notes||'').replace(/"/g,'&quot;')}"></div>`;
+  modalSaveFn=()=>{
+    const text=document.getElementById('m-tt').value.trim();
+    if(!text){toast('Please enter a description','error');return false;}
+    task.text=text;
+    task.type=document.getElementById('m-ty').value;
+    task.due=document.getElementById('m-td').value;
+    task.notes=document.getElementById('m-tn').value.trim();
+    saveData();refreshTaskPanels(pid);return true;
+  };
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function openEditRes(rid,pid){
+  const r=data.phases[pid].resources.find(x=>x.id===rid);
+  if(!r) return;
+  document.getElementById('modal-title').textContent='Edit resource — Phase '+(pid+1);
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Type</label>
+      <select class="form-select" id="m-rt">
+        <option value="free" ${r.tag==='free'?'selected':''}>Free (link)</option>
+        <option value="video" ${r.tag==='video'?'selected':''}>Video (link)</option>
+        <option value="book" ${r.tag==='book'?'selected':''}>Book (link)</option>
+        <option value="article" ${r.tag==='article'?'selected':''}>Article (link)</option>
+        <option value="tool" ${r.tag==='tool'?'selected':''}>Tool (link)</option>
+        <option value="paid" ${r.tag==='paid'?'selected':''}>Paid (link)</option>
+        <option value="document" ${r.tag==='document'?'selected':''}>Document (Drive)</option>
+      </select></div>
+    <div class="form-group"><label class="form-label">Name / Title</label>
+      <input class="form-input" id="m-rn" value="${r.name.replace(/"/g,'&quot;')}"></div>
+    ${r.tag!=='document'?`<div class="form-group"><label class="form-label">URL</label>
+      <input class="form-input" id="m-ru" value="${(r.url||'').replace(/"/g,'&quot;')}"></div>`:''}
+    <div class="form-group"><label class="form-label">Note</label>
+      <input class="form-input" id="m-rnote" value="${(r.note||'').replace(/"/g,'&quot;')}"></div>`;
+  modalSaveFn=()=>{
+    const name=document.getElementById('m-rn').value.trim();
+    if(!name){toast('Please enter a name','error');return false;}
+    r.name=name;
+    r.tag=document.getElementById('m-rt').value;
+    r.note=document.getElementById('m-rnote').value.trim();
+    const urlEl=document.getElementById('m-ru');
+    if(urlEl) r.url=urlEl.value.trim();
+    saveData();refreshResPanels(pid);return true;
+  };
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
 // ============================================================
