@@ -228,6 +228,7 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
       <div class="gauth-name" id="gauth-name" style="display:none;"></div>
       <button class="gauth-btn primary" id="gauth-btn" onclick="handleGoogleAuth()">Connect Google Account</button>
       <div class="gauth-hint">Enables Drive uploads and Google Calendar sync.</div>
+      <div id="drive-status" style="display:none;font-size:10px;color:var(--teal);margin-top:6px;"></div>
     </div>
   </div>
 
@@ -315,7 +316,7 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 // CONFIG
 // ============================================================
 const CLIENT_ID = '432548122852-9a1cd4mh5ekgjq1k2dru4lusqi3ns5q3.apps.googleusercontent.com';
-const SCOPES = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar';
+const SCOPES = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/calendar';
 
 // ============================================================
 // COLORS & QUOTES
@@ -429,17 +430,118 @@ let data, calY, calM, activeFilter='all', modalSaveFn=null;
 let gToken=null, gName=null, gcalEvs=[];
 
 // ============================================================
-// STORAGE
+// STORAGE — localStorage (offline) + Google Drive (cross-device)
 // ============================================================
+const DRIVE_FILENAME = 'ct_dashboard_data.json';
+let driveFileId = null; // cached Drive file ID
+let driveSaveTimer = null;
+
 function loadData(){
+  // Always load from localStorage first so the UI is instant
   try{const s=localStorage.getItem('ct_v4');if(s){data=JSON.parse(s);return;}}catch(e){}
   data=JSON.parse(JSON.stringify(DEF));
 }
+
 function saveData(){
+  // Always save to localStorage immediately
   try{localStorage.setItem('ct_v4',JSON.stringify(data));}
-  catch(e){toast('Storage full — try removing unused resources','error');}
+  catch(e){toast('Local storage full','error');}
+  // Debounce Drive save — wait 1.5s after last change to avoid spamming API
+  clearTimeout(driveSaveTimer);
+  driveSaveTimer=setTimeout(()=>{ if(gToken) saveToDrive(); },1500);
 }
+
 function gid(){return 'x'+Date.now()+Math.floor(Math.random()*1e4);}
+
+// Find our data file in Drive (returns file id or null)
+async function findDriveFile(){
+  const r=await fetch(
+    `https://www.googleapis.com/drive/v3/files?q=name%3D'${DRIVE_FILENAME}'+and+trashed%3Dfalse&fields=files(id,name)&spaces=drive`,
+    {headers:{Authorization:'Bearer '+gToken}}
+  );
+  if(!r.ok) return null;
+  const d=await r.json();
+  return d.files&&d.files.length?d.files[0].id:null;
+}
+
+// Load data from Drive — called after sign-in
+async function loadFromDrive(){
+  try{
+    showDriveStatus('loading');
+    const fid=await findDriveFile();
+    if(!fid){
+      // No file yet — first time on this account, save current local data up
+      showDriveStatus(null);
+      await saveToDrive();
+      toast('Dashboard synced to Google Drive for the first time!','success');
+      return;
+    }
+    driveFileId=fid;
+    const r=await fetch(`https://www.googleapis.com/drive/v3/files/${fid}?alt=media`,
+      {headers:{Authorization:'Bearer '+gToken}});
+    if(!r.ok) throw new Error('Could not read Drive file');
+    const driveData=await r.json();
+    // Merge: Drive data wins for task state, but keep any local-only additions
+    data=driveData;
+    localStorage.setItem('ct_v4',JSON.stringify(data));
+    showDriveStatus(null);
+    // Re-render everything with synced data
+    renderOverview();
+    updateSidebar();
+    toast('Progress loaded from Google Drive \u2014 all devices in sync!','success');
+  }catch(e){
+    showDriveStatus(null);
+    toast('Could not load from Drive: '+e.message,'error');
+  }
+}
+
+// Save data to Drive
+async function saveToDrive(){
+  if(!gToken) return;
+  try{
+    const content=JSON.stringify(data);
+    const blob=new Blob([content],{type:'application/json'});
+    if(!driveFileId) driveFileId=await findDriveFile();
+    let r;
+    if(driveFileId){
+      // Update existing file
+      r=await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,{
+        method:'PATCH',
+        headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},
+        body:blob
+      });
+    } else {
+      // Create new file
+      const boundary='ctdash_meta';
+      const meta=JSON.stringify({name:DRIVE_FILENAME,mimeType:'application/json'});
+      const body=new Blob([
+        '\r\n--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n',meta,
+        '\r\n--'+boundary+'\r\nContent-Type: application/json\r\n\r\n',blob,
+        '\r\n--'+boundary+'--'
+      ]);
+      r=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{
+        method:'POST',
+        headers:{Authorization:'Bearer '+gToken,'Content-Type':'multipart/related; boundary='+boundary},
+        body
+      });
+      if(r.ok){const d=await r.json();driveFileId=d.id;}
+    }
+    if(!r.ok) throw new Error('Save failed');
+    showDriveStatus('saved');
+    setTimeout(()=>showDriveStatus(null),2000);
+  }catch(e){
+    // Silently fail — data is safe in localStorage
+    console.warn('Drive save failed:',e.message);
+  }
+}
+
+function showDriveStatus(state){
+  let el=document.getElementById('drive-status');
+  if(!el) return;
+  if(state==='loading'){el.textContent='&#x21BB; Syncing...';el.style.display='block';}
+  else if(state==='saved'){el.textContent='&#x2713; Saved to Drive';el.style.display='block';}
+  else{el.style.display='none';}
+}
 
 // ============================================================
 // TOAST
@@ -466,12 +568,17 @@ function initGoogle(){
       fetchProfile();
       document.getElementById('cal-sync-btn').disabled=false;
       document.getElementById('cal-legend').classList.add('show');
-      toast('Google account connected!','success');
+      loadFromDrive(); // load cross-device data immediately after sign-in
     }
   });
   const st=sessionStorage.getItem('ct_tok');
   const sn=sessionStorage.getItem('ct_name');
-  if(st&&sn){gToken=st;gName=sn;setAuthUI(true);document.getElementById('cal-sync-btn').disabled=false;document.getElementById('cal-legend').classList.add('show');}
+  if(st&&sn){
+    gToken=st;gName=sn;setAuthUI(true);
+    document.getElementById('cal-sync-btn').disabled=false;
+    document.getElementById('cal-legend').classList.add('show');
+    loadFromDrive(); // also load on page refresh if already signed in
+  }
 }
 
 function handleGoogleAuth(){
