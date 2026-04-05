@@ -9,6 +9,28 @@
 <title>Creative Technologist — Learning Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDNQ1W9ogjQ5KDO_JN17_qz13q7ni2bXMg",
+  authDomain: "ct-dashboard-roadmap-98b8a.firebaseapp.com",
+  projectId: "ct-dashboard-roadmap-98b8a",
+  storageBucket: "ct-dashboard-roadmap-98b8a.firebasestorage.app",
+  messagingSenderId: "999607724703",
+  appId: "1:999607724703:web:87100408f189f7e57150aa"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+window._db = db;
+window._fbReady = true;
+window._firestoreDoc = doc(db, 'users', 'kreativekodestudio');
+window._getDoc = getDoc;
+window._setDoc = setDoc;
+window._onSnapshot = onSnapshot;
+</script>
 <style>
 :root {
   --bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a26;--surface3:#22223a;
@@ -230,7 +252,7 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
       </div>
       <div class="gauth-name" id="gauth-name" style="display:none;"></div>
       <button class="gauth-btn primary" id="gauth-btn" onclick="handleGoogleAuth()">Connect Google Account</button>
-      <div class="gauth-hint">Enables Drive uploads and Google Calendar sync.</div>
+      <div class="gauth-hint">Enables Firebase sync across all devices and Google Calendar.</div>
       <div id="drive-status" style="display:none;font-size:10px;color:var(--teal);margin-top:6px;"></div>
     </div>
   </div>
@@ -319,7 +341,7 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 // CONFIG
 // ============================================================
 const CLIENT_ID = '432548122852-9a1cd4mh5ekgjq1k2dru4lusqi3ns5q3.apps.googleusercontent.com';
-const SCOPES = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/calendar';
+const SCOPES = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar';
 
 // ============================================================
 // COLORS & QUOTES
@@ -678,116 +700,126 @@ let data, calY, calM, activeFilter='all', modalSaveFn=null;
 let gToken=null, gName=null, gcalEvs=[];
 
 // ============================================================
-// STORAGE — localStorage (offline) + Google Drive (cross-device)
+// STORAGE — localStorage (instant offline) + Firebase (cross-device)
+// Firebase stores ONLY progress data (done states, custom tasks/resources)
+// Phase structure always comes from code — sync can never overwrite it
 // ============================================================
-const DRIVE_FILENAME = 'ct_dashboard_data.json';
-let driveFileId = null; // cached Drive file ID
-let driveSaveTimer = null;
+let fbSaveTimer = null;
+let fbUnsubscribe = null;
+let fbUserId = null; // set after Google sign-in using user email as ID
 
 function loadData(){
-  // Always load from localStorage first so the UI is instant
-  try{const s=localStorage.getItem('ct_v4');if(s){data=JSON.parse(s);return;}}catch(e){}
+  // Load from localStorage first for instant UI
+  try{const s=localStorage.getItem('ct_v5');if(s){data=JSON.parse(s);return;}}catch(e){}
   data=JSON.parse(JSON.stringify(DEF));
 }
 
 function saveData(){
-  // Always save to localStorage immediately
-  try{localStorage.setItem('ct_v4',JSON.stringify(data));}
+  // Save to localStorage immediately
+  try{localStorage.setItem('ct_v5',JSON.stringify(data));}
   catch(e){toast('Local storage full','error');}
-  // Debounce Drive save — wait 1.5s after last change to avoid spamming API
-  clearTimeout(driveSaveTimer);
-  driveSaveTimer=setTimeout(()=>{ if(gToken) saveToDrive(); },1500);
+  // Debounce Firebase save — 1.5s after last change
+  clearTimeout(fbSaveTimer);
+  fbSaveTimer=setTimeout(()=>{ if(fbUserId) saveToFirebase(); },1500);
 }
 
 function gid(){return 'x'+Date.now()+Math.floor(Math.random()*1e4);}
 
-// Find our data file in Drive (returns file id or null)
-async function findDriveFile(){
-  const r=await fetch(
-    `https://www.googleapis.com/drive/v3/files?q=name%3D'${DRIVE_FILENAME}'+and+trashed%3Dfalse&fields=files(id,name)&spaces=drive`,
-    {headers:{Authorization:'Bearer '+gToken}}
-  );
-  if(!r.ok) return null;
-  const d=await r.json();
-  return d.files&&d.files.length?d.files[0].id:null;
+// Extract only progress data to save — keeps Firebase doc small and safe
+function extractProgress(){
+  const progress={};
+  data.phases.forEach(ph=>{
+    progress['p'+ph.id]={
+      tasks:{},
+      customTasks:ph.tasks.filter(t=>!DEF.phases[ph.id]?.tasks.find(dt=>dt.id===t.id)),
+      customResources:ph.resources.filter(r=>!DEF.phases[ph.id]?.resources.find(dr=>dr.id===r.id))
+    };
+    ph.tasks.forEach(t=>{ progress['p'+ph.id].tasks[t.id]={done:t.done,gcalId:t.gcalId||null}; });
+  });
+  return progress;
 }
 
-// Load data from Drive — called after sign-in
-async function loadFromDrive(){
-  try{
-    showDriveStatus('loading');
-    const fid=await findDriveFile();
-    if(!fid){
-      // No file yet — first time on this account, save current local data up
-      showDriveStatus(null);
-      await saveToDrive();
-      toast('Dashboard synced to Google Drive for the first time!','success');
-      return;
-    }
-    driveFileId=fid;
-    const r=await fetch(`https://www.googleapis.com/drive/v3/files/${fid}?alt=media`,
-      {headers:{Authorization:'Bearer '+gToken}});
-    if(!r.ok) throw new Error('Could not read Drive file');
-    const driveData=await r.json();
-    // Merge: Drive data wins for task state, but keep any local-only additions
-    data=driveData;
-    localStorage.setItem('ct_v4',JSON.stringify(data));
-    showDriveStatus(null);
-    // Re-render everything with synced data
-    renderOverview();
-    updateSidebar();
-    toast('Progress loaded from Google Drive \u2014 all devices in sync!','success');
-  }catch(e){
-    showDriveStatus(null);
-    toast('Could not load from Drive: '+e.message,'error');
-  }
+// Merge Firebase progress back into fresh DEF data
+function mergeProgress(progress){
+  if(!progress) return;
+  const merged=JSON.parse(JSON.stringify(DEF));
+  merged.phases.forEach(ph=>{
+    const pp=progress['p'+ph.id];
+    if(!pp) return;
+    // Apply done states and gcalIds to existing tasks
+    ph.tasks.forEach(t=>{
+      if(pp.tasks&&pp.tasks[t.id]){
+        t.done=pp.tasks[t.id].done||false;
+        if(pp.tasks[t.id].gcalId) t.gcalId=pp.tasks[t.id].gcalId;
+      }
+    });
+    // Re-add custom tasks and resources the user added
+    if(pp.customTasks&&pp.customTasks.length) ph.tasks.push(...pp.customTasks);
+    if(pp.customResources&&pp.customResources.length) ph.resources.push(...pp.customResources);
+  });
+  return merged;
 }
 
-// Save data to Drive
-async function saveToDrive(){
-  if(!gToken) return;
+async function saveToFirebase(){
+  if(!fbUserId||!window._fbReady) return;
   try{
-    const content=JSON.stringify(data);
-    const blob=new Blob([content],{type:'application/json'});
-    if(!driveFileId) driveFileId=await findDriveFile();
-    let r;
-    if(driveFileId){
-      // Update existing file
-      r=await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,{
-        method:'PATCH',
-        headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},
-        body:blob
-      });
+    const progress=extractProgress();
+    await window._setDoc(window._firestoreDoc,{progress,lastSaved:Date.now()});
+    showSyncStatus('saved');
+    setTimeout(()=>showSyncStatus(null),2000);
+  }catch(e){console.warn('Firebase save failed:',e.message);}
+}
+
+async function loadFromFirebase(){
+  if(!fbUserId||!window._fbReady){setTimeout(loadFromFirebase,500);return;}
+  try{
+    showSyncStatus('loading');
+    const snap=await window._getDoc(window._firestoreDoc);
+    if(snap.exists()&&snap.data().progress){
+      const merged=mergeProgress(snap.data().progress);
+      if(merged){
+        data=merged;
+        localStorage.setItem('ct_v5',JSON.stringify(data));
+        renderOverview();
+        updateSidebar();
+        toast('Progress synced across all your devices!','success');
+      }
     } else {
-      // Create new file
-      const boundary='ctdash_meta';
-      const meta=JSON.stringify({name:DRIVE_FILENAME,mimeType:'application/json'});
-      const body=new Blob([
-        '\r\n--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n',meta,
-        '\r\n--'+boundary+'\r\nContent-Type: application/json\r\n\r\n',blob,
-        '\r\n--'+boundary+'--'
-      ]);
-      r=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{
-        method:'POST',
-        headers:{Authorization:'Bearer '+gToken,'Content-Type':'multipart/related; boundary='+boundary},
-        body
-      });
-      if(r.ok){const d=await r.json();driveFileId=d.id;}
+      // First time — save current data up to Firebase
+      await saveToFirebase();
+      toast('Dashboard saved to Firebase for the first time!','success');
     }
-    if(!r.ok) throw new Error('Save failed');
-    showDriveStatus('saved');
-    setTimeout(()=>showDriveStatus(null),2000);
+    showSyncStatus(null);
+    // Start real-time listener for changes from other devices
+    startRealtimeSync();
   }catch(e){
-    // Silently fail — data is safe in localStorage
-    console.warn('Drive save failed:',e.message);
+    showSyncStatus(null);
+    toast('Could not sync: '+e.message,'error');
   }
 }
 
-function showDriveStatus(state){
-  let el=document.getElementById('drive-status');
+function startRealtimeSync(){
+  if(fbUnsubscribe) fbUnsubscribe(); // clear any existing listener
+  fbUnsubscribe=window._onSnapshot(window._firestoreDoc,(snap)=>{
+    if(!snap.exists()) return;
+    const d=snap.data();
+    if(!d.progress) return;
+    // Only update if the change came from another device (different timestamp)
+    const merged=mergeProgress(d.progress);
+    if(merged){
+      data=merged;
+      localStorage.setItem('ct_v5',JSON.stringify(data));
+      renderOverview();
+      updateSidebar();
+    }
+  });
+}
+
+function showSyncStatus(state){
+  const el=document.getElementById('drive-status');
   if(!el) return;
-  if(state==='loading'){el.textContent='&#x21BB; Syncing...';el.style.display='block';}
-  else if(state==='saved'){el.textContent='&#x2713; Saved to Drive';el.style.display='block';}
+  if(state==='loading'){el.textContent='\u21BB Syncing...';el.style.display='block';}
+  else if(state==='saved'){el.textContent='\u2713 Saved';el.style.display='block';}
   else{el.style.display='none';}
 }
 
@@ -816,16 +848,17 @@ function initGoogle(){
       fetchProfile();
       document.getElementById('cal-sync-btn').disabled=false;
       document.getElementById('cal-legend').classList.add('show');
-      loadFromDrive(); // load cross-device data immediately after sign-in
+      loadFromFirebase();
     }
   });
   const st=sessionStorage.getItem('ct_tok');
   const sn=sessionStorage.getItem('ct_name');
+  const su=sessionStorage.getItem('ct_uid');
   if(st&&sn){
-    gToken=st;gName=sn;setAuthUI(true);
+    gToken=st;gName=sn;fbUserId=su||sn;setAuthUI(true);
     document.getElementById('cal-sync-btn').disabled=false;
     document.getElementById('cal-legend').classList.add('show');
-    loadFromDrive(); // also load on page refresh if already signed in
+    loadFromFirebase();
   }
 }
 
@@ -836,8 +869,9 @@ function handleGoogleAuth(){
 
 function signOut(){
   if(gToken) google.accounts.oauth2.revoke(gToken,()=>{});
-  gToken=null;gName=null;gcalEvs=[];
-  sessionStorage.removeItem('ct_tok');sessionStorage.removeItem('ct_name');
+  if(fbUnsubscribe){fbUnsubscribe();fbUnsubscribe=null;}
+  gToken=null;gName=null;gcalEvs=[];fbUserId=null;
+  sessionStorage.removeItem('ct_tok');sessionStorage.removeItem('ct_name');sessionStorage.removeItem('ct_uid');
   setAuthUI(false);
   document.getElementById('cal-sync-btn').disabled=true;
   document.getElementById('cal-legend').classList.remove('show');
@@ -849,8 +883,11 @@ async function fetchProfile(){
     const r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+gToken}});
     const d=await r.json();
     gName=d.name||d.email||'Connected';
+    fbUserId=d.email||d.sub||'user';
     sessionStorage.setItem('ct_name',gName);
+    sessionStorage.setItem('ct_uid',fbUserId);
     setAuthUI(true);
+    loadFromFirebase();
   }catch(e){setAuthUI(true);}
 }
 
