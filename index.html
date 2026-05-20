@@ -142,11 +142,14 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 .badge-active{background:var(--teal-dim);color:var(--teal);}
 .badge-upcoming{background:var(--surface3);color:var(--text3);}
 .badge-done{background:var(--purple-dim);color:var(--purple-light);}
+.badge-completed{background:var(--teal-dim);color:var(--teal);font-family:'DM Mono',monospace;}
 .badge-due{background:var(--amber-dim);color:var(--amber);}
 .badge-overdue{background:var(--red-dim);color:var(--red);}
 .badge-synced{background:var(--blue-dim);color:var(--blue);}
 .badge-exam{background:var(--coral-dim);color:var(--coral);}
 .badge-study{background:var(--purple-dim);color:var(--purple-light);}
+.badge-anki{background:var(--pink-dim);color:var(--pink);}
+.badge-quiz{background:var(--amber-dim);color:var(--amber);font-family:'DM Mono',monospace;}
 
 /* RESOURCES */
 .resource-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
@@ -325,6 +328,8 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
       <button class="filter-btn" onclick="setFilter('todo',this)">To do</button>
       <button class="filter-btn" onclick="setFilter('done',this)">Completed</button>
       <button class="filter-btn" onclick="setFilter('exam',this)">Exams</button>
+      <button class="filter-btn" onclick="setFilter('quiz',this)">Quizzes</button>
+      <button class="filter-btn" onclick="setFilter('anki',this)">Anki Sessions</button>
       <button class="filter-btn" onclick="setFilter('due',this)">Has due date</button>
       <button class="filter-btn" onclick="setFilter('overdue',this)">Overdue</button>
     </div>
@@ -389,24 +394,94 @@ const DEF = {phases:[
     affirmation:"Every IT technician you will ever look up to started with the same fundamentals you are learning right now. The foundation you build here holds everything else up.",
     examCallout:{title:"Goal: Core 1 (220-1201) Exam by Aug 8",body:"Passing score: 675/900. Exam fee ~$246 via Pearson VUE. Core 1 in hand is already a resume credential."},
     tasks:[
-      {id:'p0_w1a',text:"WEEK 1 — Download official CompTIA A+ exam objectives PDF (220-1201)",due:"2026-05-27",type:"study",done:false},
-      {id:'p0_w1b',text:"WEEK 1 — Set up Anki and download a CompTIA A+ 220-1201 shared deck",due:"2026-05-27",type:"study",done:false},
-      {id:'p0_w1c',text:"WEEK 1 — Install VirtualBox on your Mac",due:"2026-05-28",type:"study",done:false},
-      {id:'p0_w1d',text:"WEEK 1 — Begin Professor Messer Core 1: Mobile Devices domain (Domain 1)",due:"2026-05-30",type:"study",done:false},
-      {id:'p0_w2a',text:"WEEK 2 — Professor Messer: Networking Fundamentals Part 1 (Domain 2) — TCP/IP, ports, protocols",due:"2026-06-05",type:"study",done:false},
-      {id:'p0_w2b',text:"WEEK 2 — Add networking Anki cards: ports (HTTP 80, HTTPS 443, RDP 3389, SSH 22, DNS 53)",due:"2026-06-06",type:"study",done:false},
-      {id:'p0_w3a',text:"WEEK 3 — Professor Messer: Networking Fundamentals Part 2 — wireless, devices, troubleshooting",due:"2026-06-12",type:"study",done:false},
-      {id:'p0_w3b',text:"WEEK 3 — Active recall: close notes and write down everything you know about networking from memory",due:"2026-06-13",type:"study",done:false},
-      {id:'p0_w4a',text:"WEEK 4 — Professor Messer: Hardware Part 1 (Domain 3) — motherboards, CPUs, RAM, storage types",due:"2026-06-19",type:"study",done:false},
-      {id:'p0_w4b',text:"WEEK 4 — Supplement with YouTube teardown videos for any hardware you can't visualize",due:"2026-06-20",type:"study",done:false},
-      {id:'p0_w5a',text:"WEEK 5 — Professor Messer: Hardware Part 2 — power supplies, displays, printers, peripherals",due:"2026-06-26",type:"study",done:false},
-      {id:'p0_w5b',text:"WEEK 5 — Hands-on: open your Mac or an old device and identify every component you've studied",due:"2026-06-27",type:"study",done:false},
-      {id:'p0_w6a',text:"WEEK 6 — Professor Messer: Virtualization & Cloud Computing (Domain 4) — IaaS, SaaS, PaaS, VMs",due:"2026-07-03",type:"study",done:false},
-      {id:'p0_w6b',text:"WEEK 6 — Set up a Windows VM in VirtualBox and practice basic navigation",due:"2026-07-04",type:"study",done:false},
-      {id:'p0_w7a',text:"WEEK 7 — Professor Messer: Hardware & Network Troubleshooting (Domain 5)",due:"2026-07-10",type:"study",done:false},
-      {id:'p0_w7b',text:"WEEK 7 — Apply banking ops mindset: practice the CompTIA troubleshooting methodology steps from memory",due:"2026-07-11",type:"study",done:false},
-      {id:'p0_w8a',text:"WEEK 8 — Core 1 full review: re-watch flagged Messer sections",due:"2026-07-17",type:"study",done:false},
-      {id:'p0_w8b',text:"WEEK 8 — Check off every topic in the official 220-1201 objectives PDF — flag anything unfamiliar",due:"2026-07-18",type:"study",done:false}
+      {id:'p0_setup1',text:"SETUP — Download official CompTIA A+ 220-1201 exam objectives PDF from CompTIA.org",due:"2026-05-26",type:"study",done:false},
+      {id:'p0_setup2',text:"SETUP — Install VirtualBox on your Mac",due:"2026-05-26",type:"study",done:false},
+      {id:'p0_setup3',text:"SETUP — Open Anki and confirm your deck structure is ready",due:"2026-05-26",type:"study",done:false},
+      {id:'p0_1_1v',text:"1.1 — Watch Messer: Laptops & Laptop Hardware",due:"2026-05-27",type:"study",done:false},
+      {id:'p0_1_1a',text:"1.1 — Anki session: Laptop components, displays, expansion slots",due:"2026-05-27",type:"anki",done:false},
+      {id:'p0_1_1q',text:"1.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 1.1 — Laptops'",due:"2026-05-27",type:"quiz",done:false},
+      {id:'p0_1_2v',text:"1.2 — Watch Messer: Mobile Devices",due:"2026-05-28",type:"study",done:false},
+      {id:'p0_1_2a',text:"1.2 — Anki session: Mobile OS types, tablet features, device comparisons",due:"2026-05-28",type:"anki",done:false},
+      {id:'p0_1_2q',text:"1.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 1.2 — Mobile Devices'",due:"2026-05-28",type:"quiz",done:false},
+      {id:'p0_1_3v',text:"1.3 — Watch Messer: Accessories & Ports of Mobile Devices",due:"2026-05-29",type:"study",done:false},
+      {id:'p0_1_3a',text:"1.3 — Anki session: Port types, connection standards, accessory categories",due:"2026-05-29",type:"anki",done:false},
+      {id:'p0_1_3q',text:"1.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 1.3 — Accessories & Ports'",due:"2026-05-29",type:"quiz",done:false},
+      {id:'p0_1_4v',text:"1.4 — Watch Messer: Network Connectivity for Mobile Devices",due:"2026-05-30",type:"study",done:false},
+      {id:'p0_1_4a',text:"1.4 — Anki session: Bluetooth, WiFi, NFC, cellular standards",due:"2026-05-30",type:"anki",done:false},
+      {id:'p0_1_4q',text:"1.4 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 1.4 — Network Connectivity'",due:"2026-05-30",type:"quiz",done:false},
+      {id:'p0_d1_quiz',text:"DOMAIN 1 QUIZ — Message Claude 'Quiz me on Core 1 Domain 1 — all sections 1.1 through 1.4'",due:"2026-05-31",type:"quiz",done:false},
+      {id:'p0_2_1v',text:"2.1 — Watch Messer: Ports & Protocols",due:"2026-06-02",type:"study",done:false},
+      {id:'p0_2_1a',text:"2.1 — Anki session: Port numbers — HTTP 80, HTTPS 443, RDP 3389, SSH 22, DNS 53, FTP 20/21, SMTP 25",due:"2026-06-02",type:"anki",done:false},
+      {id:'p0_2_1q',text:"2.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 2.1 — Ports & Protocols'",due:"2026-06-02",type:"quiz",done:false},
+      {id:'p0_2_2v',text:"2.2 — Watch Messer: Network Hardware",due:"2026-06-03",type:"study",done:false},
+      {id:'p0_2_2a',text:"2.2 — Anki session: Routers, switches, hubs, WAPs, firewalls — differences and use cases",due:"2026-06-03",type:"anki",done:false},
+      {id:'p0_2_2q',text:"2.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 2.2 — Network Hardware'",due:"2026-06-03",type:"quiz",done:false},
+      {id:'p0_2_3v',text:"2.3 — Watch Messer: Wireless Networking",due:"2026-06-04",type:"study",done:false},
+      {id:'p0_2_3a',text:"2.3 — Anki session: WiFi standards (802.11 a/b/g/n/ac/ax), frequencies, channels",due:"2026-06-04",type:"anki",done:false},
+      {id:'p0_2_3q',text:"2.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 2.3 — Wireless Networking'",due:"2026-06-04",type:"quiz",done:false},
+      {id:'p0_2_4v',text:"2.4 — Watch Messer: Network Services",due:"2026-06-05",type:"study",done:false},
+      {id:'p0_2_4a',text:"2.4 — Anki session: DHCP, DNS, NAT, VPN — what each does",due:"2026-06-05",type:"anki",done:false},
+      {id:'p0_2_4q',text:"2.4 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 2.4 — Network Services'",due:"2026-06-05",type:"quiz",done:false},
+      {id:'p0_2_5v',text:"2.5 — Watch Messer: Network Types",due:"2026-06-06",type:"study",done:false},
+      {id:'p0_2_5a',text:"2.5 — Anki session: LAN, WAN, MAN, PAN, WLAN differences",due:"2026-06-06",type:"anki",done:false},
+      {id:'p0_2_5q',text:"2.5 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 2.5 — Network Types'",due:"2026-06-06",type:"quiz",done:false},
+      {id:'p0_2_6v',text:"2.6 — Watch Messer: Network Tools",due:"2026-06-09",type:"study",done:false},
+      {id:'p0_2_6a',text:"2.6 — Anki session: Cable testers, toners, crimpers, punch down tools — when to use each",due:"2026-06-09",type:"anki",done:false},
+      {id:'p0_2_6q',text:"2.6 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 2.6 — Network Tools'",due:"2026-06-09",type:"quiz",done:false},
+      {id:'p0_d2_quiz',text:"DOMAIN 2 QUIZ — Message Claude 'Quiz me on Core 1 Domain 2 — all sections 2.1-2.6 + review Domain 1'",due:"2026-06-10",type:"quiz",done:false},
+      {id:'p0_3_1v',text:"3.1 — Watch Messer: Cables & Connectors",due:"2026-06-10",type:"study",done:false},
+      {id:'p0_3_1a',text:"3.1 — Anki session: Cable types (Cat5e/6/6a), fiber vs copper, connector types (RJ45, RJ11, LC, SC)",due:"2026-06-10",type:"anki",done:false},
+      {id:'p0_3_1q',text:"3.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 3.1 — Cables & Connectors'",due:"2026-06-10",type:"quiz",done:false},
+      {id:'p0_3_2v',text:"3.2 — Watch Messer: RAM Types",due:"2026-06-11",type:"study",done:false},
+      {id:'p0_3_2a',text:"3.2 — Anki session: DDR4 vs DDR5, DIMM vs SO-DIMM, ECC vs non-ECC, dual channel",due:"2026-06-11",type:"anki",done:false},
+      {id:'p0_3_2q',text:"3.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 3.2 — RAM'",due:"2026-06-11",type:"quiz",done:false},
+      {id:'p0_3_3v',text:"3.3 — Watch Messer: Storage Devices",due:"2026-06-12",type:"study",done:false},
+      {id:'p0_3_3a',text:"3.3 — Anki session: HDD vs SSD vs NVMe, M.2, SATA, RAID levels (0,1,5,10)",due:"2026-06-12",type:"anki",done:false},
+      {id:'p0_3_3q',text:"3.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 3.3 — Storage'",due:"2026-06-12",type:"quiz",done:false},
+      {id:'p0_3_4v',text:"3.4 — Watch Messer: Motherboards, CPUs & Add-on Cards",due:"2026-06-15",type:"study",done:false},
+      {id:'p0_3_4a',text:"3.4 — Anki session: CPU sockets, chipsets, PCIe slots, expansion card types",due:"2026-06-15",type:"anki",done:false},
+      {id:'p0_3_4q',text:"3.4 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 3.4 — Motherboards & CPUs'",due:"2026-06-15",type:"quiz",done:false},
+      {id:'p0_3_5v',text:"3.5 — Watch Messer: Power Supplies",due:"2026-06-16",type:"study",done:false},
+      {id:'p0_3_5a',text:"3.5 — Anki session: Wattage, connectors (24-pin, 8-pin), modular vs non-modular, voltages",due:"2026-06-16",type:"anki",done:false},
+      {id:'p0_3_5q',text:"3.5 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 3.5 — Power Supplies'",due:"2026-06-16",type:"quiz",done:false},
+      {id:'p0_3_6v',text:"3.6 — Watch Messer: Multifunction Devices & Printers",due:"2026-06-17",type:"study",done:false},
+      {id:'p0_3_6a',text:"3.6 — Anki session: Laser vs inkjet vs thermal vs impact, MFD features",due:"2026-06-17",type:"anki",done:false},
+      {id:'p0_3_6q',text:"3.6 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 3.6 — Printers & MFDs'",due:"2026-06-17",type:"quiz",done:false},
+      {id:'p0_3_7v',text:"3.7 — Watch Messer: Printer Consumables",due:"2026-06-18",type:"study",done:false},
+      {id:'p0_3_7a',text:"3.7 — Anki session: Toner, ink cartridges, drums, fuser — what each does and when to replace",due:"2026-06-18",type:"anki",done:false},
+      {id:'p0_3_7q',text:"3.7 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 3.7 — Printer Consumables'",due:"2026-06-18",type:"quiz",done:false},
+      {id:'p0_hw_bonus',text:"HANDS-ON — Open your Mac or an old device and identify the components you just studied",due:"2026-06-19",type:"study",done:false},
+      {id:'p0_d3_quiz',text:"DOMAIN 3 QUIZ — Message Claude 'Quiz me on Core 1 Domain 3 — all sections 3.1-3.7 + review Domains 1 & 2'",due:"2026-06-20",type:"quiz",done:false},
+      {id:'p0_4_1v',text:"4.1 — Watch Messer: Cloud Computing",due:"2026-06-22",type:"study",done:false},
+      {id:'p0_4_1a',text:"4.1 — Anki session: IaaS, SaaS, PaaS, public/private/hybrid cloud, shared responsibility",due:"2026-06-22",type:"anki",done:false},
+      {id:'p0_4_1q',text:"4.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 4.1 — Cloud Computing'",due:"2026-06-22",type:"quiz",done:false},
+      {id:'p0_4_2v',text:"4.2 — Watch Messer: Client-side Virtualization",due:"2026-06-23",type:"study",done:false},
+      {id:'p0_4_2a',text:"4.2 — Anki session: Hypervisor types (Type 1 vs Type 2), VM snapshots, virtual networking",due:"2026-06-23",type:"anki",done:false},
+      {id:'p0_4_2q',text:"4.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 4.2 — Client-side Virtualization'",due:"2026-06-23",type:"quiz",done:false},
+      {id:'p0_vm_setup',text:"HANDS-ON — Set up a Windows VM in VirtualBox and practice basic navigation",due:"2026-06-24",type:"study",done:false},
+      {id:'p0_d4_quiz',text:"DOMAIN 4 QUIZ — Message Claude 'Quiz me on Core 1 Domain 4 — all sections 4.1-4.2 + review Domains 1, 2 & 3'",due:"2026-06-25",type:"quiz",done:false},
+      {id:'p0_5_1v',text:"5.1 — Watch Messer: Troubleshooting Methodology",due:"2026-06-29",type:"study",done:false},
+      {id:'p0_5_1a',text:"5.1 — Anki session: CompTIA 7-step troubleshooting methodology — write each step from memory",due:"2026-06-29",type:"anki",done:false},
+      {id:'p0_5_1q',text:"5.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 5.1 — Troubleshooting Methodology'",due:"2026-06-29",type:"quiz",done:false},
+      {id:'p0_5_2v',text:"5.2 — Watch Messer: Troubleshooting Mobile Devices",due:"2026-06-30",type:"study",done:false},
+      {id:'p0_5_2a',text:"5.2 — Anki session: Common mobile issues and solutions — battery, connectivity, screen, performance",due:"2026-06-30",type:"anki",done:false},
+      {id:'p0_5_2q',text:"5.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 5.2 — Troubleshooting Mobile Devices'",due:"2026-06-30",type:"quiz",done:false},
+      {id:'p0_5_3v',text:"5.3 — Watch Messer: Troubleshooting Networks",due:"2026-07-01",type:"study",done:false},
+      {id:'p0_5_3a',text:"5.3 — Anki session: No connectivity, limited connectivity, slow network — causes and fixes",due:"2026-07-01",type:"anki",done:false},
+      {id:'p0_5_3q',text:"5.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 5.3 — Troubleshooting Networks'",due:"2026-07-01",type:"quiz",done:false},
+      {id:'p0_5_4v',text:"5.4 — Watch Messer: Troubleshooting Hardware",due:"2026-07-02",type:"study",done:false},
+      {id:'p0_5_4a',text:"5.4 — Anki session: POST codes, boot failures, overheating, power issues",due:"2026-07-02",type:"anki",done:false},
+      {id:'p0_5_4q',text:"5.4 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 5.4 — Troubleshooting Hardware'",due:"2026-07-02",type:"quiz",done:false},
+      {id:'p0_5_5v',text:"5.5 — Watch Messer: Troubleshooting Printers",due:"2026-07-06",type:"study",done:false},
+      {id:'p0_5_5a',text:"5.5 — Anki session: Paper jams, print quality issues, connectivity problems, spooler errors",due:"2026-07-06",type:"anki",done:false},
+      {id:'p0_5_5q',text:"5.5 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 5.5 — Troubleshooting Printers'",due:"2026-07-06",type:"quiz",done:false},
+      {id:'p0_5_6v',text:"5.6 — Watch Messer: Troubleshooting Storage",due:"2026-07-07",type:"study",done:false},
+      {id:'p0_5_6a',text:"5.6 — Anki session: RAID failures, bad sectors, SMART errors, drive not detected",due:"2026-07-07",type:"anki",done:false},
+      {id:'p0_5_6q',text:"5.6 — SECTION QUIZ: Message Claude 'Quiz me on Core 1 section 5.6 — Troubleshooting Storage'",due:"2026-07-07",type:"quiz",done:false},
+      {id:'p0_d5_quiz',text:"DOMAIN 5 QUIZ — Message Claude 'Quiz me on Core 1 Domain 5 — all sections 5.1-5.6 + review Domains 1 through 4'",due:"2026-07-08",type:"quiz",done:false},
+      {id:'p0_w8a',text:"WEEK 8 — Core 1 full review: re-watch any flagged Messer sections",due:"2026-07-13",type:"study",done:false},
+      {id:'p0_w8b',text:"WEEK 8 — Final Anki session: run through all Core 1 decks end to end",due:"2026-07-14",type:"anki",done:false},
+      {id:'p0_w8c',text:"WEEK 8 — Check off every topic in the official 220-1201 objectives PDF — flag anything unfamiliar",due:"2026-07-15",type:"study",done:false}
     ],
     resources:[
       {id:'r0_0',name:"Professor Messer — A+ Core 1 (220-1201) Free Course",url:"https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/",tag:"free",note:"Your primary study source"},
@@ -447,19 +522,91 @@ const DEF = {phases:[
     affirmation:"You passed Core 1. You know how to do this. Core 2 is where your banking compliance background becomes your secret weapon — process, documentation, and operational procedures are your home turf.",
     examCallout:{title:"Goal: Core 2 (220-1202) Exam by Sept 26",body:"Passing score: 700/900. Security and OS are the biggest domains — both directly relevant to healthcare IT. Your banking operations experience maps perfectly to Operational Procedures."},
     tasks:[
-      {id:'p2_w12a',text:"WEEK 12 — Download official CompTIA A+ 220-1202 exam objectives PDF",due:"2026-08-11",type:"study",done:false},
-      {id:'p2_w12b',text:"WEEK 12 — Begin Professor Messer Core 2: Operating Systems (Domain 1) — Windows 11, macOS, Linux",due:"2026-08-14",type:"study",done:false},
-      {id:'p2_w12c',text:"WEEK 12 — Practice navigating Windows in your VirtualBox VM — file system, control panel, settings",due:"2026-08-15",type:"study",done:false},
-      {id:'p2_w13a',text:"WEEK 13 — Finish OS domain — installation, command line, file permissions",due:"2026-08-21",type:"study",done:false},
-      {id:'p2_w13b',text:"WEEK 13 — Begin Security (Domain 2) — malware types, social engineering, endpoint security",due:"2026-08-22",type:"study",done:false},
-      {id:'p2_w13c',text:"WEEK 13 — Add Anki cards: malware types, attack categories, security controls",due:"2026-08-23",type:"study",done:false},
-      {id:'p2_w14a',text:"WEEK 14 — Finish Security domain — encryption, physical security, malware removal steps",due:"2026-08-28",type:"study",done:false},
-      {id:'p2_w14b',text:"WEEK 14 — Begin Software Troubleshooting (Domain 3) — OS errors, application issues, drivers",due:"2026-08-29",type:"study",done:false},
-      {id:'p2_w15a',text:"WEEK 15 — Operational Procedures (Domain 4) — documentation, ticketing, change management, ITIL",due:"2026-09-04",type:"study",done:false},
-      {id:'p2_w15b',text:"WEEK 15 — Active recall: write out the CompTIA troubleshooting methodology from memory",due:"2026-09-05",type:"study",done:false},
-      {id:'p2_w15c',text:"WEEK 15 — Create a simple HIPAA security awareness checklist — connects studies to healthcare context",due:"2026-09-06",type:"study",done:false},
-      {id:'p2_w16a',text:"WEEK 16 — Full Core 2 notes review — flag anything still fuzzy",due:"2026-09-11",type:"study",done:false},
-      {id:'p2_w16b',text:"WEEK 16 — Check off every topic in the 220-1202 objectives PDF",due:"2026-09-12",type:"study",done:false}
+      {id:'p2_setup1',text:"SETUP — Download official CompTIA A+ 220-1202 exam objectives PDF from CompTIA.org",due:"2026-08-11",type:"study",done:false},
+      {id:'p2_1_1v',text:"1.1 — Watch Messer: Windows OS Features",due:"2026-08-12",type:"study",done:false},
+      {id:'p2_1_1a',text:"1.1 — Anki session: Windows editions, upgrade paths, 32-bit vs 64-bit",due:"2026-08-12",type:"anki",done:false},
+      {id:'p2_1_1q',text:"1.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 1.1 — Windows OS Features'",due:"2026-08-12",type:"quiz",done:false},
+      {id:'p2_1_2v',text:"1.2 — Watch Messer: Windows Features & Tools",due:"2026-08-13",type:"study",done:false},
+      {id:'p2_1_2a',text:"1.2 — Anki session: Task Manager, Device Manager, MMC, Event Viewer, Registry Editor",due:"2026-08-13",type:"anki",done:false},
+      {id:'p2_1_2q',text:"1.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 1.2 — Windows Features & Tools'",due:"2026-08-13",type:"quiz",done:false},
+      {id:'p2_1_3v',text:"1.3 — Watch Messer: Windows Settings & Control Panel",due:"2026-08-14",type:"study",done:false},
+      {id:'p2_1_3a',text:"1.3 — Anki session: System settings, display, power, user accounts, network adapter settings",due:"2026-08-14",type:"anki",done:false},
+      {id:'p2_1_3q',text:"1.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 1.3 — Windows Settings'",due:"2026-08-14",type:"quiz",done:false},
+      {id:'p2_vm_practice',text:"HANDS-ON — Practice navigating Windows settings in your VirtualBox VM",due:"2026-08-15",type:"study",done:false},
+      {id:'p2_1_4v',text:"1.4 — Watch Messer: Command Line Tools",due:"2026-08-18",type:"study",done:false},
+      {id:'p2_1_4a',text:"1.4 — Anki session: ipconfig, ping, tracert, netstat, nslookup, sfc, chkdsk, diskpart",due:"2026-08-18",type:"anki",done:false},
+      {id:'p2_1_4q',text:"1.4 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 1.4 — Command Line Tools'",due:"2026-08-18",type:"quiz",done:false},
+      {id:'p2_1_5v',text:"1.5 — Watch Messer: macOS & Linux Features",due:"2026-08-19",type:"study",done:false},
+      {id:'p2_1_5a',text:"1.5 — Anki session: macOS tools (Finder, Disk Utility, Terminal), Linux file structure, basic commands",due:"2026-08-19",type:"anki",done:false},
+      {id:'p2_1_5q',text:"1.5 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 1.5 — macOS & Linux'",due:"2026-08-19",type:"quiz",done:false},
+      {id:'p2_1_6v',text:"1.6 — Watch Messer: Mobile OS Features",due:"2026-08-20",type:"study",done:false},
+      {id:'p2_1_6a',text:"1.6 — Anki session: iOS vs Android differences, MDM, app management, remote wipe",due:"2026-08-20",type:"anki",done:false},
+      {id:'p2_1_6q',text:"1.6 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 1.6 — Mobile OS'",due:"2026-08-20",type:"quiz",done:false},
+      {id:'p2_d1_quiz',text:"DOMAIN 1 QUIZ — Message Claude 'Quiz me on Core 2 Domain 1 — all sections 1.1-1.6 + review Core 1 Domains 1-5'",due:"2026-08-21",type:"quiz",done:false},
+      {id:'p2_2_1v',text:"2.1 — Watch Messer: Physical Security",due:"2026-08-21",type:"study",done:false},
+      {id:'p2_2_1a',text:"2.1 — Anki session: Locks, cameras, badges, mantraps, cable locks — physical controls",due:"2026-08-21",type:"anki",done:false},
+      {id:'p2_2_1q',text:"2.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 2.1 — Physical Security'",due:"2026-08-21",type:"quiz",done:false},
+      {id:'p2_2_2v',text:"2.2 — Watch Messer: Logical Security",due:"2026-08-22",type:"study",done:false},
+      {id:'p2_2_2a',text:"2.2 — Anki session: MFA, least privilege, ACLs, encryption types, password policies",due:"2026-08-22",type:"anki",done:false},
+      {id:'p2_2_2q',text:"2.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 2.2 — Logical Security'",due:"2026-08-22",type:"quiz",done:false},
+      {id:'p2_2_3v',text:"2.3 — Watch Messer: Wireless Security",due:"2026-08-25",type:"study",done:false},
+      {id:'p2_2_3a',text:"2.3 — Anki session: WPA2 vs WPA3, TKIP vs AES, evil twin, rogue AP, deauth attacks",due:"2026-08-25",type:"anki",done:false},
+      {id:'p2_2_3q',text:"2.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 2.3 — Wireless Security'",due:"2026-08-25",type:"quiz",done:false},
+      {id:'p2_2_4v',text:"2.4 — Watch Messer: Malware",due:"2026-08-26",type:"study",done:false},
+      {id:'p2_2_4a',text:"2.4 — Anki session: Virus, worm, trojan, ransomware, spyware, rootkit, keylogger — definitions",due:"2026-08-26",type:"anki",done:false},
+      {id:'p2_2_4q',text:"2.4 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 2.4 — Malware'",due:"2026-08-26",type:"quiz",done:false},
+      {id:'p2_2_5v',text:"2.5 — Watch Messer: Social Engineering",due:"2026-08-27",type:"study",done:false},
+      {id:'p2_2_5a',text:"2.5 — Anki session: Phishing, vishing, tailgating, shoulder surfing, dumpster diving",due:"2026-08-27",type:"anki",done:false},
+      {id:'p2_2_5q',text:"2.5 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 2.5 — Social Engineering'",due:"2026-08-27",type:"quiz",done:false},
+      {id:'p2_2_6v',text:"2.6 — Watch Messer: Windows Security Settings",due:"2026-08-28",type:"study",done:false},
+      {id:'p2_2_6a',text:"2.6 — Anki session: Windows Defender, BitLocker, EFS, UAC, Windows Firewall",due:"2026-08-28",type:"anki",done:false},
+      {id:'p2_2_6q',text:"2.6 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 2.6 — Windows Security'",due:"2026-08-28",type:"quiz",done:false},
+      {id:'p2_2_7v',text:"2.7 — Watch Messer: Data Destruction & Disposal",due:"2026-08-29",type:"study",done:false},
+      {id:'p2_2_7a',text:"2.7 — Anki session: Shredding, degaussing, overwriting, low-level formatting — when to use each",due:"2026-08-29",type:"anki",done:false},
+      {id:'p2_2_7q',text:"2.7 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 2.7 — Data Destruction'",due:"2026-08-29",type:"quiz",done:false},
+      {id:'p2_hipaa',text:"HEALTHCARE — Create a simple HIPAA security awareness checklist connecting studies to healthcare IT",due:"2026-08-30",type:"study",done:false},
+      {id:'p2_d2_quiz',text:"DOMAIN 2 QUIZ — Message Claude 'Quiz me on Core 2 Domain 2 — all sections 2.1-2.7 + review Core 1 & Core 2 Domain 1'",due:"2026-09-01",type:"quiz",done:false},
+      {id:'p2_3_1v',text:"3.1 — Watch Messer: Troubleshooting Windows OS",due:"2026-09-01",type:"study",done:false},
+      {id:'p2_3_1a',text:"3.1 — Anki session: BSOD codes, boot failures, slow performance, profile errors",due:"2026-09-01",type:"anki",done:false},
+      {id:'p2_3_1q',text:"3.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 3.1 — Troubleshooting Windows'",due:"2026-09-01",type:"quiz",done:false},
+      {id:'p2_3_2v',text:"3.2 — Watch Messer: Troubleshooting Mobile Devices",due:"2026-09-02",type:"study",done:false},
+      {id:'p2_3_2a',text:"3.2 — Anki session: App crashes, battery drain, no service, screen issues — causes and fixes",due:"2026-09-02",type:"anki",done:false},
+      {id:'p2_3_2q',text:"3.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 3.2 — Troubleshooting Mobile'",due:"2026-09-02",type:"quiz",done:false},
+      {id:'p2_3_3v',text:"3.3 — Watch Messer: Malware Removal",due:"2026-09-03",type:"study",done:false},
+      {id:'p2_3_3a',text:"3.3 — Anki session: 8-step malware removal process — write each step from memory",due:"2026-09-03",type:"anki",done:false},
+      {id:'p2_3_3q',text:"3.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 3.3 — Malware Removal'",due:"2026-09-03",type:"quiz",done:false},
+      {id:'p2_d3_quiz',text:"DOMAIN 3 QUIZ — Message Claude 'Quiz me on Core 2 Domain 3 — all sections 3.1-3.3 + review Core 1 & Core 2 Domains 1-2'",due:"2026-09-04",type:"quiz",done:false},
+      {id:'p2_4_1v',text:"4.1 — Watch Messer: Documentation & Change Management",due:"2026-09-04",type:"study",done:false},
+      {id:'p2_4_1a',text:"4.1 — Anki session: Ticketing systems, asset tags, network diagrams, change management steps",due:"2026-09-04",type:"anki",done:false},
+      {id:'p2_4_1q',text:"4.1 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.1 — Documentation'",due:"2026-09-04",type:"quiz",done:false},
+      {id:'p2_4_2v',text:"4.2 — Watch Messer: Change Management",due:"2026-09-05",type:"study",done:false},
+      {id:'p2_4_2a',text:"4.2 — Anki session: Change request, approval process, rollback plan, change board",due:"2026-09-05",type:"anki",done:false},
+      {id:'p2_4_2q',text:"4.2 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.2 — Change Management'",due:"2026-09-05",type:"quiz",done:false},
+      {id:'p2_4_3v',text:"4.3 — Watch Messer: Workstation Backup & Recovery",due:"2026-09-06",type:"study",done:false},
+      {id:'p2_4_3a',text:"4.3 — Anki session: Full vs incremental vs differential backup, 3-2-1 rule, restore types",due:"2026-09-06",type:"anki",done:false},
+      {id:'p2_4_3q',text:"4.3 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.3 — Backup & Recovery'",due:"2026-09-06",type:"quiz",done:false},
+      {id:'p2_4_4v',text:"4.4 — Watch Messer: Safety Procedures",due:"2026-09-08",type:"study",done:false},
+      {id:'p2_4_4a',text:"4.4 — Anki session: ESD precautions, lifting techniques, MSDS, PPE",due:"2026-09-08",type:"anki",done:false},
+      {id:'p2_4_4q',text:"4.4 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.4 — Safety Procedures'",due:"2026-09-08",type:"quiz",done:false},
+      {id:'p2_4_5v',text:"4.5 — Watch Messer: Environmental Impacts",due:"2026-09-08",type:"study",done:false},
+      {id:'p2_4_5a',text:"4.5 — Anki session: HVAC, power conditioning, UPS, surge protectors, proper disposal",due:"2026-09-08",type:"anki",done:false},
+      {id:'p2_4_5q',text:"4.5 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.5 — Environmental Impacts'",due:"2026-09-08",type:"quiz",done:false},
+      {id:'p2_4_6v',text:"4.6 — Watch Messer: Privacy & Licensing",due:"2026-09-09",type:"study",done:false},
+      {id:'p2_4_6a',text:"4.6 — Anki session: PII, GDPR, HIPAA, software licensing types, DRM",due:"2026-09-09",type:"anki",done:false},
+      {id:'p2_4_6q',text:"4.6 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.6 — Privacy & Licensing'",due:"2026-09-09",type:"quiz",done:false},
+      {id:'p2_4_7v',text:"4.7 — Watch Messer: Communication & Professionalism",due:"2026-09-10",type:"study",done:false},
+      {id:'p2_4_7a',text:"4.7 — Anki session: Professional communication, escalation, documentation best practices",due:"2026-09-10",type:"anki",done:false},
+      {id:'p2_4_7q',text:"4.7 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.7 — Communication'",due:"2026-09-10",type:"quiz",done:false},
+      {id:'p2_4_8v',text:"4.8 — Watch Messer: Scripting Basics",due:"2026-09-11",type:"study",done:false},
+      {id:'p2_4_8a',text:"4.8 — Anki session: PowerShell, Python, batch files, bash — when each is used",due:"2026-09-11",type:"anki",done:false},
+      {id:'p2_4_8q',text:"4.8 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.8 — Scripting'",due:"2026-09-11",type:"quiz",done:false},
+      {id:'p2_4_9v',text:"4.9 — Watch Messer: Remote Access Technologies",due:"2026-09-12",type:"study",done:false},
+      {id:'p2_4_9a',text:"4.9 — Anki session: RDP, SSH, VNC, VPN, remote monitoring tools",due:"2026-09-12",type:"anki",done:false},
+      {id:'p2_4_9q',text:"4.9 — SECTION QUIZ: Message Claude 'Quiz me on Core 2 section 4.9 — Remote Access'",due:"2026-09-12",type:"quiz",done:false},
+      {id:'p2_d4_quiz',text:"DOMAIN 4 QUIZ — Message Claude 'Quiz me on Core 2 Domain 4 — all sections 4.1-4.9 + review all Core 1 & Core 2 Domains 1-3'",due:"2026-09-13",type:"quiz",done:false},
+      {id:'p2_review1',text:"REVIEW — Full Core 2 notes review — flag anything still fuzzy",due:"2026-09-13",type:"study",done:false},
+      {id:'p2_review2',text:"REVIEW — Final Anki session: run through all Core 2 decks end to end",due:"2026-09-13",type:"anki",done:false},
+      {id:'p2_review3',text:"REVIEW — Check off every topic in the 220-1202 objectives PDF",due:"2026-09-14",type:"study",done:false}
     ],
     resources:[
       {id:'r2_0',name:"Professor Messer — A+ Core 2 (220-1202) Free Course",url:"https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/",tag:"free",note:"Same approach as Core 1 — watch + active recall"},
@@ -853,10 +1000,13 @@ function renderTasks(phaseIdx){
     const due=task.due&&!task.done&&task.due>=today;
     const badges=[];
     if(task.type==='exam')badges.push('<span class="badge badge-exam">Exam</span>');
+    else if(task.type==='anki')badges.push('<span class="badge badge-anki">Anki</span>');
+    else if(task.type==='quiz')badges.push('<span class="badge badge-quiz">Quiz</span>');
     else if(task.type==='study')badges.push('<span class="badge badge-study">Study</span>');
     if(overdue)badges.push(`<span class="badge badge-overdue">Overdue · ${task.due}</span>`);
     else if(due)badges.push(`<span class="badge badge-due">Due ${task.due}</span>`);
     if(task.gcalId)badges.push('<span class="badge badge-synced">✓ In Calendar</span>');
+    if(task.done&&task.completedOn)badges.push(`<span class="badge badge-completed">✓ ${task.completedOn}</span>`);
     const row=document.createElement('div');row.className='task-item';row.id='task-row-'+task.id;
     row.innerHTML=`
       <div class="task-check${task.done?' done':''}" onclick="toggleTask(${phaseIdx},'${task.id}')"></div>
@@ -874,7 +1024,10 @@ function renderTasks(phaseIdx){
 
 function toggleTask(phaseIdx,taskId){
   const task=data.phases[phaseIdx].tasks.find(t=>t.id===taskId);if(!task)return;
-  task.done=!task.done;saveData();renderTasks(phaseIdx);updateSidebar();
+  task.done=!task.done;
+  if(task.done){task.completedOn=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+  else{delete task.completedOn;}
+  saveData();renderTasks(phaseIdx);updateSidebar();
   const ph=data.phases[phaseIdx];
   const done=ph.tasks.filter(t=>t.done).length;const all=ph.tasks.length;
   const pct=all?Math.round(done/all*100):0;
@@ -899,6 +1052,8 @@ function openAddTask(phaseIdx){
     <div class="form-group"><label class="form-label">Type</label>
       <select class="form-select" id="mi-type">
         <option value="study">Study</option>
+        <option value="anki">Anki</option>
+        <option value="quiz">Quiz</option>
         <option value="exam">Exam</option>
       </select>
     </div>`;
@@ -1012,14 +1167,17 @@ function renderAllTasks(){
       if(activeFilter==='todo'&&task.done)return;
       if(activeFilter==='done'&&!task.done)return;
       if(activeFilter==='exam'&&!isExam)return;
+      if(activeFilter==='anki'&&task.type!=='anki')return;
+      if(activeFilter==='quiz'&&task.type!=='quiz')return;
       if(activeFilter==='due'&&!hasDue)return;
       if(activeFilter==='overdue'&&!overdue)return;
       const row=document.createElement('div');row.className='all-task-row';
       const badges=[];
       if(isExam)badges.push('<span class="badge badge-exam">Exam</span>');
+      else if(task.type==='anki')badges.push('<span class="badge badge-anki">Anki</span>');
       if(overdue)badges.push(`<span class="badge badge-overdue">Overdue · ${task.due}</span>`);
       else if(hasDue&&!task.done)badges.push(`<span class="badge badge-due">Due ${task.due}</span>`);
-      if(task.done)badges.push('<span class="badge badge-done">Done</span>');
+      if(task.done)badges.push(`<span class="badge badge-done">Done ${task.completedOn?'· '+task.completedOn:''}</span>`);
       row.innerHTML=`
         <div class="task-check${task.done?' done':''}" onclick="toggleTaskGlobal(${i},'${task.id}',this)"></div>
         <div class="task-content">
@@ -1034,7 +1192,10 @@ function renderAllTasks(){
 
 function toggleTaskGlobal(phaseIdx,taskId,checkEl){
   const task=data.phases[phaseIdx].tasks.find(t=>t.id===taskId);if(!task)return;
-  task.done=!task.done;saveData();updateSidebar();renderAllTasks();
+  task.done=!task.done;
+  if(task.done){task.completedOn=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+  else{delete task.completedOn;}
+  saveData();updateSidebar();renderAllTasks();
 }
 
 // ============================================================
