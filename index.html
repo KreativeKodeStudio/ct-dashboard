@@ -6,13 +6,12 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Creative Technologist — Learning Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Healthcare IT — Certification Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
 const firebaseConfig = {
   apiKey: "AIzaSyDNQ1W9ogjQ5KDO_JN17_qz13q7ni2bXMg",
   authDomain: "ct-dashboard-roadmap-98b8a.firebaseapp.com",
@@ -21,12 +20,11 @@ const firebaseConfig = {
   messagingSenderId: "999607724703",
   appId: "1:999607724703:web:87100408f189f7e57150aa"
 };
-
 const fbApp = initializeApp(firebaseConfig);
 const db = getFirestore(fbApp);
 window._db = db;
 window._fbReady = true;
-window._firestoreDoc = doc(db, 'users', 'kreativekodestudio');
+window._firestoreDoc = doc(db, 'users', 'kreativekodestudio-hit');
 window._getDoc = getDoc;
 window._setDoc = setDoc;
 window._onSnapshot = onSnapshot;
@@ -43,26 +41,30 @@ window._onSnapshot = onSnapshot;
   --blue:#5b9cf0;--blue-dim:rgba(91,156,240,0.12);
   --pink:#d47ec8;--pink-dim:rgba(212,126,200,0.12);
   --green:#6abf69;--green-dim:rgba(106,191,105,0.12);
+  --red:#e06f7c;--red-dim:rgba(224,111,124,0.12);
   --radius:10px;--radius-lg:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(124,111,224,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(124,111,224,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:99px;}
 h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
-.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh;position:relative;z-index:1;}
+
 /* SIDEBAR */
 .sidebar{background:var(--surface);border-right:1px solid var(--border);padding:2rem 1.25rem;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:1.5rem;}
-.logo h1{font-size:16px;font-weight:700;letter-spacing:-0.02em;}
-.logo p{font-size:11px;color:var(--text3);margin-top:3px;}
-.sb-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
+.logo h1{font-size:15px;font-weight:700;letter-spacing:-0.02em;color:var(--purple-light);}
+.logo p{font-size:11px;color:var(--text3);margin-top:3px;font-family:'DM Mono',monospace;}
+.sb-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-family:'DM Mono',monospace;}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius);cursor:pointer;transition:background 0.15s;color:var(--text2);font-size:13px;border:none;background:none;width:100%;text-align:left;}
 .nav-item:hover{background:var(--surface2);color:var(--text);}
 .nav-item.active{background:var(--purple-dim);color:var(--purple-light);}
 .nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.nav-pct{margin-left:auto;font-size:11px;opacity:0.7;}
+.nav-pct{margin-left:auto;font-size:11px;opacity:0.7;font-family:'DM Mono',monospace;}
+
 /* GOOGLE AUTH */
 .gauth-bar{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;}
-.gauth-bar.connected{border-color:rgba(62,207,170,0.3);}
+.gauth-bar.connected{border-color:rgba(124,111,224,0.3);}
 .gauth-status{display:flex;align-items:center;gap:8px;color:var(--text2);margin-bottom:6px;font-size:12px;}
 .gauth-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background 0.3s;}
 .gauth-dot.on{background:var(--teal);}
@@ -71,25 +73,29 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 .gauth-btn:hover{background:var(--surface3);color:var(--text);}
 .gauth-btn.primary{background:var(--purple-dim);color:var(--purple-light);border-color:var(--purple);}
 .gauth-hint{font-size:10px;color:var(--text3);margin-top:6px;line-height:1.5;}
-/* OVERALL STATS */
+
+/* STATS */
 .overall-mini{margin-top:auto;}
-.overall-mini-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:6px;}
+.overall-mini-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:6px;font-family:'DM Mono',monospace;}
 .mini-bar-track{background:var(--surface3);border-radius:99px;height:6px;overflow:hidden;}
 .mini-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--teal));transition:width 0.6s ease;}
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 .stat-mini{background:var(--surface2);border-radius:var(--radius);padding:10px 12px;border:1px solid var(--border);}
-.stat-mini-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;}
-.stat-mini-label{font-size:10px;color:var(--text3);margin-top:2px;}
+.stat-mini-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--purple-light);}
+.stat-mini-label{font-size:10px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace;}
+
 /* MAIN */
 .main{padding:2rem 2rem 4rem;overflow-y:auto;}
 .page{display:none;}.page.active{display:block;}
 .page-header{margin-bottom:2rem;}
 .page-header h2{font-size:24px;font-weight:700;letter-spacing:-0.02em;}
 .page-header p{font-size:13px;color:var(--text2);margin-top:4px;}
+
 /* QUOTE */
 .quote-banner{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;}
 .quote-banner p{font-size:13px;color:var(--text2);font-style:italic;line-height:1.7;}
-.quote-banner span{font-size:11px;color:var(--text3);display:block;margin-top:4px;}
+.quote-banner span{font-size:11px;color:var(--text3);display:block;margin-top:4px;font-family:'DM Mono',monospace;}
+
 /* PHASE CARDS */
 .phase-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:12px;overflow:hidden;transition:border-color 0.2s;}
 .phase-card:hover{border-color:var(--border2);}
@@ -97,7 +103,7 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 .phase-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;flex-shrink:0;}
 .phase-info{flex:1;}
 .phase-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.phase-meta{font-size:12px;color:var(--text3);margin-top:2px;}
+.phase-meta{font-size:12px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace;}
 .phase-right{display:flex;align-items:center;gap:12px;}
 .phase-pct-text{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
 .chevron{color:var(--text3);font-size:12px;transition:transform 0.2s;}
@@ -106,12 +112,14 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 .phase-progress-fill{height:100%;transition:width 0.5s ease;}
 .phase-body{display:none;padding:0 20px 20px;}
 .phase-body.open{display:block;}
+
 /* TABS */
 .tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid var(--border);}
 .tab-btn{padding:8px 14px;font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;transition:color 0.15s;}
 .tab-btn:hover{color:var(--text2);}
 .tab-btn.active{color:var(--text);border-bottom-color:var(--purple);}
 .tab-panel{display:none;}.tab-panel.active{display:block;}
+
 /* TASKS */
 .task-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
 .task-item:last-of-type{border-bottom:none;}
@@ -127,37 +135,40 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 .task-item:hover .task-actions{opacity:1;}
 .task-action-btn{color:var(--text3);background:none;border:none;cursor:pointer;font-size:13px;padding:2px 5px;border-radius:4px;line-height:1;transition:background 0.15s,color 0.15s;}
 .task-action-btn:hover{background:var(--surface3);color:var(--text);}
-.task-action-btn.del:hover{color:var(--coral);}
+.task-action-btn.del:hover{color:var(--red);}
+
 /* BADGES */
-.badge{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:500;display:inline-flex;align-items:center;}
+.badge{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:500;display:inline-flex;align-items:center;font-family:'DM Mono',monospace;}
 .badge-active{background:var(--teal-dim);color:var(--teal);}
 .badge-upcoming{background:var(--surface3);color:var(--text3);}
 .badge-done{background:var(--purple-dim);color:var(--purple-light);}
 .badge-due{background:var(--amber-dim);color:var(--amber);}
-.badge-overdue{background:var(--coral-dim);color:var(--coral);}
-.badge-synced{background:var(--teal-dim);color:var(--teal);}
-.badge-assignment{background:var(--pink-dim);color:var(--pink);}
+.badge-overdue{background:var(--red-dim);color:var(--red);}
+.badge-synced{background:var(--blue-dim);color:var(--blue);}
+.badge-exam{background:var(--coral-dim);color:var(--coral);}
+.badge-study{background:var(--purple-dim);color:var(--purple-light);}
+
 /* RESOURCES */
 .resource-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
 .resource-item:last-of-type{border-bottom:none;}
-.res-tag-pill{font-size:10px;padding:3px 8px;border-radius:99px;font-weight:500;flex-shrink:0;margin-top:1px;}
+.res-tag-pill{font-size:10px;padding:3px 8px;border-radius:99px;font-weight:500;flex-shrink:0;margin-top:1px;font-family:'DM Mono',monospace;}
 .tag-free{background:var(--teal-dim);color:var(--teal);}
 .tag-video{background:var(--blue-dim);color:var(--blue);}
-.tag-book{background:var(--amber-dim);color:var(--amber);}
-.tag-article{background:var(--pink-dim);color:var(--pink);}
-.tag-tool{background:var(--green-dim);color:var(--green);}
 .tag-paid{background:var(--coral-dim);color:var(--coral);}
-.tag-document{background:var(--purple-dim);color:var(--purple-light);}
+.tag-tool{background:var(--teal-dim);color:var(--teal);}
+.tag-community{background:var(--amber-dim);color:var(--amber);}
+.tag-exam{background:var(--red-dim);color:var(--red);}
 .resource-info{flex:1;min-width:0;}
 .resource-link{font-size:13px;color:var(--blue);text-decoration:none;font-weight:500;word-break:break-all;}
 .resource-link:hover{text-decoration:underline;}
 .resource-note{font-size:11px;color:var(--text3);margin-top:2px;}
 .resource-del{color:var(--text3);background:none;border:none;cursor:pointer;font-size:16px;padding:0 4px;opacity:0;transition:opacity 0.15s;flex-shrink:0;}
 .resource-item:hover .resource-del{opacity:1;}
-.resource-del:hover{color:var(--coral);}
+.resource-del:hover{color:var(--red);}
+
 /* FORMS */
 .form-group{margin-bottom:12px;}
-.form-label{font-size:11px;color:var(--text3);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:0.05em;}
+.form-label{font-size:11px;color:var(--text3);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:0.05em;font-family:'DM Mono',monospace;}
 .form-input{width:100%;padding:8px 12px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.15s;}
 .form-input:focus{border-color:var(--purple);}
 .form-input::placeholder{color:var(--text3);}
@@ -170,54 +181,58 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 .btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}
 .btn-ghost:hover{background:var(--surface2);color:var(--text);}
 .btn-sm{padding:5px 10px;font-size:11px;}
-/* UPLOAD PROGRESS */
-.upload-prog{background:var(--surface3);border-radius:99px;height:4px;margin-top:8px;overflow:hidden;display:none;}
-.upload-prog-fill{height:100%;background:var(--teal);border-radius:99px;transition:width 0.4s;}
+
 /* CALENDAR */
 .cal-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;}
 .cal-month-label{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;flex:1;}
 .cal-nav{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 14px;color:var(--text2);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;}
 .cal-nav:hover{background:var(--surface2);color:var(--text);}
-.cal-sync-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius);border:1px solid rgba(62,207,170,0.3);background:var(--teal-dim);color:var(--teal);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;}
+.cal-sync-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius);border:1px solid rgba(124,111,224,0.3);background:var(--purple-dim);color:var(--purple-light);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;}
 .cal-sync-btn:hover{opacity:0.85;}
 .cal-sync-btn:disabled{opacity:0.4;cursor:default;}
 .cal-legend{display:none;margin-bottom:10px;font-size:11px;color:var(--text3);gap:16px;align-items:center;flex-wrap:wrap;}
 .cal-legend.show{display:flex;}
 .legend-dot{width:10px;height:10px;border-radius:2px;display:inline-block;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-day-label{text-align:center;font-size:11px;color:var(--text3);padding:4px;}
+.cal-day-label{text-align:center;font-size:11px;color:var(--text3);padding:4px;font-family:'DM Mono',monospace;}
 .cal-cell{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);min-height:76px;padding:6px;}
 .cal-cell.today{border-color:var(--purple);}
 .cal-cell.empty{background:transparent;border-color:transparent;}
-.cal-date{font-size:11px;color:var(--text3);margin-bottom:4px;font-weight:500;}
+.cal-date{font-size:11px;color:var(--text3);margin-bottom:4px;font-weight:500;font-family:'DM Mono',monospace;}
 .cal-date.today-num{color:var(--purple-light);font-weight:700;}
 .cal-ev{font-size:10px;padding:2px 5px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .cal-ev-gcal{font-size:10px;padding:2px 5px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:rgba(66,133,244,0.15);color:#6fa3f7;border-left:2px solid #4285f4;}
+
 /* ALL TASKS */
 .filter-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;}
 .filter-btn{padding:6px 14px;border-radius:99px;font-size:12px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
 .filter-btn:hover{background:var(--surface2);color:var(--text);}
-.filter-btn.active{background:var(--purple-dim);color:var(--purple-light);border-color:var(--purple);}
+.filter-btn.active{background:var(--green-dim);color:var(--green);border-color:var(--purple-light);}
 .all-task-row{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;}
 .all-task-row:hover{border-color:var(--border2);}
-.phase-tag{font-size:10px;padding:3px 8px;border-radius:99px;white-space:nowrap;font-weight:500;}
+.phase-tag{font-size:10px;padding:3px 8px;border-radius:99px;white-space:nowrap;font-weight:500;font-family:'DM Mono',monospace;}
+
+/* EXAM CALLOUT */
+.exam-callout{background:var(--surface2);border-left:3px solid var(--purple);padding:14px 18px;margin-top:16px;border-radius:0 var(--radius) var(--radius) 0;}
+.exam-callout h4{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--purple-light);margin-bottom:4px;}
+.exam-callout p{font-size:12px;color:var(--text2);line-height:1.6;}
+
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
 .modal h3{font-size:16px;font-weight:600;margin-bottom:1rem;font-family:'Syne',sans-serif;}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem;}
-/* INFO BOX */
-.info-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:14px;}
-/* TOAST */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 16px;font-size:13px;color:var(--text);z-index:2000;opacity:0;transition:opacity 0.3s;pointer-events:none;max-width:320px;}
-.toast.show{opacity:1;}
-.toast.success{border-color:rgba(62,207,170,0.4);color:var(--teal);}
-.toast.error{border-color:rgba(224,111,124,0.4);color:var(--coral);}
+
 /* MISC */
 .glow-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
 .empty-state{text-align:center;padding:2rem;color:var(--text3);font-size:13px;}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 16px;font-size:13px;color:var(--text);z-index:2000;opacity:0;transition:opacity 0.3s;pointer-events:none;max-width:320px;}
+.toast.show{opacity:1;}
+.toast.success{border-color:rgba(61,255,160,0.4);color:var(--purple-light);}
+.toast.error{border-color:rgba(255,107,107,0.4);color:var(--red);}
+.drive-status{display:none;font-size:10px;color:var(--teal);margin-top:6px;}
 @media(max-width:768px){.app{grid-template-columns:1fr;}.sidebar{height:auto;position:relative;}.main{padding:1rem;}}
 </style>
 </head>
@@ -227,8 +242,8 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
-    <h1>CT Dashboard</h1>
-    <p>Creative Technologist Roadmap</p>
+    <h1>HIT Dashboard</h1>
+    <p>// Healthcare IT Certification Path</p>
   </div>
 
   <div>
@@ -253,7 +268,7 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
       <div class="gauth-name" id="gauth-name" style="display:none;"></div>
       <button class="gauth-btn primary" id="gauth-btn" onclick="handleGoogleAuth()">Connect Google Account</button>
       <div class="gauth-hint">Enables Firebase sync across all devices and Google Calendar.</div>
-      <div id="drive-status" style="display:none;font-size:10px;color:var(--teal);margin-top:6px;"></div>
+      <div class="drive-status" id="drive-status"></div>
     </div>
   </div>
 
@@ -273,8 +288,8 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
   <!-- OVERVIEW PAGE -->
   <div class="page active" id="page-overview">
     <div class="page-header">
-      <h2>My Learning Roadmap <span class="glow-dot" style="margin-left:6px;"></span></h2>
-      <p>Where code meets canvas and imagination becomes reality. Every skill I learn is a brushstroke on the world I was born to create.</p>
+      <h2>My Certification Roadmap <span class="glow-dot" style="margin-left:6px;"></span></h2>
+      <p>CompTIA A+ → Network+ → Security+ → Healthcare Cybersecurity. Every task completed is a step toward the career and life I'm building.</p>
     </div>
     <div class="quote-banner">
       <p id="quote-text"></p>
@@ -287,31 +302,29 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
   <div class="page" id="page-calendar">
     <div class="page-header">
       <h2>Calendar</h2>
-      <p>Your due dates plus Google Calendar events in one place.</p>
+      <p>Your study milestones and exam dates in one place.</p>
     </div>
     <div class="cal-toolbar">
       <button class="cal-nav" onclick="calPrev()">&#8592;</button>
       <div class="cal-month-label" id="cal-month-label"></div>
       <button class="cal-nav" onclick="calNext()">&#8594;</button>
-      <button class="cal-sync-btn" id="cal-sync-btn" onclick="syncCalendar()" disabled>
-        &#x21BB; Sync Google Calendar
-      </button>
+      <button class="cal-sync-btn" id="cal-sync-btn" onclick="syncCalendar()" disabled>&#x21BB; Sync Google Calendar</button>
     </div>
     <div class="cal-legend" id="cal-legend">
       <span style="display:flex;align-items:center;gap:5px;"><span class="legend-dot" style="background:var(--purple-dim);border-left:2px solid var(--purple);"></span> Dashboard tasks</span>
-      <span style="display:flex;align-items:center;gap:5px;"><span class="legend-dot" style="background:rgba(66,133,244,0.15);border-left:2px solid #4285f4;"></span> Google Calendar events</span>
+      <span style="display:flex;align-items:center;gap:5px;"><span class="legend-dot" style="background:rgba(66,133,244,0.15);border-left:2px solid #4285f4;"></span> Google Calendar</span>
     </div>
     <div class="cal-grid" id="cal-grid"></div>
   </div>
 
   <!-- ALL TASKS PAGE -->
   <div class="page" id="page-alltasks">
-    <div class="page-header"><h2>All Tasks</h2><p>Every task and assignment across all phases.</p></div>
+    <div class="page-header"><h2>All Tasks</h2><p>Every study task and milestone across all phases.</p></div>
     <div class="filter-row">
       <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
       <button class="filter-btn" onclick="setFilter('todo',this)">To do</button>
       <button class="filter-btn" onclick="setFilter('done',this)">Completed</button>
-      <button class="filter-btn" onclick="setFilter('assignment',this)">Assignments</button>
+      <button class="filter-btn" onclick="setFilter('exam',this)">Exams</button>
       <button class="filter-btn" onclick="setFilter('due',this)">Has due date</button>
       <button class="filter-btn" onclick="setFilter('overdue',this)">Overdue</button>
     </div>
@@ -333,7 +346,6 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -341,7 +353,7 @@ h1,h2,h3,.phase-title{font-family:'Syne',sans-serif;}
 // CONFIG
 // ============================================================
 const CLIENT_ID = '432548122852-9a1cd4mh5ekgjq1k2dru4lusqi3ns5q3.apps.googleusercontent.com';
-const SCOPES = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar';
+const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
 // ============================================================
 // COLORS & QUOTES
@@ -354,343 +366,169 @@ const PC = [
   {c:'#5b9cf0',bg:'rgba(91,156,240,0.15)'},
   {c:'#e06f7c',bg:'rgba(224,111,124,0.15)'}
 ];
+
 const QUOTES = [
-  {t:"You are not learning someone else's craft. You are learning the language your vision has always spoken.",a:"for the builder"},
-  {t:"Every line of code you write is a seed. Every design you finish is a bloom. You are growing something wild and singular.",a:"Kreative Kode Studio"},
-  {t:"The world you see in your head already exists. You are simply learning to build the door.",a:"on creative vision"},
-  {t:"You are doing this while growing a life inside you. That is not a disadvantage. That is power.",a:"for the mom and the maker"},
-  {t:"The tools are just brushes. The darkness in your aesthetic is the canvas. You already know what to paint.",a:"on your voice"},
-  {t:"Rest is not stopping. Rest is how the roots grow deeper before the next bloom.",a:"on the hard days"},
-  {t:"One year from now you will have built worlds. Start with one line. One shape. One sketch.",a:"Kreative Kode Studio"}
+  {t:"You are building a career that supports your family, on your own terms and your own timeline. That is not ambition — that is love made into action.",a:"for the mom and the maker"},
+  {t:"A certified Healthcare IT Technician with 10 years of banking operations experience is not an entry-level candidate. She is a standout one.",a:"on your background"},
+  {t:"Every flashcard you flip, every video you watch, every note you take is a brick in the foundation of a life you are building from scratch. Keep laying bricks.",a:"on consistency"},
+  {t:"You used active recall and spaced repetition to pass the ASVAB. You already know how to learn hard things. This is just the next hard thing.",a:"on what you already know"},
+  {t:"Rest is not stopping. Rest is how the roots grow deeper before the next bloom. Study five days, rest two, and trust the process.",a:"on the hard days"},
+  {t:"You are doing this while growing a life inside you. That is not a disadvantage. That is extraordinary power.",a:"for the second trimester grind"},
+  {t:"One year from now you will be in a hospital, a clinic, a healthcare network — solving real problems for real people. Start with one Messer video.",a:"on the long game"}
 ];
 
 // ============================================================
 // DEFAULT DATA
 // ============================================================
 const DEF = {phases:[
-  {id:0,title:"Phase 1 — HTML & CSS",dur:"3 months (Apr 7 – Jul 7)",status:"active",affirmation:"Every website you've ever been moved by started with the same tags you're learning right now. The foundation you build here holds everything else up.",tasks:[
-
-    {id:'t0_m1a',text:"MODULE 1 — HTML Foundations: Complete all lessons",due:"2026-04-09",type:"task",done:false},
-    {id:'t0_m1b',text:"MODULE 1 — Workshop: Build a Cat Photo App",due:"2026-04-11",type:"assignment",done:false},
-    {id:'t0_m1c',text:"MODULE 1 — Complete the HTML Lab",due:"2026-04-13",type:"assignment",done:false},
-    {id:'t0_m1d',text:"MODULE 1 — Pass the quiz (18/20)",due:"2026-04-14",type:"assignment",done:false},
-
-    {id:'t0_m2a',text:"MODULE 2 — CSS Foundations: Complete all lessons",due:"2026-04-17",type:"task",done:false},
-    {id:'t0_m2b',text:"MODULE 2 — Workshop: Build a Cafe Menu",due:"2026-04-20",type:"assignment",done:false},
-    {id:'t0_m2c',text:"MODULE 2 — Complete the CSS Lab",due:"2026-04-22",type:"assignment",done:false},
-    {id:'t0_m2d',text:"MODULE 2 — Pass the quiz (18/20)",due:"2026-04-23",type:"assignment",done:false},
-
-    {id:'t0_m3a',text:"MODULE 3 — HTML Forms: Complete all lessons",due:"2026-04-26",type:"task",done:false},
-    {id:'t0_m3b',text:"MODULE 3 — Workshop: Build a Registration Form",due:"2026-04-28",type:"assignment",done:false},
-    {id:'t0_m3c',text:"MODULE 3 — Complete the Forms Lab",due:"2026-04-30",type:"assignment",done:false},
-    {id:'t0_m3d',text:"MODULE 3 — Pass the quiz (18/20)",due:"2026-05-01",type:"assignment",done:false},
-
-    {id:'t0_p1',text:"CERTIFICATION PROJECT 1 — Build a Survey Form",due:"2026-05-05",type:"assignment",done:false},
-
-    {id:'t0_m4a',text:"MODULE 4 — Box Model & Typography: Complete all lessons",due:"2026-05-08",type:"task",done:false},
-    {id:'t0_m4b',text:"MODULE 4 — Workshop: Build a Rothko Painting",due:"2026-05-11",type:"assignment",done:false},
-    {id:'t0_m4c',text:"MODULE 4 — Complete the Box Model Lab",due:"2026-05-13",type:"assignment",done:false},
-    {id:'t0_m4d',text:"MODULE 4 — Pass the quiz (18/20)",due:"2026-05-14",type:"assignment",done:false},
-
-    {id:'t0_m5a',text:"MODULE 5 — CSS Flexbox: Complete all lessons",due:"2026-05-18",type:"task",done:false},
-    {id:'t0_m5b',text:"MODULE 5 — Workshop: Build a Photo Gallery",due:"2026-05-20",type:"assignment",done:false},
-    {id:'t0_m5c',text:"MODULE 5 — Complete the Flexbox Lab",due:"2026-05-22",type:"assignment",done:false},
-    {id:'t0_m5d',text:"MODULE 5 — Pass the quiz (18/20)",due:"2026-05-23",type:"assignment",done:false},
-
-    {id:'t0_p2',text:"CERTIFICATION PROJECT 2 — Build a Tribute Page",due:"2026-05-27",type:"assignment",done:false},
-
-    {id:'t0_m6a',text:"MODULE 6 — Typography & Accessibility: Complete all lessons",due:"2026-05-29",type:"task",done:false},
-    {id:'t0_m6b',text:"MODULE 6 — Workshop: Build a Nutrition Label",due:"2026-06-01",type:"assignment",done:false},
-    {id:'t0_m6c',text:"MODULE 6 — Complete the Accessibility Lab",due:"2026-06-03",type:"assignment",done:false},
-    {id:'t0_m6d',text:"MODULE 6 — Pass the quiz (18/20)",due:"2026-06-04",type:"assignment",done:false},
-
-    {id:'t0_m7a',text:"MODULE 7 — Pseudo Selectors: Complete all lessons",due:"2026-06-08",type:"task",done:false},
-    {id:'t0_m7b',text:"MODULE 7 — Workshop: Build a Quiz Page",due:"2026-06-10",type:"assignment",done:false},
-    {id:'t0_m7c',text:"MODULE 7 — Complete the Pseudo Selectors Lab",due:"2026-06-12",type:"assignment",done:false},
-    {id:'t0_m7d',text:"MODULE 7 — Pass the quiz (18/20)",due:"2026-06-13",type:"assignment",done:false},
-
-    {id:'t0_p3',text:"CERTIFICATION PROJECT 3 — Build a Technical Documentation Page",due:"2026-06-17",type:"assignment",done:false},
-
-    {id:'t0_m8a',text:"MODULE 8 — Responsive Design & Media Queries: Complete all lessons",due:"2026-06-19",type:"task",done:false},
-    {id:'t0_m8b',text:"MODULE 8 — Workshop: Build a Balance Sheet",due:"2026-06-22",type:"assignment",done:false},
-    {id:'t0_m8c',text:"MODULE 8 — Complete the Responsive Design Lab",due:"2026-06-24",type:"assignment",done:false},
-    {id:'t0_m8d',text:"MODULE 8 — Pass the quiz (18/20)",due:"2026-06-25",type:"assignment",done:false},
-
-    {id:'t0_m9a',text:"MODULE 9 — CSS Grid: Complete all lessons",due:"2026-06-29",type:"task",done:false},
-    {id:'t0_m9b',text:"MODULE 9 — Workshop: Build a Magazine Layout",due:"2026-07-01",type:"assignment",done:false},
-    {id:'t0_m9c',text:"MODULE 9 — Complete the CSS Grid Lab",due:"2026-07-03",type:"assignment",done:false},
-    {id:'t0_m9d',text:"MODULE 9 — Pass the quiz (18/20)",due:"2026-07-06",type:"assignment",done:false},
-
-    {id:'t0_p4',text:"CERTIFICATION PROJECT 4 — Build a Product Landing Page",due:"2026-07-08",type:"assignment",done:false},
-
-    {id:'t0_m10a',text:"MODULE 10 — CSS Animations & Variables: Complete all lessons",due:"2026-07-10",type:"task",done:false},
-    {id:'t0_m10b',text:"MODULE 10 — Workshop: Build a Ferris Wheel",due:"2026-07-13",type:"assignment",done:false},
-    {id:'t0_m10c',text:"MODULE 10 — Complete the Animations Lab",due:"2026-07-15",type:"assignment",done:false},
-    {id:'t0_m10d',text:"MODULE 10 — Pass the quiz (18/20)",due:"2026-07-16",type:"assignment",done:false},
-
-    {id:'t0_p5',text:"CERTIFICATION PROJECT 5 — Build your Personal Portfolio Page",due:"2026-07-20",type:"assignment",done:false},
-    {id:'t0_exam',text:"FINAL EXAM — 50 questions, need 90% to pass",due:"2026-07-22",type:"assignment",done:false},
-    {id:'t0_cert',text:"Claim your freeCodeCamp Responsive Web Design Certificate!",due:"2026-07-22",type:"assignment",done:false},
-    {id:'t0_git',text:"Push all completed projects to GitHub under KreativeKodeStudio",due:"2026-07-24",type:"task",done:false},
-    {id:'t0_beh',text:"Post your portfolio page and 2 best projects to Behance",due:"2026-07-27",type:"assignment",done:false}
-
-  ],resources:[
-    {id:'r0_0',name:"freeCodeCamp — Responsive Web Design V9",url:"https://www.freecodecamp.org/learn/responsive-web-design-v9/",tag:"free",note:"Start here — current version"},
-    {id:'r0_1',name:"CSS Tricks — Complete Guide to Flexbox",url:"https://css-tricks.com/snippets/css/a-guide-to-flexbox/",tag:"free",note:"Reference"},
-    {id:'r0_2',name:"Kevin Powell — CSS YouTube Channel",url:"https://www.youtube.com/@KevinPowell",tag:"video",note:"Best CSS teacher on YouTube"},
-    {id:'r0_3',name:"MDN Web Docs",url:"https://developer.mozilla.org/en-US/docs/Web/HTML",tag:"free",note:"Always keep open"}
-  ]},
-  {id:1,title:"Phase 2 — Figma + UX Thinking",dur:"2 months (Jul 28 – Sep 30)",status:"upcoming",affirmation:"Your eye for beauty is not something you learned. It is something you were born with. This phase is just giving it a language.",tasks:[
-
-    {id:'t1_w1a',text:"WEEK 1 — Complete Figma beginner course on learn.figma.com",due:"2026-07-30",type:"task",done:false},
-    {id:'t1_w1b',text:"WEEK 1 — Learn frames, layers, and basic shapes in Figma",due:"2026-07-31",type:"task",done:false},
-    {id:'t1_w1c',text:"WEEK 1 — Recreate a simple layout you admire in Figma",due:"2026-08-01",type:"assignment",done:false},
-
-    {id:'t1_w2a',text:"WEEK 2 — Learn Figma components and auto layout",due:"2026-08-04",type:"task",done:false},
-    {id:'t1_w2b',text:"WEEK 2 — Study color theory: palette building and contrast",due:"2026-08-06",type:"task",done:false},
-    {id:'t1_w2c',text:"WEEK 2 — Build a dark theme color palette inspired by your aesthetic",due:"2026-08-08",type:"assignment",done:false},
-
-    {id:'t1_w3a',text:"WEEK 3 — Start Google UX Design Certificate on Coursera (audit free)",due:"2026-08-11",type:"task",done:false},
-    {id:'t1_w3b',text:"WEEK 3 — Learn typography in Figma — font pairing and hierarchy",due:"2026-08-13",type:"task",done:false},
-    {id:'t1_w3c',text:"WEEK 3 — Design a mood board for your psychedelic botanical aesthetic",due:"2026-08-15",type:"assignment",done:false},
-
-    {id:'t1_w4a',text:"WEEK 4 — Complete Google UX Certificate: Foundations of UX module",due:"2026-08-18",type:"task",done:false},
-    {id:'t1_w4b',text:"WEEK 4 — Learn about user flows and wireframing basics",due:"2026-08-20",type:"task",done:false},
-    {id:'t1_w4c',text:"WEEK 4 — Design a low-fidelity wireframe for a 3-screen app concept",due:"2026-08-22",type:"assignment",done:false},
-
-    {id:'t1_w5a',text:"WEEK 5 — Complete Google UX Certificate: Empathize, Define, Ideate module",due:"2026-08-25",type:"task",done:false},
-    {id:'t1_w5b',text:"WEEK 5 — Learn Figma prototyping — link screens and add interactions",due:"2026-08-27",type:"task",done:false},
-    {id:'t1_w5c',text:"WEEK 5 — Design 3 high-fidelity UI screens for an imaginary dark-theme app",due:"2026-08-29",type:"assignment",done:false},
-
-    {id:'t1_w6a',text:"WEEK 6 — Complete Google UX Certificate: Prototyping and Testing module",due:"2026-09-01",type:"task",done:false},
-    {id:'t1_w6b',text:"WEEK 6 — Read The Design of Everyday Things chapters 1–3",due:"2026-09-03",type:"task",done:false},
-    {id:'t1_w6c',text:"WEEK 6 — Add prototype interactions to your 3-screen app design",due:"2026-09-05",type:"assignment",done:false},
-
-    {id:'t1_w7a',text:"WEEK 7 — Read The Design of Everyday Things chapters 4–6",due:"2026-09-08",type:"task",done:false},
-    {id:'t1_w7b',text:"WEEK 7 — Watch Flux Academy: UX design fundamentals playlist",due:"2026-09-10",type:"task",done:false},
-    {id:'t1_w7c',text:"WEEK 7 — Design a landing page concept in your aesthetic in Figma",due:"2026-09-12",type:"assignment",done:false},
-
-    {id:'t1_w8a',text:"WEEK 8 — Polish your 3-screen app — refine colors, type, and spacing",due:"2026-09-15",type:"assignment",done:false},
-    {id:'t1_w8b',text:"WEEK 8 — Write a short case study for your app design (what problem it solves)",due:"2026-09-17",type:"assignment",done:false},
-    {id:'t1_w8c',text:"WEEK 8 — Create a Behance account and study 3 design portfolios you admire",due:"2026-09-19",type:"task",done:false},
-
-    {id:'t1_w9a',text:"WEEK 9 — Export and post your mood board and app screens to Behance",due:"2026-09-22",type:"assignment",done:false},
-    {id:'t1_w9b',text:"WEEK 9 — Post your landing page concept to Behance with process notes",due:"2026-09-24",type:"assignment",done:false},
-    {id:'t1_w9c',text:"WEEK 9 — Phase 2 wrap-up: review everything learned, note gaps to revisit",due:"2026-09-26",type:"task",done:false},
-    {id:'t1_w9d',text:"WEEK 9 — Share your Behance profile link somewhere — you earned it",due:"2026-09-30",type:"assignment",done:false}
-
-  ],resources:[
-    {id:'r1_0',name:"learn.figma.com — Official Figma courses",url:"https://www.figma.com/resources/learn-design/",tag:"free",note:"Start here"},
-    {id:'r1_1',name:"Google UX Design Certificate — Coursera",url:"https://www.coursera.org/professional-certificates/google-ux-design",tag:"free",note:"Audit for free"},
-    {id:'r1_2',name:"Flux Academy — YouTube",url:"https://www.youtube.com/@FluxAcademy",tag:"video",note:"Design thinking & Figma"},
-    {id:'r1_3',name:"DesignCourse — YouTube",url:"https://www.youtube.com/@DesignCourse",tag:"video",note:"UI/UX fundamentals"},
-    {id:'r1_4',name:"The Design of Everyday Things — Don Norman",url:"https://www.amazon.com/Design-Everyday-Things-Revised-Expanded/dp/0465050654",tag:"book",note:"Check local library first"}
-  ]},
-  {id:2,title:"Phase 3 — JavaScript Refresh",dur:"2.5 months (Nov 15 – Jan 29)",status:"upcoming",affirmation:"Every developer you admire hit this exact wall and kept going. So will you.",tasks:[
-
-    {id:'t2_w1a',text:"WEEK 1 — Start freeCodeCamp JS Algorithms & Data Structures",due:"2026-11-17",type:"task",done:false},
-    {id:'t2_w1b',text:"WEEK 1 — Complete: Variables, Data Types, and Basic Operators",due:"2026-11-19",type:"task",done:false},
-
-    {id:'t2_w2a',text:"WEEK 2 — Complete: Functions — declaration, parameters, return values",due:"2026-11-24",type:"task",done:false},
-    {id:'t2_w2b',text:"WEEK 2 — Build a simple tip calculator in the browser console",due:"2026-11-26",type:"assignment",done:false},
-
-    {id:'t2_w3a',text:"WEEK 3 — Complete: Conditionals — if, else, switch statements",due:"2026-12-01",type:"task",done:false},
-    {id:'t2_w3b',text:"WEEK 3 — Complete: Loops — for, while, forEach",due:"2026-12-03",type:"task",done:false},
-
-    {id:'t2_w4a',text:"WEEK 4 — Complete: Arrays — creating, accessing, and manipulating",due:"2026-12-08",type:"task",done:false},
-    {id:'t2_w4b',text:"WEEK 4 — Build a small quiz app using arrays and conditionals",due:"2026-12-10",type:"assignment",done:false},
-
-    {id:'t2_w5a',text:"WEEK 5 — Complete: Objects — properties, methods, and dot notation",due:"2026-12-15",type:"task",done:false},
-    {id:'t2_w5b',text:"WEEK 5 — Complete: ES6 — let, const, arrow functions, template literals",due:"2026-12-17",type:"task",done:false},
-
-    {id:'t2_w6a',text:"WEEK 6 — Complete: DOM Manipulation — selecting and changing elements",due:"2026-12-22",type:"task",done:false},
-    {id:'t2_w6b',text:"WEEK 6 — Complete: Events — addEventListener, click, input, submit",due:"2026-12-24",type:"task",done:false},
-
-    {id:'t2_w7a',text:"WEEK 7 — Build an interactive color palette generator (DOM + events)",due:"2027-01-06",type:"assignment",done:false},
-    {id:'t2_w7b',text:"WEEK 7 — Practice debugging — spend a session intentionally breaking and fixing code",due:"2027-01-08",type:"task",done:false},
-
-    {id:'t2_w8a',text:"WEEK 8 — Complete 10 JS exercises on javascript.info",due:"2027-01-13",type:"task",done:false},
-    {id:'t2_w8b',text:"WEEK 8 — Complete freeCodeCamp JS Basic Algorithm Scripting section",due:"2027-01-15",type:"assignment",done:false},
-
-    {id:'t2_w9a',text:"WEEK 9 — Build a dark-themed interactive quote generator — your aesthetic",due:"2027-01-20",type:"assignment",done:false},
-    {id:'t2_w9b',text:"WEEK 9 — Push all JS projects to GitHub under KreativeKodeStudio",due:"2027-01-22",type:"task",done:false},
-
-    {id:'t2_w10a',text:"WEEK 10 — Review everything: write a cheat sheet of JS concepts in your own words",due:"2027-01-27",type:"task",done:false},
-    {id:'t2_w10b',text:"WEEK 10 — Confirm you can build something small from scratch with no help",due:"2027-01-29",type:"assignment",done:false}
-
-  ],resources:[
-    {id:'r2_0',name:"freeCodeCamp — JS Algorithms & Data Structures",url:"https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/",tag:"free",note:"Main course"},
-    {id:'r2_1',name:"javascript.info — The Modern JS Tutorial",url:"https://javascript.info/",tag:"free",note:"Best written JS reference — keep this open"},
-    {id:'r2_2',name:"The Odin Project — JavaScript path",url:"https://www.theodinproject.com/paths/full-stack-javascript",tag:"free",note:"Project-based alternative if you want extra practice"},
-    {id:'r2_3',name:"Eloquent JavaScript — free online book",url:"https://eloquentjavascript.net/",tag:"free",note:"Great for going deeper on concepts when you're ready"}
-  ]},
-  {id:3,title:"Phase 4 — p5.js Creative Coding",dur:"2 months (Feb 1 – Mar 27)",status:"upcoming",affirmation:"This is where your code stops being functional and starts being alive. Every sketch you make is proof that technology can feel like art.",tasks:[
-
-    {id:'t3_w1a',text:"WEEK 1 — Watch The Coding Train: p5.js intro series (first 5 videos)",due:"2027-02-02",type:"task",done:false},
-    {id:'t3_w1b',text:"WEEK 1 — Set up p5.js editor and complete your first sketch — shapes on dark background",due:"2027-02-04",type:"assignment",done:false},
-    {id:'t3_w1c',text:"WEEK 1 — Learn p5.js draw loop, setup, fill, stroke, and basic shapes",due:"2027-02-06",type:"task",done:false},
-
-    {id:'t3_w2a',text:"WEEK 2 — Learn variables and animation — make shapes move across the canvas",due:"2027-02-09",type:"task",done:false},
-    {id:'t3_w2b',text:"WEEK 2 — Watch The Coding Train: random() and noise() videos",due:"2027-02-11",type:"task",done:false},
-    {id:'t3_w2c',text:"WEEK 2 — Build a sketch: glowing orbs floating on a dark background using noise()",due:"2027-02-13",type:"assignment",done:false},
-
-    {id:'t3_w3a',text:"WEEK 3 — Learn p5.js classes and objects — building a reusable Particle class",due:"2027-02-16",type:"task",done:false},
-    {id:'t3_w3b',text:"WEEK 3 — Watch The Coding Train: particle systems series",due:"2027-02-18",type:"task",done:false},
-    {id:'t3_w3c',text:"WEEK 3 — Build a particle system: organic flowing particles in your color palette",due:"2027-02-20",type:"assignment",done:false},
-
-    {id:'t3_w4a',text:"WEEK 4 — Learn mouse and touch interaction — mouseX, mouseY, mousePressed",due:"2027-02-23",type:"task",done:false},
-    {id:'t3_w4b',text:"WEEK 4 — Add interactivity to your particle system — particles follow or flee the mouse",due:"2027-02-25",type:"assignment",done:false},
-    {id:'t3_w4c',text:"WEEK 4 — Study 3 sketches on OpenProcessing that match your aesthetic — remix one",due:"2027-02-27",type:"assignment",done:false},
-
-    {id:'t3_w5a',text:"WEEK 5 — Learn trigonometry in p5.js — sin(), cos() for circular and wave motion",due:"2027-03-02",type:"task",done:false},
-    {id:'t3_w5b',text:"WEEK 5 — Build an animated botanical sketch — vines or flowers growing using sin/cos",due:"2027-03-04",type:"assignment",done:false},
-    {id:'t3_w5c',text:"WEEK 5 — Learn p5.js color modes — HSB for rich glowing saturated colors",due:"2027-03-06",type:"task",done:false},
-
-    {id:'t3_w6a',text:"WEEK 6 — Build a fully interactive piece: dark canvas, particles, color, mouse interaction",due:"2027-03-09",type:"assignment",done:false},
-    {id:'t3_w6b',text:"WEEK 6 — Learn how to add sound reactivity using p5.sound library",due:"2027-03-11",type:"task",done:false},
-    {id:'t3_w6c',text:"WEEK 6 — Add a sound or click interaction to your interactive piece",due:"2027-03-13",type:"assignment",done:false},
-
-    {id:'t3_w7a',text:"WEEK 7 — PORTFOLIO PIECE: Build an animated illustration in your psychedelic botanical style",due:"2027-03-16",type:"assignment",done:false},
-    {id:'t3_w7b',text:"WEEK 7 — Record a screen capture of your animated piece for Behance",due:"2027-03-18",type:"task",done:false},
-    {id:'t3_w7c',text:"WEEK 7 — Write a short process note: what tools you used and what it represents",due:"2027-03-20",type:"assignment",done:false},
-
-    {id:'t3_w8a',text:"WEEK 8 — Push all p5.js sketches to GitHub under KreativeKodeStudio",due:"2027-03-23",type:"task",done:false},
-    {id:'t3_w8b',text:"WEEK 8 — Post your 2 best sketches to Behance with process notes",due:"2027-03-25",type:"assignment",done:false},
-    {id:'t3_w8c',text:"WEEK 8 — Post your animated illustration to Behance — this is portfolio piece #3",due:"2027-03-27",type:"assignment",done:false}
-
-  ],resources:[
-    {id:'r3_0',name:"The Coding Train — p5.js full playlist",url:"https://www.youtube.com/playlist?list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA",tag:"video",note:"The best resource for this"},
-    {id:'r3_1',name:"p5.js official editor & reference",url:"https://editor.p5js.org/",tag:"free",note:"Code in browser, no setup"},
-    {id:'r3_2',name:"p5.js examples gallery",url:"https://p5js.org/examples/",tag:"free",note:"Study and remix these"},
-    {id:'r3_3',name:"OpenProcessing — community sketches",url:"https://openprocessing.org/",tag:"free",note:"Community inspiration"}
-  ]},
-  {id:4,title:"Phase 5 — Blender 3D",dur:"3 months (Apr 5 – Jul 2)",status:"upcoming",affirmation:"You have been carrying this world in your head since before you knew what to call it. Now you have the tools to sculpt it into existence.",tasks:[
-
-    {id:'t4_w1a',text:"WEEK 1 — Download Blender and complete interface orientation",due:"2027-04-07",type:"task",done:false},
-    {id:'t4_w1b',text:"WEEK 1 — Complete Blender Guru donut tutorial parts 1–3",due:"2027-04-09",type:"task",done:false},
-    {id:'t4_w1c',text:"WEEK 1 — Complete Blender Guru donut tutorial parts 4–6",due:"2027-04-11",type:"task",done:false},
-    {id:'t4_w1d',text:"WEEK 1 — Complete Blender Guru donut tutorial parts 7–9 and render final donut",due:"2027-04-12",type:"assignment",done:false},
-
-    {id:'t4_w2a',text:"WEEK 2 — Learn Blender sculpt mode: basic brushes, clay, smooth, grab",due:"2027-04-15",type:"task",done:false},
-    {id:'t4_w2b',text:"WEEK 2 — Sculpt a simple organic blob form — get comfortable with the tools",due:"2027-04-17",type:"assignment",done:false},
-    {id:'t4_w2c',text:"WEEK 2 — Watch FlippedNormals: introduction to sculpting workflow",due:"2027-04-19",type:"task",done:false},
-    {id:'t4_w2d',text:"WEEK 2 — Sculpt a simple vessel or pot shape inspired by your aesthetic reference",due:"2027-04-20",type:"assignment",done:false},
-
-    {id:'t4_w3a',text:"WEEK 3 — Learn Blender shader editor: principled BSDF, emission, and mix shaders",due:"2027-04-23",type:"task",done:false},
-    {id:'t4_w3b',text:"WEEK 3 — Create a glowing material — saturated color against dark background",due:"2027-04-25",type:"assignment",done:false},
-    {id:'t4_w3c',text:"WEEK 3 — Learn subsurface scattering — makes organic forms look alive",due:"2027-04-27",type:"task",done:false},
-    {id:'t4_w3d',text:"WEEK 3 — Apply shaders to your sculpted vessel — recreate the terracotta and eye look",due:"2027-04-28",type:"assignment",done:false},
-
-    {id:'t4_w4a',text:"WEEK 4 — Learn Blender lighting: point, spot, area lights and HDRI environments",due:"2027-05-01",type:"task",done:false},
-    {id:'t4_w4b',text:"WEEK 4 — Set up a dramatic dark scene — single hero object, moody lighting",due:"2027-05-03",type:"assignment",done:false},
-    {id:'t4_w4c',text:"WEEK 4 — Learn volumetric lighting — god rays and atmospheric glow effects",due:"2027-05-05",type:"task",done:false},
-    {id:'t4_w4d',text:"WEEK 4 — Add volumetric atmosphere to your dark scene",due:"2027-05-06",type:"assignment",done:false},
-
-    {id:'t4_w5a',text:"WEEK 5 — Learn geometry nodes fundamentals: instances, distribute on surface",due:"2027-05-09",type:"task",done:false},
-    {id:'t4_w5b',text:"WEEK 5 — Watch Grant Abbitt: geometry nodes for beginners series",due:"2027-05-11",type:"task",done:false},
-    {id:'t4_w5c',text:"WEEK 5 — Build a procedural vine system using geometry nodes",due:"2027-05-13",type:"assignment",done:false},
-    {id:'t4_w5d',text:"WEEK 5 — Add procedural flowers distributed along your vine system",due:"2027-05-14",type:"assignment",done:false},
-
-    {id:'t4_w6a',text:"WEEK 6 — Learn particle systems in Blender — emitters and hair particles",due:"2027-05-17",type:"task",done:false},
-    {id:'t4_w6b',text:"WEEK 6 — Create a flame or smoke effect using volumetric particles",due:"2027-05-19",type:"assignment",done:false},
-    {id:'t4_w6c',text:"WEEK 6 — Add glowing particle emitters to a scene — firefly or spore aesthetic",due:"2027-05-21",type:"assignment",done:false},
-    {id:'t4_w6d',text:"WEEK 6 — Sculpt a simple figure or mushroom form to add to your scene",due:"2027-05-22",type:"assignment",done:false},
-
-    {id:'t4_w7a',text:"WEEK 7 — Learn Blender rendering: Cycles vs Eevee, render settings, denoising",due:"2027-05-25",type:"task",done:false},
-    {id:'t4_w7b',text:"WEEK 7 — Set up a full scene: vessel, vines, flowers, particles, dramatic lighting",due:"2027-05-27",type:"assignment",done:false},
-    {id:'t4_w7c',text:"WEEK 7 — Render your scene and post a WIP to Blender Artists for feedback",due:"2027-05-29",type:"assignment",done:false},
-    {id:'t4_w7d',text:"WEEK 7 — Incorporate feedback and refine your scene",due:"2027-05-30",type:"task",done:false},
-
-    {id:'t4_w8a',text:"WEEK 8 — Learn camera composition in Blender — rule of thirds, depth of field",due:"2027-06-02",type:"task",done:false},
-    {id:'t4_w8b',text:"WEEK 8 — Add depth of field and camera animation to your scene",due:"2027-06-04",type:"assignment",done:false},
-    {id:'t4_w8c',text:"WEEK 8 — Learn color grading in Blender compositor — enhance mood and saturation",due:"2027-06-06",type:"task",done:false},
-    {id:'t4_w8d',text:"WEEK 8 — Color grade your render to match your psychedelic botanical aesthetic",due:"2027-06-07",type:"assignment",done:false},
-
-    {id:'t4_w9a',text:"WEEK 9 — PORTFOLIO PIECE: Full scene render inspired by your aesthetic reference image",due:"2027-06-10",type:"assignment",done:false},
-    {id:'t4_w9b',text:"WEEK 9 — Render a turntable animation — camera orbiting your hero object",due:"2027-06-12",type:"assignment",done:false},
-    {id:'t4_w9c',text:"WEEK 9 — Export renders at high resolution for portfolio use",due:"2027-06-14",type:"task",done:false},
-    {id:'t4_w9d',text:"WEEK 9 — Write a process breakdown: tools used, decisions made, what you learned",due:"2027-06-15",type:"assignment",done:false},
-
-    {id:'t4_w10a',text:"WEEK 10 — Second portfolio piece: sculpt a mushroom cluster scene with glowing spores",due:"2027-06-18",type:"assignment",done:false},
-    {id:'t4_w10b',text:"WEEK 10 — Light and render your mushroom scene",due:"2027-06-20",type:"assignment",done:false},
-    {id:'t4_w10c',text:"WEEK 10 — Push all Blender project files to GitHub",due:"2027-06-22",type:"task",done:false},
-    {id:'t4_w10d',text:"WEEK 10 — Post both Blender pieces to Behance with full process documentation",due:"2027-06-23",type:"assignment",done:false},
-
-    {id:'t4_w11a',text:"WEEK 11 — Learn Blender animation: keyframes, graph editor, basic rigging",due:"2027-06-26",type:"task",done:false},
-    {id:'t4_w11b',text:"WEEK 11 — Animate your vine system growing — use it as a looping portfolio piece",due:"2027-06-28",type:"assignment",done:false},
-    {id:'t4_w11c',text:"WEEK 11 — Export animation as MP4 and add to Behance",due:"2027-06-30",type:"assignment",done:false},
-    {id:'t4_w11d',text:"WEEK 11 — Phase 5 wrap-up: document skills learned and areas to keep developing",due:"2027-07-02",type:"task",done:false}
-
-  ],resources:[
-    {id:'r4_0',name:"Blender Guru — Donut Tutorial",url:"https://www.youtube.com/playlist?list=PLjEaoINr3zgFX8ZsChcVx8fDSMRmXiGIU",tag:"video",note:"The universal starting point"},
-    {id:'r4_1',name:"FlippedNormals — Sculpting & stylized art",url:"https://www.youtube.com/@FlippedNormals",tag:"video",note:"Sculpting fundamentals"},
-    {id:'r4_2',name:"Grant Abbitt — Stylized / game-ready 3D",url:"https://www.youtube.com/@grabbitt",tag:"video",note:"Stylized aesthetic focus"},
-    {id:'r4_3',name:"Blender official download (always free)",url:"https://www.blender.org/download/",tag:"free",note:"Download and install"},
-    {id:'r4_4',name:"Blender Artists Community forum",url:"https://blenderartists.org/",tag:"free",note:"Get feedback on your work"}
-  ]},
-  {id:5,title:"Phase 6 — Three.js & Unity",dur:"3 months (Jul 5 – Oct 1)",status:"upcoming",affirmation:"You made it here. Now you build the door and invite people inside the world that has always lived in your mind. This is what you came to do.",tasks:[
-
-    {id:'t5_w1a',text:"WEEK 1 — Set up a Three.js project locally in VS Code",due:"2027-07-07",type:"task",done:false},
-    {id:'t5_w1b',text:"WEEK 1 — Learn Three.js scene, camera, renderer, and basic geometry",due:"2027-07-09",type:"task",done:false},
-    {id:'t5_w1c',text:"WEEK 1 — Build your first Three.js scene: dark background, glowing sphere",due:"2027-07-11",type:"assignment",done:false},
-    {id:'t5_w1d',text:"WEEK 1 — Learn OrbitControls — let the user rotate the scene with mouse",due:"2027-07-12",type:"task",done:false},
-
-    {id:'t5_w2a',text:"WEEK 2 — Learn Three.js materials: MeshStandardMaterial, MeshPhysicalMaterial, emissive",due:"2027-07-15",type:"task",done:false},
-    {id:'t5_w2b',text:"WEEK 2 — Learn Three.js lighting: ambient, directional, point, and spotlights",due:"2027-07-17",type:"task",done:false},
-    {id:'t5_w2c',text:"WEEK 2 — Recreate your glowing saturated-on-black Blender aesthetic in Three.js",due:"2027-07-19",type:"assignment",done:false},
-    {id:'t5_w2d',text:"WEEK 2 — Learn animation loop — rotate and float objects over time",due:"2027-07-20",type:"task",done:false},
-
-    {id:'t5_w3a',text:"WEEK 3 — Learn how to import Blender models into Three.js using GLTFLoader",due:"2027-07-23",type:"task",done:false},
-    {id:'t5_w3b',text:"WEEK 3 — Export your Phase 5 vessel sculpture from Blender and import into Three.js",due:"2027-07-25",type:"assignment",done:false},
-    {id:'t5_w3c',text:"WEEK 3 — Add mouse interaction — object reacts when you hover or click",due:"2027-07-27",type:"assignment",done:false},
-    {id:'t5_w3d',text:"WEEK 3 — Learn post-processing effects: bloom, vignette, chromatic aberration",due:"2027-07-28",type:"task",done:false},
-
-    {id:'t5_w4a',text:"WEEK 4 — Add bloom post-processing to your scene — makes glowing materials pop",due:"2027-07-31",type:"assignment",done:false},
-    {id:'t5_w4b',text:"WEEK 4 — Learn particle systems in Three.js using Points and BufferGeometry",due:"2027-08-02",type:"task",done:false},
-    {id:'t5_w4c',text:"WEEK 4 — Build a Three.js particle system: floating spores or fireflies in your aesthetic",due:"2027-08-04",type:"assignment",done:false},
-    {id:'t5_w4d',text:"WEEK 4 — Learn scroll-based animation using a scroll event listener",due:"2027-08-05",type:"task",done:false},
-
-    {id:'t5_w5a',text:"WEEK 5 — PORTFOLIO PIECE: Build a full interactive 3D web experience in your aesthetic",due:"2027-08-08",type:"assignment",done:false},
-    {id:'t5_w5b',text:"WEEK 5 — Deploy your Three.js experience to GitHub Pages",due:"2027-08-10",type:"task",done:false},
-    {id:'t5_w5c',text:"WEEK 5 — Record a screen capture walkthrough of the experience",due:"2027-08-12",type:"task",done:false},
-    {id:'t5_w5d',text:"WEEK 5 — Post your Three.js experience to Behance — this is portfolio piece #6",due:"2027-08-13",type:"assignment",done:false},
-
-    {id:'t5_w6a',text:"WEEK 6 — Download Unity and complete interface orientation",due:"2027-08-16",type:"task",done:false},
-    {id:'t5_w6b',text:"WEEK 6 — Complete Unity Learn: Unity Essentials pathway",due:"2027-08-18",type:"task",done:false},
-    {id:'t5_w6c',text:"WEEK 6 — Complete Unity beginner tutorial: Roll-a-Ball",due:"2027-08-20",type:"assignment",done:false},
-    {id:'t5_w6d',text:"WEEK 6 — Learn Unity materials and lighting — set up a dark moody scene",due:"2027-08-21",type:"task",done:false},
-
-    {id:'t5_w7a',text:"WEEK 7 — Import your Blender assets into Unity",due:"2027-08-24",type:"task",done:false},
-    {id:'t5_w7b',text:"WEEK 7 — Learn Unity terrain and environment building tools",due:"2027-08-26",type:"task",done:false},
-    {id:'t5_w7c',text:"WEEK 7 — Build a small explorable environment using your Blender assets",due:"2027-08-28",type:"assignment",done:false},
-    {id:'t5_w7d',text:"WEEK 7 — Add a first-person or third-person controller to walk through your world",due:"2027-08-29",type:"assignment",done:false},
-
-    {id:'t5_w8a',text:"WEEK 8 — Learn Unity particle systems — add atmospheric spores and fireflies",due:"2027-09-01",type:"task",done:false},
-    {id:'t5_w8b',text:"WEEK 8 — Add ambient sound to your Unity world",due:"2027-09-03",type:"task",done:false},
-    {id:'t5_w8c',text:"WEEK 8 — Polish your world: lighting, fog, post-processing, color grading",due:"2027-09-05",type:"assignment",done:false},
-    {id:'t5_w8d',text:"WEEK 8 — Record a walkthrough video of your Unity world",due:"2027-09-06",type:"assignment",done:false},
-
-    {id:'t5_w9a',text:"WEEK 9 — Learn Unity C# basics: variables, functions, and simple interactions",due:"2027-09-09",type:"task",done:false},
-    {id:'t5_w9b',text:"WEEK 9 — Add a simple interaction to your world — pick up an object or trigger an effect",due:"2027-09-11",type:"assignment",done:false},
-    {id:'t5_w9c',text:"WEEK 9 — Build a WebGL export of your Unity world and deploy to itch.io",due:"2027-09-13",type:"assignment",done:false},
-    {id:'t5_w9d',text:"WEEK 9 — Post your Unity world to Behance — portfolio piece #7",due:"2027-09-14",type:"assignment",done:false},
-
-    {id:'t5_w10a',text:"WEEK 10 — CAPSTONE: Plan a final project that combines Three.js and Unity skills",due:"2027-09-17",type:"task",done:false},
-    {id:'t5_w10b',text:"WEEK 10 — Build your capstone: an interactive web portal that leads into a 3D world",due:"2027-09-19",type:"assignment",done:false},
-    {id:'t5_w10c',text:"WEEK 10 — Deploy capstone to GitHub Pages and itch.io",due:"2027-09-21",type:"task",done:false},
-    {id:'t5_w10d',text:"WEEK 10 — Write a full case study for your capstone project",due:"2027-09-22",type:"assignment",done:false},
-
-    {id:'t5_w11a',text:"WEEK 11 — Post capstone to Behance as your hero portfolio piece",due:"2027-09-25",type:"assignment",done:false},
-    {id:'t5_w11b',text:"WEEK 11 — Update your GitHub profile README to showcase your work",due:"2027-09-27",type:"task",done:false},
-    {id:'t5_w11c',text:"WEEK 11 — Review your full roadmap — celebrate how far you've come",due:"2027-09-29",type:"task",done:false},
-    {id:'t5_w11d',text:"WEEK 11 — Start applying to creative technologist roles or freelance opportunities",due:"2027-10-01",type:"assignment",done:false}
-
-  ],resources:[
-    {id:'r5_0',name:"Three.js Journey — Bruno Simon",url:"https://threejs-journey.com/",tag:"paid",note:"Best Three.js course, worth it when ready"},
-    {id:'r5_1',name:"Three.js official docs & examples",url:"https://threejs.org/examples/",tag:"free",note:"Free reference"},
-    {id:'r5_2',name:"Unity Learn — beginner pathways",url:"https://learn.unity.com/",tag:"free",note:"Free official Unity courses"},
-    {id:'r5_3',name:"Brackeys — Unity tutorials YouTube",url:"https://www.youtube.com/@Brackeys",tag:"video",note:"Most popular Unity channel"}
-  ]}
+  {
+    id:0,
+    title:"Phase 1 — Core 1 Foundation",
+    dur:"Weeks 1–8 · May 26 – July 18, 2026",
+    status:"active",
+    affirmation:"Every IT technician you will ever look up to started with the same fundamentals you are learning right now. The foundation you build here holds everything else up.",
+    examCallout:{title:"Goal: Core 1 (220-1201) Exam by Aug 8",body:"Passing score: 675/900. Exam fee ~$246 via Pearson VUE. Core 1 in hand is already a resume credential."},
+    tasks:[
+      {id:'p0_w1a',text:"WEEK 1 — Download official CompTIA A+ exam objectives PDF (220-1201)",due:"2026-05-27",type:"study",done:false},
+      {id:'p0_w1b',text:"WEEK 1 — Set up Anki and download a CompTIA A+ 220-1201 shared deck",due:"2026-05-27",type:"study",done:false},
+      {id:'p0_w1c',text:"WEEK 1 — Install VirtualBox on your Mac",due:"2026-05-28",type:"study",done:false},
+      {id:'p0_w1d',text:"WEEK 1 — Begin Professor Messer Core 1: Mobile Devices domain (Domain 1)",due:"2026-05-30",type:"study",done:false},
+      {id:'p0_w2a',text:"WEEK 2 — Professor Messer: Networking Fundamentals Part 1 (Domain 2) — TCP/IP, ports, protocols",due:"2026-06-05",type:"study",done:false},
+      {id:'p0_w2b',text:"WEEK 2 — Add networking Anki cards: ports (HTTP 80, HTTPS 443, RDP 3389, SSH 22, DNS 53)",due:"2026-06-06",type:"study",done:false},
+      {id:'p0_w3a',text:"WEEK 3 — Professor Messer: Networking Fundamentals Part 2 — wireless, devices, troubleshooting",due:"2026-06-12",type:"study",done:false},
+      {id:'p0_w3b',text:"WEEK 3 — Active recall: close notes and write down everything you know about networking from memory",due:"2026-06-13",type:"study",done:false},
+      {id:'p0_w4a',text:"WEEK 4 — Professor Messer: Hardware Part 1 (Domain 3) — motherboards, CPUs, RAM, storage types",due:"2026-06-19",type:"study",done:false},
+      {id:'p0_w4b',text:"WEEK 4 — Supplement with YouTube teardown videos for any hardware you can't visualize",due:"2026-06-20",type:"study",done:false},
+      {id:'p0_w5a',text:"WEEK 5 — Professor Messer: Hardware Part 2 — power supplies, displays, printers, peripherals",due:"2026-06-26",type:"study",done:false},
+      {id:'p0_w5b',text:"WEEK 5 — Hands-on: open your Mac or an old device and identify every component you've studied",due:"2026-06-27",type:"study",done:false},
+      {id:'p0_w6a',text:"WEEK 6 — Professor Messer: Virtualization & Cloud Computing (Domain 4) — IaaS, SaaS, PaaS, VMs",due:"2026-07-03",type:"study",done:false},
+      {id:'p0_w6b',text:"WEEK 6 — Set up a Windows VM in VirtualBox and practice basic navigation",due:"2026-07-04",type:"study",done:false},
+      {id:'p0_w7a',text:"WEEK 7 — Professor Messer: Hardware & Network Troubleshooting (Domain 5)",due:"2026-07-10",type:"study",done:false},
+      {id:'p0_w7b',text:"WEEK 7 — Apply banking ops mindset: practice the CompTIA troubleshooting methodology steps from memory",due:"2026-07-11",type:"study",done:false},
+      {id:'p0_w8a',text:"WEEK 8 — Core 1 full review: re-watch flagged Messer sections",due:"2026-07-17",type:"study",done:false},
+      {id:'p0_w8b',text:"WEEK 8 — Check off every topic in the official 220-1201 objectives PDF — flag anything unfamiliar",due:"2026-07-18",type:"study",done:false}
+    ],
+    resources:[
+      {id:'r0_0',name:"Professor Messer — A+ Core 1 (220-1201) Free Course",url:"https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/",tag:"free",note:"Your primary study source"},
+      {id:'r0_1',name:"CompTIA A+ Certification Page (download objectives PDF here)",url:"https://www.comptia.org/certifications/a",tag:"free",note:"Download the 220-1201 objectives PDF"},
+      {id:'r0_2',name:"Anki — Spaced Repetition Flashcard App",url:"https://apps.ankiweb.net/",tag:"free",note:"Download desktop app + search shared A+ decks"},
+      {id:'r0_3',name:"VirtualBox — Free VM Software",url:"https://www.virtualbox.org/wiki/Downloads",tag:"free",note:"Install on your Mac for hands-on OS practice"}
+    ]
+  },
+  {
+    id:1,
+    title:"Phase 2 — Core 1 Exam Prep & Test",
+    dur:"Weeks 9–11 · July 21 – Aug 8, 2026",
+    status:"upcoming",
+    affirmation:"You have already done the hard part. You sat through every video, took every note, flipped every card. This phase is just proving what you already know.",
+    examCallout:{title:"🎯 Milestone: Take Core 1 (220-1201) Exam by Aug 8",body:"Passing score: 675/900. Book through Pearson VUE — test center or online proctored. Target 80%+ on practice tests before booking."},
+    tasks:[
+      {id:'p1_w9a',text:"WEEK 9 — Purchase Jason Dion Core 1 practice exam on Udemy (wait for a sale — usually $12-15)",due:"2026-07-21",type:"study",done:false},
+      {id:'p1_w9b',text:"WEEK 9 — Take your first full timed practice test — note your score and weak domains",due:"2026-07-23",type:"study",done:false},
+      {id:'p1_w9c',text:"WEEK 9 — Return to Messer for your 2 lowest-scoring domains",due:"2026-07-25",type:"study",done:false},
+      {id:'p1_w10a',text:"WEEK 10 — Take a second full practice test — target 80%+",due:"2026-07-28",type:"study",done:false},
+      {id:'p1_w10b',text:"WEEK 10 — Drill weak areas on ExamCompass domain-specific quizzes",due:"2026-07-30",type:"study",done:false},
+      {id:'p1_w10c',text:"WEEK 10 — Do an Anki review session covering all Core 1 cards",due:"2026-08-01",type:"study",done:false},
+      {id:'p1_w11a',text:"WEEK 11 — Final full timed practice exam — simulate real test conditions",due:"2026-08-04",type:"study",done:false},
+      {id:'p1_w11b',text:"WEEK 11 — Book Core 1 exam through Pearson VUE once scoring 80%+ consistently",due:"2026-08-05",type:"exam",done:false},
+      {id:'p1_w11c',text:"WEEK 11 — TAKE CORE 1 EXAM (220-1201) — You've got this.",due:"2026-08-08",type:"exam",done:false}
+    ],
+    resources:[
+      {id:'r1_0',name:"Jason Dion — CompTIA A+ Practice Exams (Udemy)",url:"https://www.udemy.com/user/jason-dion/",tag:"paid",note:"Search 'Jason Dion A+ 220-1201' — buy on sale"},
+      {id:'r1_1',name:"ExamCompass — Free A+ Practice Questions by Domain",url:"https://www.examcompass.com/comptia/a-plus-certification/free-a-plus-practice-tests",tag:"free",note:"Great for drilling specific weak domains"},
+      {id:'r1_2',name:"Pearson VUE — Book Your Exam",url:"https://home.pearsonvue.com/comptia",tag:"exam",note:"~$246 per exam — book here when ready"}
+    ]
+  },
+  {
+    id:2,
+    title:"Phase 3 — Core 2 Study",
+    dur:"Weeks 12–16 · Aug 11 – Sept 12, 2026",
+    status:"upcoming",
+    affirmation:"You passed Core 1. You know how to do this. Core 2 is where your banking compliance background becomes your secret weapon — process, documentation, and operational procedures are your home turf.",
+    examCallout:{title:"Goal: Core 2 (220-1202) Exam by Sept 26",body:"Passing score: 700/900. Security and OS are the biggest domains — both directly relevant to healthcare IT. Your banking operations experience maps perfectly to Operational Procedures."},
+    tasks:[
+      {id:'p2_w12a',text:"WEEK 12 — Download official CompTIA A+ 220-1202 exam objectives PDF",due:"2026-08-11",type:"study",done:false},
+      {id:'p2_w12b',text:"WEEK 12 — Begin Professor Messer Core 2: Operating Systems (Domain 1) — Windows 11, macOS, Linux",due:"2026-08-14",type:"study",done:false},
+      {id:'p2_w12c',text:"WEEK 12 — Practice navigating Windows in your VirtualBox VM — file system, control panel, settings",due:"2026-08-15",type:"study",done:false},
+      {id:'p2_w13a',text:"WEEK 13 — Finish OS domain — installation, command line, file permissions",due:"2026-08-21",type:"study",done:false},
+      {id:'p2_w13b',text:"WEEK 13 — Begin Security (Domain 2) — malware types, social engineering, endpoint security",due:"2026-08-22",type:"study",done:false},
+      {id:'p2_w13c',text:"WEEK 13 — Add Anki cards: malware types, attack categories, security controls",due:"2026-08-23",type:"study",done:false},
+      {id:'p2_w14a',text:"WEEK 14 — Finish Security domain — encryption, physical security, malware removal steps",due:"2026-08-28",type:"study",done:false},
+      {id:'p2_w14b',text:"WEEK 14 — Begin Software Troubleshooting (Domain 3) — OS errors, application issues, drivers",due:"2026-08-29",type:"study",done:false},
+      {id:'p2_w15a',text:"WEEK 15 — Operational Procedures (Domain 4) — documentation, ticketing, change management, ITIL",due:"2026-09-04",type:"study",done:false},
+      {id:'p2_w15b',text:"WEEK 15 — Active recall: write out the CompTIA troubleshooting methodology from memory",due:"2026-09-05",type:"study",done:false},
+      {id:'p2_w15c',text:"WEEK 15 — Create a simple HIPAA security awareness checklist — connects studies to healthcare context",due:"2026-09-06",type:"study",done:false},
+      {id:'p2_w16a',text:"WEEK 16 — Full Core 2 notes review — flag anything still fuzzy",due:"2026-09-11",type:"study",done:false},
+      {id:'p2_w16b',text:"WEEK 16 — Check off every topic in the 220-1202 objectives PDF",due:"2026-09-12",type:"study",done:false}
+    ],
+    resources:[
+      {id:'r2_0',name:"Professor Messer — A+ Core 2 (220-1202) Free Course",url:"https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/",tag:"free",note:"Same approach as Core 1 — watch + active recall"},
+      {id:'r2_1',name:"Reddit r/CompTIA — Study Tips & Exam Experience",url:"https://www.reddit.com/r/CompTIA/",tag:"community",note:"Search 'passed A+' for real exam advice"},
+      {id:'r2_2',name:"ExamCompass — Free A+ Core 2 Practice Questions",url:"https://www.examcompass.com/comptia/a-plus-certification/free-a-plus-practice-tests",tag:"free",note:"Domain-specific drilling for Core 2"}
+    ]
+  },
+  {
+    id:3,
+    title:"Phase 4 — Core 2 Exam Prep & Certification",
+    dur:"Week 17 · Sept 15 – Sept 26, 2026",
+    status:"upcoming",
+    affirmation:"You have done everything right. You studied, you practiced, you showed up. Walk into this exam knowing that you have already earned what you are about to prove.",
+    examCallout:{title:"🎯 Milestone: CompTIA A+ Certified — Both Exams Complete",body:"Core 2 passing score: 700/900. Take by Sept 26 — gives you October completely free before baby arrives. A+ certified = nationally recognized IT credential. Start applying to healthcare IT roles."},
+    tasks:[
+      {id:'p3_w17a',text:"WEEK 17 — Purchase Jason Dion Core 2 practice exam on Udemy",due:"2026-09-15",type:"study",done:false},
+      {id:'p3_w17b',text:"WEEK 17 — Take first full Core 2 timed practice test — note weak domains",due:"2026-09-16",type:"study",done:false},
+      {id:'p3_w17c',text:"WEEK 17 — Drill weak areas — return to Messer videos for lowest scoring domains",due:"2026-09-18",type:"study",done:false},
+      {id:'p3_w17d',text:"WEEK 17 — Second full practice test — target 80%+ before booking",due:"2026-09-20",type:"study",done:false},
+      {id:'p3_exam',text:"EXAM WEEK — Book and take Core 2 (220-1202) — you are CompTIA A+ certified.",due:"2026-09-26",type:"exam",done:false}
+    ],
+    resources:[
+      {id:'r3_0',name:"Jason Dion — CompTIA A+ Core 2 Practice Exams (Udemy)",url:"https://www.udemy.com/user/jason-dion/",tag:"paid",note:"Search 'Jason Dion A+ 220-1202'"},
+      {id:'r3_1',name:"Pearson VUE — Book Core 2 Exam",url:"https://home.pearsonvue.com/comptia",tag:"exam",note:"~$246 — book when practice scores hit 80%+"},
+      {id:'r3_2',name:"CompTIA CertMaster — Official Practice",url:"https://www.comptia.org/training/certmaster-practice/a",tag:"paid",note:"Optional official practice tool if you want extra prep"}
+    ]
+  },
+  {
+    id:4,
+    title:"Phase 5 — Job Search + Network+ (2027)",
+    dur:"Jan 2027 onward",
+    status:"upcoming",
+    affirmation:"You built this from scratch, with a baby on the way, in under five months. You are not looking for permission to walk through the door. You built the door.",
+    examCallout:{title:"Next cert: CompTIA Network+ (N10-009)",body:"Study while working in your first healthcare IT role. Network+ deepens your understanding of how systems communicate — critical foundation for Security+ and the cybersecurity pivot."},
+    tasks:[
+      {id:'p4_j1',text:"JOB SEARCH — Update resume: lead with A+ cert and banking compliance/operations background",due:"2027-01-10",type:"study",done:false},
+      {id:'p4_j2',text:"JOB SEARCH — Apply to Healthcare IT Help Desk, Desktop Support (healthcare), and IT Field Technician roles",due:"2027-01-15",type:"study",done:false},
+      {id:'p4_j3',text:"JOB SEARCH — Research Houston-area hospital systems hiring IT: Memorial Hermann, Houston Methodist, HCA Houston",due:"2027-01-17",type:"study",done:false},
+      {id:'p4_j4',text:"JOB SEARCH — Set up LinkedIn with A+ cert listed and headline: Healthcare IT Technician",due:"2027-01-20",type:"study",done:false},
+      {id:'p4_n1',text:"NETWORK+ — Download CompTIA Network+ (N10-009) exam objectives PDF",due:"2027-02-01",type:"study",done:false},
+      {id:'p4_n2',text:"NETWORK+ — Begin Professor Messer Network+ course",due:"2027-02-08",type:"study",done:false},
+      {id:'p4_n3',text:"NETWORK+ — Target exam: Summer 2027",due:"2027-07-01",type:"exam",done:false}
+    ],
+    resources:[
+      {id:'r4_0',name:"Professor Messer — Network+ (N10-009) Free Course",url:"https://www.professormesser.com/network-plus/n10-009/n10-009-video/n10-009-training-course/",tag:"free",note:"Same approach — watch + active recall + Anki"},
+      {id:'r4_1',name:"CompTIA Network+ Certification Page",url:"https://www.comptia.org/certifications/network",tag:"free",note:"Download N10-009 objectives PDF"},
+      {id:'r4_2',name:"LinkedIn — Build Your Healthcare IT Profile",url:"https://www.linkedin.com/",tag:"free",note:"List A+ cert, banking ops experience, healthcare IT target"}
+    ]
+  },
+  {
+    id:5,
+    title:"Phase 6 — Security+ & Healthcare Cybersecurity (2028)",
+    dur:"2028 onward",
+    status:"upcoming",
+    affirmation:"This is what you came here to build. Healthcare cybersecurity is one of the most impactful and in-demand specializations in tech. Your path — banking compliance, healthcare IT, networking — leads exactly here.",
+    examCallout:{title:"Next cert: CompTIA Security+ (SY0-701)",body:"DoD-approved, HIPAA-aligned, and one of the most recognized entry-level security certs in the industry. Security+ opens the door to Security Analyst, IT Security Specialist, and Healthcare Compliance Analyst roles."},
+    tasks:[
+      {id:'p5_s1',text:"SECURITY+ — Download CompTIA Security+ (SY0-701) exam objectives PDF",due:"2028-01-01",type:"study",done:false},
+      {id:'p5_s2',text:"SECURITY+ — Begin Professor Messer Security+ course",due:"2028-01-08",type:"study",done:false},
+      {id:'p5_s3',text:"SECURITY+ — Study HIPAA Security Rule — connects directly to healthcare cybersecurity work",due:"2028-02-01",type:"study",done:false},
+      {id:'p5_s4',text:"SECURITY+ — Target exam: Mid 2028",due:"2028-06-01",type:"exam",done:false},
+      {id:'p5_c1',text:"CAREER — Begin applying to Healthcare Cybersecurity Analyst and IT Security Specialist roles",due:"2028-07-01",type:"study",done:false}
+    ],
+    resources:[
+      {id:'r5_0',name:"Professor Messer — Security+ (SY0-701) Free Course",url:"https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-training-course/",tag:"free",note:"Available when you're ready"},
+      {id:'r5_1',name:"CompTIA Security+ Certification Page",url:"https://www.comptia.org/certifications/security",tag:"free",note:"Download SY0-701 objectives PDF"},
+      {id:'r5_2',name:"HHS — HIPAA Security Rule Summary",url:"https://www.hhs.gov/hipaa/for-professionals/security/index.html",tag:"free",note:"Essential reading for healthcare cybersecurity"}
+    ]
+  }
 ]};
 
 // ============================================================
@@ -698,34 +536,24 @@ const DEF = {phases:[
 // ============================================================
 let data, calY, calM, activeFilter='all', modalSaveFn=null;
 let gToken=null, gName=null, gcalEvs=[];
+let fbSaveTimer=null, fbUnsubscribe=null, fbUserId=null;
 
 // ============================================================
-// STORAGE — localStorage (instant offline) + Firebase (cross-device)
-// Firebase stores ONLY progress data (done states, custom tasks/resources)
-// Phase structure always comes from code — sync can never overwrite it
+// STORAGE
 // ============================================================
-let fbSaveTimer = null;
-let fbUnsubscribe = null;
-let fbUserId = null; // set after Google sign-in using user email as ID
-
 function loadData(){
-  // Load from localStorage first for instant UI
-  try{const s=localStorage.getItem('ct_v5');if(s){data=JSON.parse(s);return;}}catch(e){}
+  try{const s=localStorage.getItem('hit_v1');if(s){data=JSON.parse(s);return;}}catch(e){}
   data=JSON.parse(JSON.stringify(DEF));
 }
 
 function saveData(){
-  // Save to localStorage immediately
-  try{localStorage.setItem('ct_v5',JSON.stringify(data));}
-  catch(e){toast('Local storage full','error');}
-  // Debounce Firebase save — 1.5s after last change
+  try{localStorage.setItem('hit_v1',JSON.stringify(data));}catch(e){toast('Local storage full','error');}
   clearTimeout(fbSaveTimer);
-  fbSaveTimer=setTimeout(()=>{ if(fbUserId) saveToFirebase(); },1500);
+  fbSaveTimer=setTimeout(()=>{if(fbUserId)saveToFirebase();},1500);
 }
 
 function gid(){return 'x'+Date.now()+Math.floor(Math.random()*1e4);}
 
-// Extract only progress data to save — keeps Firebase doc small and safe
 function extractProgress(){
   const progress={};
   data.phases.forEach(ph=>{
@@ -734,39 +562,32 @@ function extractProgress(){
       customTasks:ph.tasks.filter(t=>!DEF.phases[ph.id]?.tasks.find(dt=>dt.id===t.id)),
       customResources:ph.resources.filter(r=>!DEF.phases[ph.id]?.resources.find(dr=>dr.id===r.id))
     };
-    ph.tasks.forEach(t=>{ progress['p'+ph.id].tasks[t.id]={done:t.done,gcalId:t.gcalId||null}; });
+    ph.tasks.forEach(t=>{progress['p'+ph.id].tasks[t.id]={done:t.done,gcalId:t.gcalId||null};});
   });
   return progress;
 }
 
-// Merge Firebase progress back into fresh DEF data
 function mergeProgress(progress){
   if(!progress) return;
   const merged=JSON.parse(JSON.stringify(DEF));
   merged.phases.forEach(ph=>{
     const pp=progress['p'+ph.id];
     if(!pp) return;
-    // Apply done states and gcalIds to existing tasks
     ph.tasks.forEach(t=>{
-      if(pp.tasks&&pp.tasks[t.id]){
-        t.done=pp.tasks[t.id].done||false;
-        if(pp.tasks[t.id].gcalId) t.gcalId=pp.tasks[t.id].gcalId;
-      }
+      if(pp.tasks&&pp.tasks[t.id]){t.done=pp.tasks[t.id].done||false;if(pp.tasks[t.id].gcalId)t.gcalId=pp.tasks[t.id].gcalId;}
     });
-    // Re-add custom tasks and resources the user added
-    if(pp.customTasks&&pp.customTasks.length) ph.tasks.push(...pp.customTasks);
-    if(pp.customResources&&pp.customResources.length) ph.resources.push(...pp.customResources);
+    if(pp.customTasks&&pp.customTasks.length)ph.tasks.push(...pp.customTasks);
+    if(pp.customResources&&pp.customResources.length)ph.resources.push(...pp.customResources);
   });
   return merged;
 }
 
 async function saveToFirebase(){
-  if(!fbUserId||!window._fbReady) return;
+  if(!fbUserId||!window._fbReady)return;
   try{
     const progress=extractProgress();
     await window._setDoc(window._firestoreDoc,{progress,lastSaved:Date.now()});
-    showSyncStatus('saved');
-    setTimeout(()=>showSyncStatus(null),2000);
+    showSyncStatus('saved');setTimeout(()=>showSyncStatus(null),2000);
   }catch(e){console.warn('Firebase save failed:',e.message);}
 }
 
@@ -777,49 +598,27 @@ async function loadFromFirebase(){
     const snap=await window._getDoc(window._firestoreDoc);
     if(snap.exists()&&snap.data().progress){
       const merged=mergeProgress(snap.data().progress);
-      if(merged){
-        data=merged;
-        localStorage.setItem('ct_v5',JSON.stringify(data));
-        renderOverview();
-        updateSidebar();
-        toast('Progress synced across all your devices!','success');
-      }
-    } else {
-      // First time — save current data up to Firebase
-      await saveToFirebase();
-      toast('Dashboard saved to Firebase for the first time!','success');
-    }
+      if(merged){data=merged;localStorage.setItem('hit_v1',JSON.stringify(data));renderOverview();updateSidebar();toast('Progress synced!','success');}
+    }else{await saveToFirebase();toast('Dashboard saved to Firebase!','success');}
     showSyncStatus(null);
-    // Start real-time listener for changes from other devices
     startRealtimeSync();
-  }catch(e){
-    showSyncStatus(null);
-    toast('Could not sync: '+e.message,'error');
-  }
+  }catch(e){showSyncStatus(null);toast('Could not sync: '+e.message,'error');}
 }
 
 function startRealtimeSync(){
-  if(fbUnsubscribe) fbUnsubscribe(); // clear any existing listener
+  if(fbUnsubscribe)fbUnsubscribe();
   fbUnsubscribe=window._onSnapshot(window._firestoreDoc,(snap)=>{
-    if(!snap.exists()) return;
-    const d=snap.data();
-    if(!d.progress) return;
-    // Only update if the change came from another device (different timestamp)
+    if(!snap.exists())return;
+    const d=snap.data();if(!d.progress)return;
     const merged=mergeProgress(d.progress);
-    if(merged){
-      data=merged;
-      localStorage.setItem('ct_v5',JSON.stringify(data));
-      renderOverview();
-      updateSidebar();
-    }
+    if(merged){data=merged;localStorage.setItem('hit_v1',JSON.stringify(data));renderOverview();updateSidebar();}
   });
 }
 
 function showSyncStatus(state){
-  const el=document.getElementById('drive-status');
-  if(!el) return;
-  if(state==='loading'){el.textContent='\u21BB Syncing...';el.style.display='block';}
-  else if(state==='saved'){el.textContent='\u2713 Saved';el.style.display='block';}
+  const el=document.getElementById('drive-status');if(!el)return;
+  if(state==='loading'){el.textContent='↻ Syncing...';el.style.display='block';}
+  else if(state==='saved'){el.textContent='✓ Saved';el.style.display='block';}
   else{el.style.display='none';}
 }
 
@@ -834,7 +633,7 @@ function toast(msg,type=''){
 }
 
 // ============================================================
-// GOOGLE IDENTITY SERVICES
+// GOOGLE AUTH
 // ============================================================
 let tokenClient;
 function initGoogle(){
@@ -843,51 +642,34 @@ function initGoogle(){
     client_id:CLIENT_ID,scope:SCOPES,
     callback:(resp)=>{
       if(resp.error){toast('Sign-in failed: '+resp.error,'error');return;}
-      gToken=resp.access_token;
-      sessionStorage.setItem('ct_tok',gToken);
+      gToken=resp.access_token;sessionStorage.setItem('ct_tok',gToken);
       fetchProfile();
       document.getElementById('cal-sync-btn').disabled=false;
       document.getElementById('cal-legend').classList.add('show');
       loadFromFirebase();
     }
   });
-  const st=sessionStorage.getItem('ct_tok');
-  const sn=sessionStorage.getItem('ct_name');
-  const su=sessionStorage.getItem('ct_uid');
-  if(st&&sn){
-    gToken=st;gName=sn;fbUserId=su||sn;setAuthUI(true);
-    document.getElementById('cal-sync-btn').disabled=false;
-    document.getElementById('cal-legend').classList.add('show');
-    loadFromFirebase();
-  }
+  const st=sessionStorage.getItem('ct_tok');const sn=sessionStorage.getItem('ct_name');const su=sessionStorage.getItem('ct_uid');
+  if(st&&sn){gToken=st;gName=sn;fbUserId=su||sn;setAuthUI(true);document.getElementById('cal-sync-btn').disabled=false;document.getElementById('cal-legend').classList.add('show');loadFromFirebase();}
 }
 
-function handleGoogleAuth(){
-  if(gToken){signOut();return;}
-  tokenClient.requestAccessToken({prompt:'consent'});
-}
+function handleGoogleAuth(){if(gToken){signOut();return;}tokenClient.requestAccessToken({prompt:'consent'});}
 
 function signOut(){
-  if(gToken) google.accounts.oauth2.revoke(gToken,()=>{});
+  if(gToken)google.accounts.oauth2.revoke(gToken,()=>{});
   if(fbUnsubscribe){fbUnsubscribe();fbUnsubscribe=null;}
   gToken=null;gName=null;gcalEvs=[];fbUserId=null;
   sessionStorage.removeItem('ct_tok');sessionStorage.removeItem('ct_name');sessionStorage.removeItem('ct_uid');
-  setAuthUI(false);
-  document.getElementById('cal-sync-btn').disabled=true;
-  document.getElementById('cal-legend').classList.remove('show');
+  setAuthUI(false);document.getElementById('cal-sync-btn').disabled=true;document.getElementById('cal-legend').classList.remove('show');
   toast('Disconnected from Google');
 }
 
 async function fetchProfile(){
   try{
     const r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+gToken}});
-    const d=await r.json();
-    gName=d.name||d.email||'Connected';
-    fbUserId=d.email||d.sub||'user';
-    sessionStorage.setItem('ct_name',gName);
-    sessionStorage.setItem('ct_uid',fbUserId);
-    setAuthUI(true);
-    loadFromFirebase();
+    const d=await r.json();gName=d.name||d.email||'Connected';fbUserId=d.email||d.sub||'user';
+    sessionStorage.setItem('ct_name',gName);sessionStorage.setItem('ct_uid',fbUserId);
+    setAuthUI(true);loadFromFirebase();
   }catch(e){setAuthUI(true);}
 }
 
@@ -895,38 +677,8 @@ function setAuthUI(on){
   document.getElementById('gauth-bar').classList.toggle('connected',on);
   document.getElementById('gauth-dot').classList.toggle('on',on);
   document.getElementById('gauth-status-text').textContent=on?'Connected':'Not connected';
-  const nameEl=document.getElementById('gauth-name');
-  nameEl.textContent=gName||'';nameEl.style.display=on?'block':'none';
-  const btn=document.getElementById('gauth-btn');
-  btn.textContent=on?'Disconnect':'Connect Google Account';
-  btn.classList.toggle('primary',!on);
-}
-
-// ============================================================
-// GOOGLE DRIVE UPLOAD
-// ============================================================
-async function uploadToDrive(file){
-  if(!gToken) throw new Error('Not signed in');
-  const boundary='ctdash_b0undary';
-  const meta=JSON.stringify({name:file.name,mimeType:file.type||'application/octet-stream'});
-  const body=new Blob([
-    '\r\n--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n',meta,
-    '\r\n--'+boundary+'\r\nContent-Type: '+(file.type||'application/octet-stream')+'\r\n\r\n',
-    file,'\r\n--'+boundary+'--'
-  ]);
-  const r=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink',{
-    method:'POST',
-    headers:{Authorization:'Bearer '+gToken,'Content-Type':'multipart/related; boundary='+boundary},
-    body
-  });
-  if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'Upload failed');}
-  const fd=await r.json();
-  await fetch('https://www.googleapis.com/drive/v3/files/'+fd.id+'/permissions',{
-    method:'POST',
-    headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},
-    body:JSON.stringify({role:'reader',type:'anyone'})
-  });
-  return {id:fd.id,name:fd.name,viewUrl:fd.webViewLink};
+  const nameEl=document.getElementById('gauth-name');nameEl.textContent=gName||'';nameEl.style.display=on?'block':'none';
+  const btn=document.getElementById('gauth-btn');btn.textContent=on?'Disconnect':'Connect Google Account';btn.classList.toggle('primary',!on);
 }
 
 // ============================================================
@@ -934,44 +686,31 @@ async function uploadToDrive(file){
 // ============================================================
 async function syncCalendar(){
   if(!gToken){toast('Connect your Google account first','error');return;}
-  const btn=document.getElementById('cal-sync-btn');
-  btn.disabled=true;btn.textContent='Syncing...';
+  const btn=document.getElementById('cal-sync-btn');btn.disabled=true;btn.textContent='Syncing...';
   try{
     let pushed=0;
     for(const ph of data.phases){
       for(const task of ph.tasks){
-        if(task.due&&!task.gcalId){
-          const id=await pushEvent(task);
-          if(id){task.gcalId=id;pushed++;}
-        }
+        if(task.due&&!task.gcalId){const id=await pushEvent(task);if(id){task.gcalId=id;pushed++;}}
       }
     }
-    saveData();
-    await pullEvents();
-    renderCalendar();
-    toast(pushed?`Pushed ${pushed} event${pushed>1?'s':''} to Google Calendar — pulled latest events.`:'Up to date — pulled latest events.','success');
+    saveData();await pullEvents();renderCalendar();
+    toast(pushed?`Pushed ${pushed} event${pushed>1?'s':''} to Google Calendar!`:'Up to date — pulled latest events.','success');
   }catch(e){toast('Sync error: '+e.message,'error');}
-  btn.disabled=false;btn.textContent='&#x21BB; Sync Google Calendar';
-  // re-render tasks to show synced badges
-  renderOverview();
-  updateSidebar();
+  btn.disabled=false;btn.textContent='↻ Sync Google Calendar';
+  renderOverview();updateSidebar();
 }
 
 async function pushEvent(task){
   const ev={
-    summary:'[CT] '+task.text,
-    description:(task.type==='assignment'?'Assignment':'Task')+' | Creative Technologist Dashboard',
+    summary:'[HIT] '+task.text,
+    description:(task.type==='exam'?'EXAM':'Study Task')+' | Healthcare IT Dashboard',
     start:{dateTime:task.due+'T09:00:00',timeZone:'America/Chicago'},
     end:{dateTime:task.due+'T10:00:00',timeZone:'America/Chicago'},
-    colorId:task.type==='assignment'?'6':'1'
+    colorId:task.type==='exam'?'11':'2'
   };
-  const r=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events',{
-    method:'POST',
-    headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},
-    body:JSON.stringify(ev)
-  });
-  if(!r.ok) return null;
-  return (await r.json()).id;
+  const r=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events',{method:'POST',headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},body:JSON.stringify(ev)});
+  if(!r.ok)return null;return (await r.json()).id;
 }
 
 async function pullEvents(){
@@ -979,59 +718,9 @@ async function pullEvents(){
   const tMin=new Date(now.getFullYear(),now.getMonth()-1,1).toISOString();
   const tMax=new Date(now.getFullYear(),now.getMonth()+4,0).toISOString();
   const url=`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(tMin)}&timeMax=${encodeURIComponent(tMax)}&singleEvents=true&orderBy=startTime&maxResults=150`;
-  const r=await fetch(url,{headers:{Authorization:'Bearer '+gToken}});
-  if(!r.ok) return;
+  const r=await fetch(url,{headers:{Authorization:'Bearer '+gToken}});if(!r.ok)return;
   const d=await r.json();
-  gcalEvs=(d.items||[])
-    .filter(ev=>!ev.summary?.startsWith('[CT]'))
-    .map(ev=>({title:ev.summary||'(no title)',date:(ev.start?.date||ev.start?.dateTime||'').slice(0,10)}));
-}
-
-async function pushSingleTask(taskId,phaseId){
-  if(!gToken){toast('Connect your Google account first','error');return;}
-  const task=data.phases[phaseId].tasks.find(t=>t.id===taskId);
-  if(!task||!task.due){toast('Add a due date to this task first','error');return;}
-  if(task.gcalId){toast('Already synced to Google Calendar','error');return;}
-  try{
-    const id=await pushEvent(task);
-    if(id){task.gcalId=id;saveData();toast('Added to Google Calendar!','success');
-      const row=document.getElementById('task-row-'+taskId);
-      if(row) row.querySelector('.task-badges').insertAdjacentHTML('beforeend','<span class="badge badge-synced">&#x2713; in Calendar</span>');
-    }
-  }catch(e){toast('Error: '+e.message,'error');}
-}
-
-// ============================================================
-// STATS
-// ============================================================
-function phasePct(i){
-  const p=data.phases[i];
-  if(!p.tasks.length) return 0;
-  return Math.round(p.tasks.filter(t=>t.done).length/p.tasks.length*100);
-}
-function overallPct(){
-  let tot=0,dn=0;data.phases.forEach(p=>{tot+=p.tasks.length;dn+=p.tasks.filter(t=>t.done).length;});
-  return tot?Math.round(dn/tot*100):0;
-}
-function totalTasks(){
-  let tot=0,dn=0;data.phases.forEach(p=>{tot+=p.tasks.length;dn+=p.tasks.filter(t=>t.done).length;});
-  return{tot,dn};
-}
-
-function updateSidebar(){
-  const pct=overallPct();const{tot,dn}=totalTasks();
-  document.getElementById('sb-pct').textContent=pct+'%';
-  document.getElementById('sb-pct-label').textContent=pct+'%';
-  document.getElementById('sb-bar').style.width=pct+'%';
-  document.getElementById('sb-tasks').textContent=dn+'/'+tot;
-  const c=document.getElementById('sidebar-phases');c.innerHTML='';
-  data.phases.forEach((ph,i)=>{
-    const col=PC[i%PC.length];
-    const b=document.createElement('button');b.className='nav-item';
-    b.onclick=()=>{showPage('overview');setTimeout(()=>scrollTo(i),100);};
-    b.innerHTML=`<span class="nav-dot" style="background:${col.c};"></span><span style="flex:1;font-size:12px;">Phase ${i+1}</span><span class="nav-pct">${phasePct(i)}%</span>`;
-    c.appendChild(b);
-  });
+  gcalEvs=(d.items||[]).filter(ev=>!ev.summary?.startsWith('[HIT]')).map(ev=>({title:ev.summary||'(no title)',date:(ev.start?.date||ev.start?.dateTime||'').slice(0,10)}));
 }
 
 // ============================================================
@@ -1039,323 +728,268 @@ function updateSidebar(){
 // ============================================================
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  const map={overview:0,calendar:1,alltasks:2};
-  if(map[id]!==undefined) document.querySelectorAll('.nav-item')[map[id]].classList.add('active');
-  if(id==='calendar') renderCalendar();
-  if(id==='alltasks') renderAllTasks();
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const map={'overview':0,'calendar':1,'alltasks':2};
+  document.querySelectorAll('.nav-item')[map[id]]?.classList.add('active');
+  if(id==='calendar')renderCalendar();
+  if(id==='alltasks')renderAllTasks();
 }
-function scrollTo(i){const el=document.getElementById('pc-'+i);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 
 // ============================================================
-// RENDER OVERVIEW
+// SIDEBAR
+// ============================================================
+function updateSidebar(){
+  const container=document.getElementById('sidebar-phases');
+  container.innerHTML='';
+  let totalDone=0,totalAll=0;
+  data.phases.forEach((ph,i)=>{
+    const done=ph.tasks.filter(t=>t.done).length;
+    const all=ph.tasks.length;
+    totalDone+=done;totalAll+=all;
+    const pct=all?Math.round(done/all*100):0;
+    const c=PC[i%PC.length];
+    const btn=document.createElement('button');
+    btn.className='nav-item';
+    btn.innerHTML=`<span class="nav-dot" style="background:${c.c};"></span><span style="flex:1;text-align:left;font-size:12px;">${ph.title.split('—')[0].trim()}</span><span class="nav-pct">${pct}%</span>`;
+    btn.onclick=()=>{showPage('overview');setTimeout(()=>scrollToPhase(i),50);};
+    container.appendChild(btn);
+  });
+  const pct=totalAll?Math.round(totalDone/totalAll*100):0;
+  document.getElementById('sb-pct').textContent=pct+'%';
+  document.getElementById('sb-pct-label').textContent=pct+'%';
+  document.getElementById('sb-tasks').textContent=totalDone+'/'+totalAll;
+  document.getElementById('sb-bar').style.width=pct+'%';
+}
+
+function scrollToPhase(i){
+  const el=document.getElementById('phase-card-'+i);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+
+// ============================================================
+// OVERVIEW
 // ============================================================
 function renderOverview(){
-  const cont=document.getElementById('phases-list');cont.innerHTML='';
+  const q=QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById('quote-text').textContent=q.t;
+  document.getElementById('quote-author').textContent='— '+q.a;
+
+  const container=document.getElementById('phases-list');container.innerHTML='';
   data.phases.forEach((ph,i)=>{
-    const col=PC[i%PC.length];const pct=phasePct(i);
-    const sCls=ph.status==='active'?'badge-active':pct===100?'badge-done':'badge-upcoming';
-    const sLbl=ph.status==='active'?'active':pct===100?'complete':'upcoming';
-    const card=document.createElement('div');card.className='phase-card';card.id='pc-'+i;
+    const done=ph.tasks.filter(t=>t.done).length;
+    const all=ph.tasks.length;
+    const pct=all?Math.round(done/all*100):0;
+    const c=PC[i%PC.length];
+    const statusBadge=ph.status==='active'?'<span class="badge badge-active">Active</span>':ph.status==='done'?'<span class="badge badge-done">Complete</span>':'<span class="badge badge-upcoming">Upcoming</span>';
+
+    const card=document.createElement('div');
+    card.className='phase-card';card.id='phase-card-'+i;
     card.innerHTML=`
       <div class="phase-header" onclick="togglePhase(${i})">
-        <div class="phase-num" style="background:${col.bg};color:${col.c};">${i+1}</div>
+        <div class="phase-num" style="background:${c.bg};color:${c.c};">${i+1}</div>
         <div class="phase-info">
-          <div class="phase-title">${ph.title} <span class="badge ${sCls}">${sLbl}</span></div>
+          <div class="phase-title">${ph.title} ${statusBadge}</div>
           <div class="phase-meta">${ph.dur}</div>
         </div>
         <div class="phase-right">
-          <span class="phase-pct-text" style="color:${col.c};">${pct}%</span>
+          <div class="phase-pct-text" style="color:${c.c};">${pct}%</div>
           <span class="chevron" id="chev-${i}">&#9654;</span>
         </div>
       </div>
-      <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:${pct}%;background:${col.c};"></div></div>
-      <div class="phase-body" id="pb-${i}">
-        ${ph.affirmation ? `<div style="margin:12px 0 16px;padding:10px 14px;border-left:3px solid ${col.c};background:${col.bg};border-radius:0 var(--radius) var(--radius) 0;font-size:12px;color:var(--text2);line-height:1.7;font-style:italic;">${ph.affirmation}</div>` : ''}
+      <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:${pct}%;background:${c.c};"></div></div>
+      <div class="phase-body" id="phase-body-${i}">
+        <div class="quote-banner" style="border-left-color:${c.c};margin-top:16px;">
+          <p>${ph.affirmation}</p>
+        </div>
         <div class="tabs">
-          <button class="tab-btn active" id="tb-tasks-${i}" onclick="switchTab(${i},'tasks',this)">Tasks (${ph.tasks.filter(t=>t.type!=='assignment').length})</button>
-          <button class="tab-btn" id="tb-assign-${i}" onclick="switchTab(${i},'assignments',this)">Assignments (${ph.tasks.filter(t=>t.type==='assignment').length})</button>
-          <button class="tab-btn" id="tb-res-${i}" onclick="switchTab(${i},'resources',this)">Resources (${ph.resources.length})</button>
+          <button class="tab-btn active" onclick="switchTab(${i},'tasks',this)">Tasks (${done}/${all})</button>
+          <button class="tab-btn" onclick="switchTab(${i},'resources',this)">Resources (${ph.resources.length})</button>
         </div>
-        <div class="tab-panel active" id="tp-tasks-${i}">
-          ${buildTaskRows(i,'task')}
-          <div style="margin-top:12px;"><button class="btn btn-ghost btn-sm" onclick="openAddTask(${i},'task')">+ Add task</button></div>
+        <div class="tab-panel active" id="tab-tasks-${i}">
+          <div id="task-list-${i}"></div>
+          ${ph.examCallout?`<div class="exam-callout"><h4>${ph.examCallout.title}</h4><p>${ph.examCallout.body}</p></div>`:''}
+          <div style="margin-top:14px;">
+            <button class="btn btn-ghost btn-sm" onclick="openAddTask(${i})">+ Add task</button>
+          </div>
         </div>
-        <div class="tab-panel" id="tp-assignments-${i}">
-          ${buildTaskRows(i,'assignment')}
-          <div style="margin-top:12px;"><button class="btn btn-ghost btn-sm" onclick="openAddTask(${i},'assignment')">+ Add assignment</button></div>
-        </div>
-        <div class="tab-panel" id="tp-resources-${i}">
-          ${buildResRows(i)}
-          <div style="margin-top:12px;"><button class="btn btn-ghost btn-sm" onclick="openAddRes(${i})">+ Add resource or file</button></div>
+        <div class="tab-panel" id="tab-resources-${i}">
+          <div id="resource-list-${i}"></div>
+          <div style="margin-top:14px;">
+            <button class="btn btn-ghost btn-sm" onclick="openAddResource(${i})">+ Add resource</button>
+          </div>
         </div>
       </div>`;
-    cont.appendChild(card);
+    container.appendChild(card);
+    renderTasks(i);renderResources(i);
   });
 }
 
-function buildTaskRows(phaseId,type){
-  const tasks=data.phases[phaseId].tasks.filter(t=>t.type===type);
-  if(!tasks.length) return `<div class="empty-state">No ${type}s yet.</div>`;
-  return tasks.map(task=>{
-    const ov=task.due&&!task.done&&new Date(task.due)<new Date();
-    const dueBadge=task.due?`<span class="badge ${ov?'badge-overdue':'badge-due'}">${fmtDate(task.due)}</span>`:'';
-    const syncBadge=task.gcalId?`<span class="badge badge-synced">&#x2713; in Calendar</span>`:'';
-    const calBtn=task.due&&!task.gcalId&&gToken?`<button class="task-action-btn" onclick="pushSingleTask('${task.id}',${phaseId})" title="Add to Google Calendar" style="font-size:11px;">&#x1F4C5; Cal</button>`:'';
-    return `<div class="task-item" id="task-row-${task.id}">
-      <div class="task-check ${task.done?'done':''}" onclick="toggleTask('${task.id}',${phaseId})"></div>
-      <div class="task-content">
-        <div class="task-text ${task.done?'done':''}">${task.text}</div>
-        <div class="task-badges">${dueBadge}${syncBadge}</div>
-      </div>
-      <div class="task-actions">${calBtn}<button class="task-action-btn" onclick="openEditTask('${task.id}',${phaseId})" title="Edit" style="font-size:11px;">&#9998;</button><button class="task-action-btn del" onclick="delTask('${task.id}',${phaseId})" title="Delete">&#215;</button></div>
-    </div>`;
-  }).join('');
-}
-
-function buildResRows(phaseId){
-  const res=data.phases[phaseId].resources;
-  if(!res.length) return '<div class="empty-state">No resources yet.</div>';
-  return res.map(r=>{
-    const link=r.tag==='document'&&r.driveUrl
-      ?`<a class="resource-link" href="${r.driveUrl}" target="_blank">${r.name} &#8599; (Drive)</a>`
-      :`<a class="resource-link" href="${r.url||'#'}" target="_blank">${r.name}</a>`;
-    return `<div class="resource-item">
-      <span class="res-tag-pill tag-${r.tag}">${r.tag}</span>
-      <div class="resource-info">${link}<div class="resource-note">${r.note||''}</div></div>
-      <div style="display:flex;gap:4px;flex-shrink:0;">
-        <button class="resource-del" onclick="openEditRes('${r.id}',${phaseId})" title="Edit" style="font-size:13px;opacity:1;color:var(--text3);">&#9998;</button>
-        <button class="resource-del" onclick="delRes('${r.id}',${phaseId})" title="Delete">&#215;</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function switchTab(phaseId,name,btn){
-  const body=document.getElementById('pb-'+phaseId);
-  body.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  body.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tp-'+name+'-'+phaseId).classList.add('active');
-}
-
 function togglePhase(i){
-  const b=document.getElementById('pb-'+i),c=document.getElementById('chev-'+i);
-  const open=b.classList.contains('open');
-  b.classList.toggle('open',!open);c.classList.toggle('open',!open);
+  const body=document.getElementById('phase-body-'+i);
+  const chev=document.getElementById('chev-'+i);
+  body.classList.toggle('open');chev.classList.toggle('open');
 }
 
-function toggleTask(tid,pid){
-  const task=data.phases[pid].tasks.find(t=>t.id===tid);if(!task) return;
-  task.done=!task.done;saveData();
-  const row=document.getElementById('task-row-'+tid);
-  if(row){row.querySelector('.task-check').classList.toggle('done',task.done);row.querySelector('.task-text').classList.toggle('done',task.done);}
-  refreshPhasePct(pid);updateSidebar();
-  if(document.getElementById('page-alltasks').classList.contains('active')) renderAllTasks();
+function switchTab(phaseIdx,tab,btn){
+  const tabs=['tasks','resources'];
+  tabs.forEach(t=>{
+    const panel=document.getElementById('tab-'+t+'-'+phaseIdx);
+    if(panel)panel.classList.toggle('active',t===tab);
+  });
+  document.querySelectorAll(`#phase-body-${phaseIdx} .tab-btn`).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
-function refreshPhasePct(pid){
-  const pct=phasePct(pid);
-  const card=document.getElementById('pc-'+pid);
-  if(card){card.querySelector('.phase-progress-fill').style.width=pct+'%';card.querySelector('.phase-pct-text').textContent=pct+'%';}
-  const ph=data.phases[pid];
-  const tb=document.getElementById('tb-tasks-'+pid);const ab=document.getElementById('tb-assign-'+pid);
-  if(tb) tb.textContent=`Tasks (${ph.tasks.filter(t=>t.type!=='assignment').length})`;
-  if(ab) ab.textContent=`Assignments (${ph.tasks.filter(t=>t.type==='assignment').length})`;
+// ============================================================
+// TASKS
+// ============================================================
+function renderTasks(phaseIdx){
+  const ph=data.phases[phaseIdx];
+  const container=document.getElementById('task-list-'+phaseIdx);if(!container)return;
+  container.innerHTML='';
+  if(!ph.tasks.length){container.innerHTML='<div class="empty-state">No tasks yet.</div>';return;}
+  ph.tasks.forEach(task=>{
+    const today=new Date().toISOString().slice(0,10);
+    const overdue=task.due&&task.due<today&&!task.done;
+    const due=task.due&&!task.done&&task.due>=today;
+    const badges=[];
+    if(task.type==='exam')badges.push('<span class="badge badge-exam">Exam</span>');
+    else if(task.type==='study')badges.push('<span class="badge badge-study">Study</span>');
+    if(overdue)badges.push(`<span class="badge badge-overdue">Overdue · ${task.due}</span>`);
+    else if(due)badges.push(`<span class="badge badge-due">Due ${task.due}</span>`);
+    if(task.gcalId)badges.push('<span class="badge badge-synced">✓ In Calendar</span>');
+    const row=document.createElement('div');row.className='task-item';row.id='task-row-'+task.id;
+    row.innerHTML=`
+      <div class="task-check${task.done?' done':''}" onclick="toggleTask(${phaseIdx},'${task.id}')"></div>
+      <div class="task-content">
+        <div class="task-text${task.done?' done':''}">${task.text}</div>
+        <div class="task-badges">${badges.join('')}</div>
+      </div>
+      <div class="task-actions">
+        <button class="task-action-btn" onclick="openEditTask(${phaseIdx},'${task.id}')" title="Edit">✎</button>
+        <button class="task-action-btn del" onclick="deleteTask(${phaseIdx},'${task.id}')" title="Delete">✕</button>
+      </div>`;
+    container.appendChild(row);
+  });
 }
 
-function refreshTaskPanels(pid){
-  const tp=document.getElementById('tp-tasks-'+pid);
-  const ap=document.getElementById('tp-assignments-'+pid);
-  if(tp) tp.innerHTML=buildTaskRows(pid,'task')+`<div style="margin-top:12px;"><button class="btn btn-ghost btn-sm" onclick="openAddTask(${pid},'task')">+ Add task</button></div>`;
-  if(ap) ap.innerHTML=buildTaskRows(pid,'assignment')+`<div style="margin-top:12px;"><button class="btn btn-ghost btn-sm" onclick="openAddTask(${pid},'assignment')">+ Add assignment</button></div>`;
-  refreshPhasePct(pid);updateSidebar();
+function toggleTask(phaseIdx,taskId){
+  const task=data.phases[phaseIdx].tasks.find(t=>t.id===taskId);if(!task)return;
+  task.done=!task.done;saveData();renderTasks(phaseIdx);updateSidebar();
+  const ph=data.phases[phaseIdx];
+  const done=ph.tasks.filter(t=>t.done).length;const all=ph.tasks.length;
+  const pct=all?Math.round(done/all*100):0;
+  const fill=document.querySelector(`#phase-card-${phaseIdx} .phase-progress-fill`);
+  if(fill)fill.style.width=pct+'%';
+  const pctText=document.querySelector(`#phase-card-${phaseIdx} .phase-pct-text`);
+  if(pctText)pctText.textContent=pct+'%';
+  const tabBtn=document.querySelector(`#phase-body-${phaseIdx} .tab-btn.active`);
+  if(tabBtn)tabBtn.textContent=`Tasks (${done}/${all})`;
 }
 
-function refreshResPanels(pid){
-  const rp=document.getElementById('tp-resources-'+pid);
-  if(rp) rp.innerHTML=buildResRows(pid)+`<div style="margin-top:12px;"><button class="btn btn-ghost btn-sm" onclick="openAddRes(${pid})">+ Add resource or file</button></div>`;
-  const rb=document.getElementById('tb-res-'+pid);
-  if(rb) rb.textContent=`Resources (${data.phases[pid].resources.length})`;
-  updateSidebar();
+function deleteTask(phaseIdx,taskId){
+  data.phases[phaseIdx].tasks=data.phases[phaseIdx].tasks.filter(t=>t.id!==taskId);
+  saveData();renderTasks(phaseIdx);updateSidebar();
 }
 
-function delTask(tid,pid){
-  if(!confirm('Delete this item?')) return;
-  data.phases[pid].tasks=data.phases[pid].tasks.filter(t=>t.id!==tid);
-  saveData();refreshTaskPanels(pid);
-}
-function delRes(rid,pid){
-  if(!confirm('Delete this resource?')) return;
-  data.phases[pid].resources=data.phases[pid].resources.filter(r=>r.id!==rid);
-  saveData();refreshResPanels(pid);
-}
-
-function openEditTask(tid,pid){
-  const task=data.phases[pid].tasks.find(t=>t.id===tid);
-  if(!task) return;
-  document.getElementById('modal-title').textContent='Edit '+task.type+' — Phase '+(pid+1);
+function openAddTask(phaseIdx){
+  document.getElementById('modal-title').textContent='Add Task';
   document.getElementById('modal-body').innerHTML=`
-    <div class="form-group"><label class="form-label">Description</label>
-      <input class="form-input" id="m-tt" value="${task.text.replace(/"/g,'&quot;')}"></div>
+    <div class="form-group"><label class="form-label">Task</label><input class="form-input" id="mi-text" placeholder="e.g. Watch Messer Domain 2 videos"></div>
+    <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" id="mi-due" type="date"></div>
     <div class="form-group"><label class="form-label">Type</label>
-      <select class="form-select" id="m-ty">
-        <option value="task" ${task.type!=='assignment'?'selected':''}>Task</option>
-        <option value="assignment" ${task.type==='assignment'?'selected':''}>Assignment</option>
-      </select></div>
-    <div class="form-group"><label class="form-label">Due date</label>
-      <input class="form-input" id="m-td" type="date" value="${task.due||''}"></div>
-    <div class="form-group"><label class="form-label">Notes</label>
-      <input class="form-input" id="m-tn" value="${(task.notes||'').replace(/"/g,'&quot;')}"></div>`;
+      <select class="form-select" id="mi-type">
+        <option value="study">Study</option>
+        <option value="exam">Exam</option>
+      </select>
+    </div>`;
   modalSaveFn=()=>{
-    const text=document.getElementById('m-tt').value.trim();
-    if(!text){toast('Please enter a description','error');return false;}
-    task.text=text;
-    task.type=document.getElementById('m-ty').value;
-    task.due=document.getElementById('m-td').value;
-    task.notes=document.getElementById('m-tn').value.trim();
-    saveData();refreshTaskPanels(pid);return true;
+    const text=document.getElementById('mi-text').value.trim();if(!text)return;
+    data.phases[phaseIdx].tasks.push({id:gid(),text,due:document.getElementById('mi-due').value||null,type:document.getElementById('mi-type').value,done:false});
+    saveData();renderTasks(phaseIdx);updateSidebar();closeModal();
   };
+  document.getElementById('modal-save-btn').onclick=modalSaveFn;
   document.getElementById('modal-overlay').classList.add('open');
 }
 
-function openEditRes(rid,pid){
-  const r=data.phases[pid].resources.find(x=>x.id===rid);
-  if(!r) return;
-  document.getElementById('modal-title').textContent='Edit resource — Phase '+(pid+1);
+function openEditTask(phaseIdx,taskId){
+  const task=data.phases[phaseIdx].tasks.find(t=>t.id===taskId);if(!task)return;
+  document.getElementById('modal-title').textContent='Edit Task';
   document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Task</label><input class="form-input" id="mi-text" value="${task.text.replace(/"/g,'&quot;')}"></div>
+    <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" id="mi-due" type="date" value="${task.due||''}"></div>
     <div class="form-group"><label class="form-label">Type</label>
-      <select class="form-select" id="m-rt">
-        <option value="free" ${r.tag==='free'?'selected':''}>Free (link)</option>
-        <option value="video" ${r.tag==='video'?'selected':''}>Video (link)</option>
-        <option value="book" ${r.tag==='book'?'selected':''}>Book (link)</option>
-        <option value="article" ${r.tag==='article'?'selected':''}>Article (link)</option>
-        <option value="tool" ${r.tag==='tool'?'selected':''}>Tool (link)</option>
-        <option value="paid" ${r.tag==='paid'?'selected':''}>Paid (link)</option>
-        <option value="document" ${r.tag==='document'?'selected':''}>Document (Drive)</option>
-      </select></div>
-    <div class="form-group"><label class="form-label">Name / Title</label>
-      <input class="form-input" id="m-rn" value="${r.name.replace(/"/g,'&quot;')}"></div>
-    ${r.tag!=='document'?`<div class="form-group"><label class="form-label">URL</label>
-      <input class="form-input" id="m-ru" value="${(r.url||'').replace(/"/g,'&quot;')}"></div>`:''}
-    <div class="form-group"><label class="form-label">Note</label>
-      <input class="form-input" id="m-rnote" value="${(r.note||'').replace(/"/g,'&quot;')}"></div>`;
+      <select class="form-select" id="mi-type">
+        <option value="study"${task.type==='study'?' selected':''}>Study</option>
+        <option value="exam"${task.type==='exam'?' selected':''}>Exam</option>
+      </select>
+    </div>`;
   modalSaveFn=()=>{
-    const name=document.getElementById('m-rn').value.trim();
-    if(!name){toast('Please enter a name','error');return false;}
-    r.name=name;
-    r.tag=document.getElementById('m-rt').value;
-    r.note=document.getElementById('m-rnote').value.trim();
-    const urlEl=document.getElementById('m-ru');
-    if(urlEl) r.url=urlEl.value.trim();
-    saveData();refreshResPanels(pid);return true;
+    task.text=document.getElementById('mi-text').value.trim()||task.text;
+    task.due=document.getElementById('mi-due').value||null;
+    task.type=document.getElementById('mi-type').value;
+    saveData();renderTasks(phaseIdx);closeModal();
   };
+  document.getElementById('modal-save-btn').onclick=modalSaveFn;
   document.getElementById('modal-overlay').classList.add('open');
 }
 
 // ============================================================
-// MODALS
+// RESOURCES
 // ============================================================
-function openAddTask(pid,defType){
-  document.getElementById('modal-title').textContent=`Add ${defType} — Phase ${pid+1}`;
-  document.getElementById('modal-body').innerHTML=`
-    <div class="form-group"><label class="form-label">Description</label>
-      <input class="form-input" id="m-tt" placeholder="What do you need to do?"></div>
-    <div class="form-group"><label class="form-label">Type</label>
-      <select class="form-select" id="m-ty">
-        <option value="task" ${defType!=='assignment'?'selected':''}>Task</option>
-        <option value="assignment" ${defType==='assignment'?'selected':''}>Assignment</option>
-      </select></div>
-    <div class="form-group"><label class="form-label">Due date (optional)</label>
-      <input class="form-input" id="m-td" type="date"></div>
-    <div class="form-group"><label class="form-label">Notes (optional)</label>
-      <input class="form-input" id="m-tn" placeholder="Any extra details..."></div>`;
-  modalSaveFn=()=>{
-    const text=document.getElementById('m-tt').value.trim();
-    if(!text){toast('Please enter a description','error');return false;}
-    data.phases[pid].tasks.push({id:gid(),text,type:document.getElementById('m-ty').value,due:document.getElementById('m-td').value,notes:document.getElementById('m-tn').value.trim(),done:false});
-    saveData();refreshTaskPanels(pid);return true;
-  };
-  document.getElementById('modal-overlay').classList.add('open');
+function renderResources(phaseIdx){
+  const ph=data.phases[phaseIdx];
+  const container=document.getElementById('resource-list-'+phaseIdx);if(!container)return;
+  container.innerHTML='';
+  if(!ph.resources.length){container.innerHTML='<div class="empty-state">No resources yet.</div>';return;}
+  ph.resources.forEach(res=>{
+    const row=document.createElement('div');row.className='resource-item';
+    row.innerHTML=`
+      <span class="res-tag-pill tag-${res.tag}">${res.tag}</span>
+      <div class="resource-info">
+        <a class="resource-link" href="${res.url}" target="_blank" rel="noopener">${res.name}</a>
+        ${res.note?`<div class="resource-note">${res.note}</div>`:''}
+      </div>
+      <button class="resource-del" onclick="deleteResource(${phaseIdx},'${res.id}')">✕</button>`;
+    container.appendChild(row);
+  });
 }
 
-function openAddRes(pid){
-  const driveNote=gToken
-    ?'<div class="info-box">&#x2705; Google Drive connected — select "Google Drive file" to upload files of any size, no limit.</div>'
-    :'<div class="info-box">&#x26A0; Connect your Google account in the sidebar to unlock Drive uploads with no size limit.</div>';
-  document.getElementById('modal-title').textContent='Add resource — Phase '+(pid+1);
-  document.getElementById('modal-body').innerHTML=`${driveNote}
-    <div class="form-group"><label class="form-label">Type</label>
-      <select class="form-select" id="m-rt" onchange="toggleResFields()">
-        <option value="free">Free (link)</option>
-        <option value="video">Video (link)</option>
-        <option value="book">Book (link)</option>
-        <option value="article">Article (link)</option>
-        <option value="tool">Tool (link)</option>
-        <option value="paid">Paid (link)</option>
-        <option value="document">Google Drive file (upload)</option>
-      </select></div>
-    <div class="form-group"><label class="form-label">Name / Title</label>
-      <input class="form-input" id="m-rn" placeholder="e.g. CSS Cheat Sheet"></div>
-    <div id="m-url-g" class="form-group"><label class="form-label">URL</label>
-      <input class="form-input" id="m-ru" placeholder="https://..."></div>
-    <div id="m-file-g" class="form-group" style="display:none;">
-      <label class="form-label">Choose file (any size)</label>
-      <input type="file" id="m-rf" style="width:100%;padding:8px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;">
-      <div class="upload-prog" id="upr"><div class="upload-prog-fill" id="uprf" style="width:0%;"></div></div>
-      <div style="font-size:11px;color:var(--text3);margin-top:4px;">Uploads to your Google Drive. No size limit.</div>
+function deleteResource(phaseIdx,resId){
+  data.phases[phaseIdx].resources=data.phases[phaseIdx].resources.filter(r=>r.id!==resId);
+  saveData();renderResources(phaseIdx);
+}
+
+function openAddResource(phaseIdx){
+  document.getElementById('modal-title').textContent='Add Resource';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="mi-name" placeholder="e.g. Professor Messer Core 1 Videos"></div>
+    <div class="form-group"><label class="form-label">URL</label><input class="form-input" id="mi-url" placeholder="https://..."></div>
+    <div class="form-group"><label class="form-label">Tag</label>
+      <select class="form-select" id="mi-tag">
+        <option value="free">free</option>
+        <option value="paid">paid</option>
+        <option value="video">video</option>
+        <option value="tool">tool</option>
+        <option value="community">community</option>
+        <option value="exam">exam</option>
+      </select>
     </div>
-    <div class="form-group"><label class="form-label">Note (optional)</label>
-      <input class="form-input" id="m-rnote" placeholder="e.g. Great flexbox reference..."></div>`;
-  modalSaveFn=async()=>{
-    const name=document.getElementById('m-rn').value.trim();
-    const tag=document.getElementById('m-rt').value;
-    if(!name){toast('Please enter a name','error');return false;}
-    if(tag==='document'){
-      if(!gToken){toast('Connect your Google account first','error');return false;}
-      const fi=document.getElementById('m-rf');
-      if(!fi.files.length){toast('Please select a file','error');return false;}
-      const saveBtn=document.getElementById('modal-save-btn');
-      saveBtn.disabled=true;saveBtn.textContent='Uploading...';
-      document.getElementById('upr').style.display='block';
-      document.getElementById('uprf').style.width='25%';
-      try{
-        document.getElementById('uprf').style.width='65%';
-        const fd=await uploadToDrive(fi.files[0]);
-        document.getElementById('uprf').style.width='100%';
-        data.phases[pid].resources.push({id:gid(),name,tag:'document',driveUrl:fd.viewUrl,driveId:fd.id,note:document.getElementById('m-rnote').value.trim()});
-        saveData();refreshResPanels(pid);
-        toast('File uploaded to Google Drive!','success');
-        saveBtn.disabled=false;saveBtn.textContent='Save';
-        return true;
-      }catch(e){
-        toast('Upload failed: '+e.message,'error');
-        saveBtn.disabled=false;saveBtn.textContent='Save';
-        document.getElementById('upr').style.display='none';
-        return false;
-      }
-    } else {
-      const url=document.getElementById('m-ru').value.trim();
-      if(!url){toast('Please enter a URL','error');return false;}
-      data.phases[pid].resources.push({id:gid(),name,tag,url,note:document.getElementById('m-rnote').value.trim()});
-      saveData();refreshResPanels(pid);return true;
-    }
+    <div class="form-group"><label class="form-label">Note (optional)</label><input class="form-input" id="mi-note" placeholder="Brief description"></div>`;
+  modalSaveFn=()=>{
+    const name=document.getElementById('mi-name').value.trim();const url=document.getElementById('mi-url').value.trim();
+    if(!name||!url)return;
+    data.phases[phaseIdx].resources.push({id:gid(),name,url,tag:document.getElementById('mi-tag').value,note:document.getElementById('mi-note').value.trim()});
+    saveData();renderResources(phaseIdx);closeModal();
   };
+  document.getElementById('modal-save-btn').onclick=modalSaveFn;
   document.getElementById('modal-overlay').classList.add('open');
 }
 
-function toggleResFields(){
-  const tag=document.getElementById('m-rt').value;
-  document.getElementById('m-url-g').style.display=tag==='document'?'none':'block';
-  document.getElementById('m-file-g').style.display=tag==='document'?'block':'none';
-}
-
-document.getElementById('modal-save-btn').onclick=async()=>{
-  if(modalSaveFn){const r=await modalSaveFn();if(r) closeModal();}
-};
-function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay')) closeModal();}
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');modalSaveFn=null;}
+// ============================================================
+// MODAL
+// ============================================================
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 
 // ============================================================
 // ALL TASKS
@@ -1365,33 +999,42 @@ function setFilter(f,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');renderAllTasks();
 }
+
 function renderAllTasks(){
-  const cont=document.getElementById('all-tasks-list');let rows=[];
-  const now=new Date();
+  const container=document.getElementById('all-tasks-list');container.innerHTML='';
+  const today=new Date().toISOString().slice(0,10);
   data.phases.forEach((ph,i)=>{
+    const c=PC[i%PC.length];
     ph.tasks.forEach(task=>{
-      if(activeFilter==='done'&&!task.done) return;
-      if(activeFilter==='todo'&&task.done) return;
-      if(activeFilter==='assignment'&&task.type!=='assignment') return;
-      if(activeFilter==='due'&&!task.due) return;
-      if(activeFilter==='overdue'&&!(task.due&&!task.done&&new Date(task.due)<now)) return;
-      const ov=task.due&&!task.done&&new Date(task.due)<now;
-      const dueBadge=task.due?`<span class="badge ${ov?'badge-overdue':'badge-due'}">${fmtDate(task.due)}</span>`:'';
-      const typeBadge=task.type==='assignment'?`<span class="badge badge-assignment">assignment</span>`:'';
-      const syncBadge=task.gcalId?`<span class="badge badge-synced">&#x2713; cal</span>`:'';
-      rows.push(`<div class="all-task-row">
-        <div class="task-check ${task.done?'done':''}" onclick="toggleTask('${task.id}',${i})" style="margin-top:2px;flex-shrink:0;"></div>
-        <div style="flex:1;">
-          <div style="font-size:13px;color:${task.done?'var(--text3)':'var(--text)'};${task.done?'text-decoration:line-through;':''}">${task.text}</div>
-          <div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;align-items:center;">
-            <span class="phase-tag" style="background:${PC[i].bg};color:${PC[i].c};">Phase ${i+1}</span>
-            ${dueBadge}${typeBadge}${syncBadge}
-          </div>
-        </div>
-      </div>`);
+      const overdue=task.due&&task.due<today&&!task.done;
+      const hasDue=!!task.due;
+      const isExam=task.type==='exam';
+      if(activeFilter==='todo'&&task.done)return;
+      if(activeFilter==='done'&&!task.done)return;
+      if(activeFilter==='exam'&&!isExam)return;
+      if(activeFilter==='due'&&!hasDue)return;
+      if(activeFilter==='overdue'&&!overdue)return;
+      const row=document.createElement('div');row.className='all-task-row';
+      const badges=[];
+      if(isExam)badges.push('<span class="badge badge-exam">Exam</span>');
+      if(overdue)badges.push(`<span class="badge badge-overdue">Overdue · ${task.due}</span>`);
+      else if(hasDue&&!task.done)badges.push(`<span class="badge badge-due">Due ${task.due}</span>`);
+      if(task.done)badges.push('<span class="badge badge-done">Done</span>');
+      row.innerHTML=`
+        <div class="task-check${task.done?' done':''}" onclick="toggleTaskGlobal(${i},'${task.id}',this)"></div>
+        <div class="task-content">
+          <div class="task-text${task.done?' done':''}">${task.text}</div>
+          <div class="task-badges"><span class="phase-tag" style="background:${c.bg};color:${c.c};">${ph.title.split('—')[0].trim()}</span>${badges.join('')}</div>
+        </div>`;
+      container.appendChild(row);
     });
   });
-  cont.innerHTML=rows.length?rows.join(''):'<div class="empty-state">No tasks match this filter.</div>';
+  if(!container.children.length)container.innerHTML='<div class="empty-state">No tasks match this filter.</div>';
+}
+
+function toggleTaskGlobal(phaseIdx,taskId,checkEl){
+  const task=data.phases[phaseIdx].tasks.find(t=>t.id===taskId);if(!task)return;
+  task.done=!task.done;saveData();updateSidebar();renderAllTasks();
 }
 
 // ============================================================
@@ -1399,72 +1042,49 @@ function renderAllTasks(){
 // ============================================================
 function renderCalendar(){
   const now=new Date();
-  if(!calY){calY=now.getFullYear();calM=now.getMonth();}
-  document.getElementById('cal-month-label').textContent=new Date(calY,calM,1).toLocaleString('default',{month:'long',year:'numeric'});
+  if(calY===undefined){calY=now.getFullYear();calM=now.getMonth();}
+  const label=new Date(calY,calM).toLocaleString('default',{month:'long',year:'numeric'});
+  document.getElementById('cal-month-label').textContent=label;
   const grid=document.getElementById('cal-grid');grid.innerHTML='';
   ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{
-    const el=document.createElement('div');el.className='cal-day-label';el.textContent=d;grid.appendChild(el);
+    const lbl=document.createElement('div');lbl.className='cal-day-label';lbl.textContent=d;grid.appendChild(lbl);
   });
   const firstDay=new Date(calY,calM,1).getDay();
-  const days=new Date(calY,calM+1,0).getDate();
-  // build event map
-  const em={};
+  const daysInMonth=new Date(calY,calM+1,0).getDate();
+  const todayStr=now.toISOString().slice(0,10);
+  const taskMap={};
   data.phases.forEach((ph,i)=>{
-    const col=PC[i%PC.length];
+    const c=PC[i%PC.length];
     ph.tasks.forEach(task=>{
-      if(!task.due) return;
-      const d=new Date(task.due+'T00:00:00');
-      if(d.getFullYear()===calY&&d.getMonth()===calM){
-        const day=d.getDate();
-        if(!em[day]) em[day]=[];
-        em[day].push({text:task.text,color:col.c,bg:col.bg,done:task.done,src:'dash'});
-      }
+      if(task.due){if(!taskMap[task.due])taskMap[task.due]=[];taskMap[task.due].push({text:task.text,color:c.c,bg:c.bg,done:task.done,type:task.type});}
     });
   });
-  gcalEvs.forEach(ev=>{
-    if(!ev.date) return;
-    const d=new Date(ev.date+'T00:00:00');
-    if(d.getFullYear()===calY&&d.getMonth()===calM){
-      const day=d.getDate();
-      if(!em[day]) em[day]=[];
-      em[day].push({text:ev.title,src:'gcal'});
-    }
-  });
-  for(let i=0;i<firstDay;i++){const el=document.createElement('div');el.className='cal-cell empty';grid.appendChild(el);}
-  const today=new Date();
-  for(let d=1;d<=days;d++){
-    const el=document.createElement('div');
-    const isTd=today.getFullYear()===calY&&today.getMonth()===calM&&today.getDate()===d;
-    el.className='cal-cell'+(isTd?' today':'');
-    let html=`<div class="cal-date ${isTd?'today-num':''}">${d}</div>`;
-    if(em[d]){
-      em[d].slice(0,3).forEach(ev=>{
-        if(ev.src==='gcal'){
-          html+=`<div class="cal-ev-gcal" title="${ev.text}">${ev.text}</div>`;
-        } else {
-          html+=`<div class="cal-ev" style="background:${ev.bg};color:${ev.color};${ev.done?'opacity:0.5;text-decoration:line-through;':''}" title="${ev.text}">${ev.text}</div>`;
-        }
-      });
-      if(em[d].length>3) html+=`<div style="font-size:9px;color:var(--text3);margin-top:2px;">+${em[d].length-3} more</div>`;
-    }
-    el.innerHTML=html;grid.appendChild(el);
+  const gcalMap={};
+  gcalEvs.forEach(ev=>{if(!gcalMap[ev.date])gcalMap[ev.date]=[];gcalMap[ev.date].push(ev.title);});
+  for(let i=0;i<firstDay;i++){const e=document.createElement('div');e.className='cal-cell empty';grid.appendChild(e);}
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cell=document.createElement('div');
+    cell.className='cal-cell'+(dateStr===todayStr?' today':'');
+    const dateEl=document.createElement('div');
+    dateEl.className='cal-date'+(dateStr===todayStr?' today-num':'');
+    dateEl.textContent=d;cell.appendChild(dateEl);
+    (taskMap[dateStr]||[]).forEach(t=>{
+      const ev=document.createElement('div');
+      ev.className='cal-ev';
+      ev.style.cssText=`background:${t.bg};color:${t.color};border-left:2px solid ${t.color};${t.done?'opacity:0.5;text-decoration:line-through;':''}`;
+      ev.textContent=(t.type==='exam'?'🎯 ':'')+t.text.slice(0,28)+(t.text.length>28?'…':'');
+      ev.title=t.text;cell.appendChild(ev);
+    });
+    (gcalMap[dateStr]||[]).forEach(title=>{
+      const ev=document.createElement('div');ev.className='cal-ev-gcal';ev.textContent=title.slice(0,28)+(title.length>28?'…':'');ev.title=title;cell.appendChild(ev);
+    });
+    grid.appendChild(cell);
   }
 }
-function calPrev(){calM--;if(calM<0){calM=11;calY--;}renderCalendar();}
-function calNext(){calM++;if(calM>11){calM=0;calY++;}renderCalendar();}
 
-// ============================================================
-// HELPERS
-// ============================================================
-function fmtDate(s){
-  if(!s) return '';
-  return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
-}
-function setQuote(){
-  const q=QUOTES[new Date().getDay()%QUOTES.length];
-  document.getElementById('quote-text').textContent='\u201C'+q.t+'\u201D';
-  document.getElementById('quote-author').textContent=q.a;
-}
+function calPrev(){if(calM===0){calM=11;calY--;}else calM--;renderCalendar();}
+function calNext(){if(calM===11){calM=0;calY++;}else calM++;renderCalendar();}
 
 // ============================================================
 // INIT
@@ -1472,9 +1092,8 @@ function setQuote(){
 loadData();
 renderOverview();
 updateSidebar();
-setQuote();
-setTimeout(()=>togglePhase(0),80);
-window.addEventListener('load',initGoogle);
+renderCalendar();
+initGoogle();
 </script>
 </body>
 </html>
