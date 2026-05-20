@@ -709,7 +709,7 @@ function extractProgress(){
       customTasks:ph.tasks.filter(t=>!DEF.phases[ph.id]?.tasks.find(dt=>dt.id===t.id)),
       customResources:ph.resources.filter(r=>!DEF.phases[ph.id]?.resources.find(dr=>dr.id===r.id))
     };
-    ph.tasks.forEach(t=>{progress['p'+ph.id].tasks[t.id]={done:t.done,gcalId:t.gcalId||null};});
+    ph.tasks.forEach(t=>{progress['p'+ph.id].tasks[t.id]={done:t.done,gcalId:t.gcalId||null,completedOn:t.completedOn||null};});
   });
   return progress;
 }
@@ -721,7 +721,7 @@ function mergeProgress(progress){
     const pp=progress['p'+ph.id];
     if(!pp) return;
     ph.tasks.forEach(t=>{
-      if(pp.tasks&&pp.tasks[t.id]){t.done=pp.tasks[t.id].done||false;if(pp.tasks[t.id].gcalId)t.gcalId=pp.tasks[t.id].gcalId;}
+      if(pp.tasks&&pp.tasks[t.id]){t.done=pp.tasks[t.id].done||false;if(pp.tasks[t.id].gcalId)t.gcalId=pp.tasks[t.id].gcalId;if(pp.tasks[t.id].completedOn)t.completedOn=pp.tasks[t.id].completedOn;}
     });
     if(pp.customTasks&&pp.customTasks.length)ph.tasks.push(...pp.customTasks);
     if(pp.customResources&&pp.customResources.length)ph.resources.push(...pp.customResources);
@@ -745,7 +745,7 @@ async function loadFromFirebase(){
     const snap=await window._getDoc(window._firestoreDoc);
     if(snap.exists()&&snap.data().progress){
       const merged=mergeProgress(snap.data().progress);
-      if(merged){data=merged;localStorage.setItem('hit_v1',JSON.stringify(data));renderOverview();updateSidebar();toast('Progress synced!','success');}
+      if(merged){data=merged;localStorage.setItem('hit_v1',JSON.stringify(data));renderOverview();updateSidebar();toast('Synced!','success');}
     }else{await saveToFirebase();toast('Dashboard saved to Firebase!','success');}
     showSyncStatus(null);
     startRealtimeSync();
@@ -757,8 +757,19 @@ function startRealtimeSync(){
   fbUnsubscribe=window._onSnapshot(window._firestoreDoc,(snap)=>{
     if(!snap.exists())return;
     const d=snap.data();if(!d.progress)return;
+    // Only update if triggered by another device (not our own save)
+    // Refresh task lists in place without collapsing phases
     const merged=mergeProgress(d.progress);
-    if(merged){data=merged;localStorage.setItem('hit_v1',JSON.stringify(data));renderOverview();updateSidebar();}
+    if(merged){
+      data=merged;
+      localStorage.setItem('hit_v1',JSON.stringify(data));
+      updateSidebar();
+      // Re-render task lists for any open phases without rebuilding the whole overview
+      data.phases.forEach((ph,i)=>{
+        const body=document.getElementById('phase-body-'+i);
+        if(body&&body.classList.contains('open')){renderTasks(i);}
+      });
+    }
   });
 }
 
